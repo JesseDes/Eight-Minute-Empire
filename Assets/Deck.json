@@ -1,0 +1,414 @@
+{
+  "cards": [
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 2
+        },
+        {
+          "actionType": 4,
+          "amount": 1
+        }
+      ],
+      "good": 3
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 3
+        }
+      ],
+      "good": 1
+    },
+    {
+      "action": [
+        {
+          "actionType": 2,
+          "amount": 2
+        }
+      ],
+      "good": 1
+    },
+    {
+      "action": [
+        {
+          "actionType": 2,
+          "amount": 2
+        }
+      ],
+      "good": 1
+    },
+    {
+      "action": [
+        {
+          "actionType": 2,
+          "amount": 3
+        }
+      ],
+      "good": 1
+    },
+    {
+      "action": [
+        {
+          "actionType": 1,
+          "amount": 2
+        }
+      ],
+      "good": 1
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 2
+        }
+      ],
+      "good": 3
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 2
+        },
+        {
+          "actionType": 0,
+          "amount": 1
+        }
+      ],
+      "good": 1
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 3
+        }
+      ],
+      "good": 1
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 5
+        }
+      ],
+      "good": 2
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 4
+        }
+      ],
+      "good": 2
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 3
+        }
+      ],
+      "good": 2
+    },
+    {
+      "action": [
+        {
+          "actionType": 1,
+          "amount": 3
+        }
+      ],
+      "good": 0
+    },
+    {
+      "action": [
+        {
+          "actionType": 0,
+          "amount": 1
+        }
+      ],
+      "good": 2
+    },
+    {
+      "action": [
+        {
+          "actionType": 3,
+          "amount": 1
+        },
+        {
+          "actionType": 4,
+          "amount": 1
+        }
+      ],
+      "good": 2
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 2
+        }
+      ],
+      "good": 3
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 1
+        }
+      ],
+      "good": 3
+    },
+    {
+      "action": [
+        {
+          "actionType": 1,
+          "amount": 2
+        }
+      ],
+      "good": 3
+    },
+    {
+      "action": [
+        {
+          "actionType": 2,
+          "amount": 2
+        }
+      ],
+      "good": 5
+    },
+    {
+      "action": [
+        {
+          "actionType": 2,
+          "amount": 2
+        }
+      ],
+      "good": 5
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 2
+        }
+      ],
+      "good": 5
+    },
+    {
+      "action": [
+        {
+          "actionType": 1,
+          "amount": 3
+        },
+        {
+          "actionType": 4,
+          "amount": 2
+        }
+      ],
+      "good": 0
+    },
+    {
+      "action": [
+        {
+          "actionType": 3,
+          "amount": 1
+        },
+        {
+          "actionType": 0,
+          "amount": 1
+        }
+      ],
+      "good": 0
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 3
+        }
+      ],
+      "good": 0
+    },
+    {
+      "action": [
+        {
+          "actionType": 1,
+          "amount": 6
+        }
+      ],
+      "good": 0
+    },
+    {
+      "action": [
+        {
+          "actionType": 2,
+          "amount": 4
+        }
+      ],
+      "good": 0
+    },
+    {
+      "action": [
+        {
+          "actionType": 0,
+          "amount": 1
+        }
+      ],
+      "good": 0
+    },
+    {
+      "action": [
+        {
+          "actionType": 2,
+          "amount": 3
+        }
+      ],
+      "good": 0
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 3
+        }
+      ],
+      "good": 4
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 3
+        }
+      ],
+      "good": 4
+    },
+    {
+      "action": [
+        {
+          "actionType": 2,
+          "amount": 3
+        }
+      ],
+      "good": 4
+    },
+    {
+      "action": [
+        {
+          "actionType": 0,
+          "amount": 1
+        }
+      ],
+      "good": 4
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 3
+        },
+        {
+          "actionType": 1,
+          "amount": 3
+        }
+      ],
+      "good": 4
+    },
+    {
+      "action": [
+        {
+          "actionType": 1,
+          "amount": 4
+        }
+      ],
+      "good": 4
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 3
+        },
+        {
+          "actionType": 1,
+          "amount": 4
+        }
+      ],
+      "good": 4
+    },
+    {
+      "action": [
+        {
+          "actionType": 1,
+          "amount": 5
+        }
+      ],
+      "good": 4
+    },
+    {
+      "action": [
+        {
+          "actionType": 1,
+          "amount": 4
+        }
+      ],
+      "good": 4
+    },
+    {
+      "action": [
+        {
+          "actionType": 0,
+          "amount": 1
+        }
+      ],
+      "good": 2
+    },
+    {
+      "action": [
+        {
+          "actionType": 1,
+          "amount": 4
+        }
+      ],
+      "good": 2
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 4
+        },
+        {
+          "actionType": 1,
+          "amount": 2
+        }
+      ],
+      "good": 2
+    },
+    {
+      "action": [
+        {
+          "actionType": 2,
+          "amount": 3
+        }
+      ],
+      "good": 2
+    },
+    {
+      "action": [
+        {
+          "actionType": 4,
+          "amount": 3
+        }
+      ],
+      "good": 2
+    }
+  ]
+}
