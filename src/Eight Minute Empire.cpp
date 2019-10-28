@@ -9,8 +9,18 @@
 
 int main()
 {
+
 	GameLoop gameCycle;
 	gameCycle.GameInit();
+	gameCycle.GameStart();
+
+	while (gameCycle.isRunning())
+	{
+		gameCycle.GameRun();
+	}
+
+	gameCycle.GameEnd();
+
 	system("pause");
 	/*
 	int selection;

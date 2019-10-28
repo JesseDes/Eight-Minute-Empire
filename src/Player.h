@@ -27,6 +27,7 @@ public:
 	void placeBid();
 	int getBid();
 	int getCoins();
+	std::string getPlayerName() { return *playerName; };
 
 private:
 	std::vector<int> *countryList; 

@@ -1,6 +1,13 @@
 #include "GameLoop.h"
 #include "Utils.h"
 
+
+GameLoop::~GameLoop()
+{
+	delete _isRunning;
+	_isRunning = NULL;
+}
+
 void GameLoop::GameInit()
 {
 	gameBoard = MapLoader::FindMap();
@@ -14,7 +21,7 @@ void GameLoop::GameInit()
 	{
 		std::string name;
 		int age;
-		std::cout << "Player " << playerCount << " What is your name? \n";
+		std::cout << "Player " << (i + 1) << " What is your name? \n";
 		std::cin >> name;
 		std::cout << "How old are you?";
 		std::cin >> age;
@@ -25,7 +32,32 @@ void GameLoop::GameInit()
 
 void GameLoop::GameStart()
 {
+	gameDeck = new Deck();
+	gameDeck->Shuffle();
+	gameHand = new Hand();
 
+	for (int i = 0; i < gameHand->SIZE_OF_HAND; i++)
+		gameHand->addCard(gameDeck->Draw());
+
+	gameHand->showHand();
+
+
+	std::vector<Player*>::iterator highestBidder;
+	for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
+	{
+		(*it)->createCoinPurse(playerList.size());
+		(*it)->placeBid();
+
+		if (it != playerList.begin() && ((*highestBidder)->getBid() < (*it)->getBid() || ((*highestBidder)->getBid() == (*it)->getBid() && (*highestBidder)->getPlayerAge() > (*it)->getPlayerAge())))
+			highestBidder = it;
+		else if (it == playerList.begin())
+			highestBidder = it;
+	}
+	currentPlayer = &highestBidder;
+	std::cout << "HIGHEST BIDDER WAS :"<< (**currentPlayer)->getPlayerName() << "\n";
+
+
+	*_isRunning = true;
 
 }
 

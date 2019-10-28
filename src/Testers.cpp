@@ -16,7 +16,7 @@ void Testers::DeckTest()
 	Hand gameHand;
 
 	for (int i = 0; i <= gameHand.SIZE_OF_HAND; i++)
-		gameHand.addCard(testDeck.draw());
+		gameHand.addCard(testDeck.Draw());
 
 	gameHand.showHand();
 }

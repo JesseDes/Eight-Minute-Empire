@@ -2,6 +2,7 @@
 #include <String>
 #include "Action.h"
 #include "Good.h"
+#include <array>
 
 /*
 Deck is a class that will generate a list of Card objects
@@ -23,11 +24,11 @@ class Deck{
 		Deck();
 		//Deck(std::string deckSource);
 		~Deck();
-		Card draw();
-
+		Card* Draw();
+		void Shuffle();
 
 	private :
-		void generateCards();
-		Card *cards; 
+		void GenerateCards();
+		std::array<Deck::Card*, NUMBER_OF_CARDS> cards;
 		int *drawCount = new int(0);
 };
