@@ -6,53 +6,58 @@
 #include "MapLoader.h"
 #include "map.h"
 #include <map>
+#include <stdio.h>
+#include <Windows.h>
+#include <vector>
+#include "Utils.h"
 
 using namespace std;
 
-MapLoader::MapLoader()
+EmpireMap* MapLoader::FindMap()
 {
-	fileName = new string("EmpireData.txt"); // default map
-}
+	//fileName = new string("EmpireData.txt"); // default map
+	HANDLE fileHandle;
+	WIN32_FIND_DATAA fileData;
+	int fileCount = 0;
+	std::vector<WIN32_FIND_DATAA> fileList;
+	fileHandle = FindFirstFileA("Assets/*.txt", &fileData);
 
-MapLoader::~MapLoader()
-{
-	for (auto i : maps)
+	/*if (INVALID_HANDLE_VALUE == fileHandle)
 	{
-		delete i;
-	}
-	maps.clear();
+		std::cout << "Storage ERROR exiting game";
+		return NULL;
+	}*/
 	
-	delete fileName;
-	fileName = NULL;
+	do
+	{
+		std::cout << "[" << fileCount++ << "] : " << fileData.cFileName << "\n";
+		fileList.push_back(fileData);
+
+	} while (FindNextFileA(fileHandle, &fileData));
+	
+	int selection;
+	std::cout << "Which map would you like to use? \n";
+	std::cin >> selection;
+	selection = Utils::validInputRange(0, (fileCount - 1), selection, "You must choose a value between 0 and " + (fileCount - 1));
+
+	std::cout << fileList[selection].cFileName << " Selected \n";
+	
+	return readMapData(fileList[selection].cFileName);
+
 }
 
-list<int> MapLoader::readMapData(std::string file)
+
+EmpireMap* MapLoader::readMapData(std::string file)
 {
 	ifstream File;
-	File.open(file);
 
+	File.open("Assets/" + file);
+	std::list<int> data;
 	int number;
 	while (File >> number)
 		data.push_back(number);
 	
-	return data;
-}
-
-// In case we need to create several map objects 
-void MapLoader::createMaps(std::vector<std::list<int>> data)
-{
-	for(auto v: data)
-	{
-		EmpireMap map(v);
-
-		if (map.isValid())
-		{
-			maps.push_back(new EmpireMap(v));
-			cout << "map created successfully" << endl;
-		}
-		else
-			cout << "bad map";
-	}
-}
-
- 
+	EmpireMap *newMap = new EmpireMap(data);
+	//std::cout << newMap.isValid();
+	return newMap;
+} 

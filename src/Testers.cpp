@@ -77,7 +77,7 @@ void Testers::MapTest()
 
 	MapLoader mapLoader;
 
-	EmpireMap test(mapLoader.readMapData("EmpireData2.txt"));
+	EmpireMap test = *MapLoader::readMapData("EmpireData2.txt");
 
 	std::cout << std::endl;
 	test.displayMatrix();
@@ -101,14 +101,4 @@ void Testers::MapTest()
 	std::cout << std::endl << std::endl << "ARE COUNTRIES UNIQUE?: " << test.isNotDuplicated() << std::endl;
 }
 
-void Testers::MapLoadTest()
-{
-	MapLoader mapLoader;
-
-	std::list<int> map1 = mapLoader.readMapData("EmpireData.txt");
-	std::list<int> map2 = mapLoader.readMapData("EmpireData2.txt");
-
-	mapLoader.createMaps({ map1});
-
-}
 
