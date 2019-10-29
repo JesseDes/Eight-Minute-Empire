@@ -48,6 +48,9 @@
     <ClInclude Include="src\Action.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameLoop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Eight Minute Empire.cpp">
@@ -78,6 +81,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Deck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameLoop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Good .cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

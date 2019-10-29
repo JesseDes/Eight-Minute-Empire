@@ -3,30 +3,30 @@
 
 Hand::Hand()
 {
-	cardList = new std::vector<Deck::Card>();
 }
 
 
 Hand::~Hand()
 {
-	delete cardList;
-	cardList = NULL;
+
+	
+	//delete cardList;
+	//cardList = NULL;
 }
 
-void Hand::addCard(Deck::Card card)
+void Hand::addCard(Deck::Card* card)
 {		
-	if (cardList->size() < SIZE_OF_HAND)
-		cardList->push_back(card);
+	if (cardList.size() <= SIZE_OF_HAND )
+		cardList.push_back(card);
 }
 
-Deck::Card Hand::exchange(int cardIndex, int payment)
+Deck::Card* Hand::exchange(int cardIndex)
 {
-	Deck::Card returnCard;
-	if (payment >= getCardCost(cardIndex))
-	{
-		returnCard = cardList->at(cardIndex);
-		cardList->erase(cardList->begin() + cardIndex);
-	}
+	Deck::Card *returnCard;
+	
+	returnCard = cardList.at(cardIndex);
+	cardList.erase(cardList.begin() + cardIndex);
+
 	return returnCard;
 }
 
@@ -47,12 +47,12 @@ int Hand::getCardCost(int index)
 
 void Hand::showHand()
 {
-	for (std::vector<Deck::Card>::iterator it = cardList->begin(); it != cardList->end(); it++)
+	for (std::vector<Deck::Card*>::iterator it = cardList.begin(); it != cardList.end(); it++)
 	{
-		std::cout << "Card #" << std::distance(cardList->begin(), it) << " Good: " << Utils::goodToString(it->good) << " ";
+		std::cout << "Card #" << std::distance(cardList.begin(), it) << " Good: " << Good::GoodToString((*it)->good) << " ";
 
-		for (int i = 0; i < it->numberOfActions; i++)
-			std::cout << "Action " << Action::typeToString(it->actions[i].type) << " " << it->actions[i].amount << " times ";
+		for (int i = 0; i < (*it)->numberOfActions; i++)
+			std::cout << "Action " << Action::typeToString((*it)->actions[i].type) << " " << (*it)->actions[i].amount << " times ";
 
 		std::cout << "\n";
 	}

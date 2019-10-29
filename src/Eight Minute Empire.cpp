@@ -5,9 +5,25 @@
 #include <iostream>
 #include "Testers.h"
 #include "Utils.h"
+#include "GameLoop.h"
 
 int main()
 {
+
+	
+	GameLoop gameCycle;
+	gameCycle.GameInit();
+	gameCycle.GameStart();
+
+	while (gameCycle.isRunning())
+	{
+		gameCycle.GameRun();
+	}
+
+	gameCycle.GameEnd();
+	
+	system("pause");
+	/*
 	int selection;
 	std::cout << "Select what you'd like to test \n";
 	std::cout << "[1] Test Map generation \n";
@@ -28,4 +44,5 @@ int main()
 		case 5: Testers::BiddingTest(); break;
 		default: Testers::MapLoadTest(); break;
 	}
+	*/
 }

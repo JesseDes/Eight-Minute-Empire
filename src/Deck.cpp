@@ -6,60 +6,70 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
+#include <random>
 
-using namespace std;
 
 Deck::Deck()
 {	
-	cards = new Card[NUMBER_OF_CARDS];
-	generateCards();
+	GenerateCards();
 }
 
 
 Deck::~Deck()
 {
-	delete cards;
+	for (auto& i : cards)
+	{
+		delete i;
+		i = NULL;
+	}
+
 	delete drawCount;
-	cards = NULL;
+	
 	drawCount = NULL;
 }
 
-Deck::Card Deck::draw()
+Deck::Card* Deck::Draw()
 {
-	//std::cout << "\n numba: " << *drawCount << "\n";
 	if (*drawCount < NUMBER_OF_CARDS)
 	{
-		//std::cout << "\n analiez : " << cards[*drawCount].actions[0].type << "\n";
 		return cards[(*drawCount)++];
 	}
 
 }
 
-void Deck::generateCards()
+void Deck::Shuffle()
+{
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+
+	std::shuffle(cards.begin(), cards.end() , std::default_random_engine(seed));
+}
+
+
+void Deck::GenerateCards()
 {
 	for (int i = 0; i < NUMBER_OF_CARDS; i++)
 	{
-		Card card;
-		//srand(time(0));
-		card.good = (Good)(rand() % 4);
+		Card *card = new Card();
+		card->good = (GoodType)(rand() % 4);
 		Action action1;
 		action1.type =(ActionType) (rand() % 4);
-		action1.amount = i;
-		card.actions[0] = action1;
+		action1.amount = i % 3;
+		card->actions[0] = action1;
 		Action action2;
 		action2.amount = 1;
-		card.numberOfActions = 1;
+		card->numberOfActions = 1;
 
 		if (true)
 		{
 			action2.type = (ActionType)(rand() % 4);
-			card.numberOfActions = 2;
+			card->numberOfActions = 2;
 		}
 		else
 			action2.type = ActionType::null;
 
 			
-		card.actions[1] = action2;
+		card->actions[1] = action2;
 		cards[i] = card;
 	}
 }

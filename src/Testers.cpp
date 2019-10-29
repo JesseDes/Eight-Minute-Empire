@@ -16,7 +16,7 @@ void Testers::DeckTest()
 	Hand gameHand;
 
 	for (int i = 0; i <= gameHand.SIZE_OF_HAND; i++)
-		gameHand.addCard(testDeck.draw());
+		gameHand.addCard(testDeck.Draw());
 
 	gameHand.showHand();
 }
@@ -57,7 +57,7 @@ void Testers::PlayerTest()
 
 	Deck::Card card;
 
-	card.good = Good::metal;
+	card.good = GoodType::metal;
 	card.numberOfActions = 2;
 	Action action1;
 	Action action2;
@@ -69,7 +69,7 @@ void Testers::PlayerTest()
 	card.actions[0] = action1;
 	card.actions[1] = action2;
 
-	playerOne.readCard(card);	
+	//playerOne.readCard(card);	
 }
 
 void Testers::MapTest()
@@ -77,7 +77,7 @@ void Testers::MapTest()
 
 	MapLoader mapLoader;
 
-	EmpireMap test(mapLoader.readMapData("EmpireData2.txt"));
+	EmpireMap test = *MapLoader::readMapData("EmpireData2.txt");
 
 	std::cout << std::endl;
 	test.displayMatrix();
@@ -101,14 +101,4 @@ void Testers::MapTest()
 	std::cout << std::endl << std::endl << "ARE COUNTRIES UNIQUE?: " << test.isNotDuplicated() << std::endl;
 }
 
-void Testers::MapLoadTest()
-{
-	MapLoader mapLoader;
-
-	std::list<int> map1 = mapLoader.readMapData("EmpireData.txt");
-	std::list<int> map2 = mapLoader.readMapData("EmpireData2.txt");
-
-	mapLoader.createMaps({ map1});
-
-}
 

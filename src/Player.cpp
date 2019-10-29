@@ -29,35 +29,37 @@ Player::~Player()
 }
 
 
-void Player::readCard(Deck::Card gameCard)
+void Player::readCard(Deck::Card *gameCard)
 {
+	if (_goodMap.find(gameCard->good) != _goodMap.end())
+		(*_goodMap[gameCard->good])++;
+	else
+		_goodMap[gameCard->good] = new int(1);
+	
 	std::vector<Action> optionList;
 
 	for (int i = 0; i <= Deck::MAX_ACTIONS_PER_CARD; i++)
-		if (gameCard.actions[i].type != ActionType::null)
-			optionList.push_back(gameCard.actions[i]);
-		
+		if (gameCard->actions[i].type != ActionType::null)
+			optionList.push_back(gameCard->actions[i]);	
 
-	if (optionList.size() > 1)
-	{
-		int selection = 0;
-		std::cout << "which action would you like to perform?" << *playerName <<  " \n";
-		for (std::vector<Action>::iterator it = optionList.begin(); it != optionList.end(); it++)
-		{
-			std::cout << "[" << selection++ << "]" << Action::typeToString(it->type) << " " << it->amount << " times \n";
-		}
-		std::cin >> selection;
-		selection =  Utils::validInputRange(0, optionList.size(), selection , "Invalid selection, please choose a value between 0 and " + optionList.size());
+	int selection = 0;
+	std::cout << "which action would you like to perform?" << *playerName <<  " \n";
+	for (std::vector<Action>::iterator it = optionList.begin(); it != optionList.end(); it++)
+		std::cout << "[" << selection++ << "]" << Action::typeToString(it->type) << " " << it->amount << " times \n";
+		
+	std::cout << "[" << selection << "]" << "Do Nothing \n";
+	std::cin >> selection;
+	selection =  Utils::validInputRange(0, optionList.size(), selection , "Invalid selection, please choose a value between 0 and " + optionList.size());
+	if(selection != optionList.size())
 		doAction(optionList.at(selection));
-	}
-	else
-		doAction(optionList.at(0));
+
 
 }
 
 void Player::doAction(Action action)
 {
 
+	//TODO: Do something on these functions
 	for (int i = 1; i <= action.amount; i++)
 	{
 		switch (action.type)
@@ -105,9 +107,15 @@ void Player::placeBid()
 	bidder->placeBid();
 }
 
-void Player::payCoin(int cost)
+bool Player::payCoin(int cost)
 {
-	bidder->pay(cost);
+	if (cost <= bidder->getCoinPurse())
+	{
+		bidder->pay(cost);
+		return true;
+	}
+	else
+		return false;
 }
 
 int Player::getBid()
@@ -123,4 +131,15 @@ int Player::getPlayerAge()
 int Player::getCoins()
 {
 	return bidder->getCoinPurse();
+}
+
+int Player::getScore()
+{
+	int score = 0;
+	
+	for (std::map<GoodType, int*>::iterator it = _goodMap.begin(); it != _goodMap.end(); it++)
+		score += Good::GoodToScore(it->first, *it->second);
+
+	//TODO: add score players get from map
+	return score;
 }

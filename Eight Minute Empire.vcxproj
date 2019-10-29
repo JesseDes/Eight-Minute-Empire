@@ -118,6 +118,7 @@
     <ClInclude Include="src\Action.h" />
     <ClInclude Include="src\BiddingFacility.h" />
     <ClInclude Include="src\Deck.h" />
+    <ClInclude Include="src\GameLoop.h" />
     <ClInclude Include="src\Good.h" />
     <ClInclude Include="src\Hand.h" />
     <ClInclude Include="src\map.h" />
@@ -131,6 +132,8 @@
     <ClCompile Include="src\BiddingFacility.cpp" />
     <ClCompile Include="src\Deck.cpp" />
     <ClCompile Include="src\Eight Minute Empire.cpp" />
+    <ClCompile Include="src\GameLoop.cpp" />
+    <ClCompile Include="src\Good .cpp" />
     <ClCompile Include="src\Hand.cpp" />
     <ClCompile Include="src\map.cpp" />
     <ClCompile Include="src\MapLoader.cpp" />
