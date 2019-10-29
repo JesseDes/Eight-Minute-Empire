@@ -16,7 +16,7 @@ class Deck{
 
 		struct Card{
 			int numberOfActions;
-			Good good;
+			GoodType good;
 			Action actions[MAX_ACTIONS_PER_CARD + 1];
 			Card() {}
 		};

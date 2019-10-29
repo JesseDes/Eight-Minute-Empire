@@ -16,20 +16,17 @@ Hand::~Hand()
 
 void Hand::addCard(Deck::Card* card)
 {		
-	if (cardList.size() <= SIZE_OF_HAND)
+	if (cardList.size() <= SIZE_OF_HAND )
 		cardList.push_back(card);
 }
 
-Deck::Card* Hand::exchange(int cardIndex, int payment)
+Deck::Card* Hand::exchange(int cardIndex)
 {
 	Deck::Card *returnCard;
-	if (payment >= getCardCost(cardIndex))
-	{
-		returnCard = cardList.at(cardIndex);
-		cardList.erase(cardList.begin() + cardIndex);
-	}
-	else
-		returnCard = nullptr;
+	
+	returnCard = cardList.at(cardIndex);
+	cardList.erase(cardList.begin() + cardIndex);
+
 	return returnCard;
 }
 
@@ -52,7 +49,7 @@ void Hand::showHand()
 {
 	for (std::vector<Deck::Card*>::iterator it = cardList.begin(); it != cardList.end(); it++)
 	{
-		std::cout << "Card #" << std::distance(cardList.begin(), it) << " Good: " << Utils::goodToString((*it)->good) << " ";
+		std::cout << "Card #" << std::distance(cardList.begin(), it) << " Good: " << Good::GoodToString((*it)->good) << " ";
 
 		for (int i = 0; i < (*it)->numberOfActions; i++)
 			std::cout << "Action " << Action::typeToString((*it)->actions[i].type) << " " << (*it)->actions[i].amount << " times ";

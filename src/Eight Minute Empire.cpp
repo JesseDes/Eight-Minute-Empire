@@ -10,6 +10,7 @@
 int main()
 {
 
+	
 	GameLoop gameCycle;
 	gameCycle.GameInit();
 	gameCycle.GameStart();
@@ -20,7 +21,7 @@ int main()
 	}
 
 	gameCycle.GameEnd();
-
+	
 	system("pause");
 	/*
 	int selection;

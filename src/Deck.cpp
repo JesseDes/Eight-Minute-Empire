@@ -51,7 +51,7 @@ void Deck::GenerateCards()
 	for (int i = 0; i < NUMBER_OF_CARDS; i++)
 	{
 		Card *card = new Card();
-		card->good = (Good)(rand() % 4);
+		card->good = (GoodType)(rand() % 4);
 		Action action1;
 		action1.type =(ActionType) (rand() % 4);
 		action1.amount = i % 3;

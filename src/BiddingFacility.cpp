@@ -11,6 +11,8 @@ BiddingFacility::BiddingFacility()
 
 BiddingFacility::BiddingFacility(int numberOfPlayers)
 {
+	//TODO: Double check these values
+
 	switch (numberOfPlayers)
 	{
 		case 2: coinCount = new int(14); break;

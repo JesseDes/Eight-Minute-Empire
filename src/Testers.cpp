@@ -57,7 +57,7 @@ void Testers::PlayerTest()
 
 	Deck::Card card;
 
-	card.good = Good::metal;
+	card.good = GoodType::metal;
 	card.numberOfActions = 2;
 	Action action1;
 	Action action2;
@@ -69,7 +69,7 @@ void Testers::PlayerTest()
 	card.actions[0] = action1;
 	card.actions[1] = action2;
 
-	playerOne.readCard(card);	
+	//playerOne.readCard(card);	
 }
 
 void Testers::MapTest()

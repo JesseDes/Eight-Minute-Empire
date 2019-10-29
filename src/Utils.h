@@ -13,6 +13,5 @@ public:
 	static int validInputRange(int min, int max, int value, std::string msg);
 	static int validInputMin(int min, int value, std::string msg);
 	static int validInputMax(int max, int value, std::string msg);
-	static std::string goodToString(Good good); 
 };
 
