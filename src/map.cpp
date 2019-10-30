@@ -6,15 +6,12 @@
 
 using namespace std;
 
-
 // ------ Country class -------
-
 
 Country::Country()
 {
 	owner = new std::string("-");
 }
-
 
 void Country::writeOwner(string owner)
 {
@@ -39,9 +36,6 @@ int Country::removeArmy()
 {
 	return armies[0]; //not sure how we'll implement this
 }
-
-
-
 
 // ------ EmpireMap Class -------
 
@@ -148,7 +142,6 @@ void EmpireMap::createContinentAdjacencyMatrix()
 	}
 }
 
-
 void EmpireMap::createCountries()
 {
 	for (int i = 0; i <= *countries; i++)
@@ -161,7 +154,6 @@ Country* EmpireMap::country(int country)
 {
 	return countryContents[country];
 }
-
 
 void EmpireMap::createContinents(int start) {
 
@@ -258,7 +250,6 @@ void EmpireMap::displayAdjecentContinents()
 	}
 }
 
-
 void EmpireMap::displayContinents() {
 
 	for (auto i = 0; i <= *continents; i++)
@@ -326,14 +317,16 @@ bool EmpireMap::IsContinentsConnected() {
 	return ContinentDFS(0);
 }
 
-
 bool EmpireMap::ContinentDFS(int start) {
 
 
 	for (int j = 0; j <= *continents; j++) {
 		if (continentMap[start][j] == 1) {
-			if (std::find(visitedContinents.begin(), visitedContinents.end(), j) == visitedContinents.end())
-				visitedContinents.push_back(j);
+            if (std::find(visitedContinents.begin(), visitedContinents.end(), j) == visitedContinents.end())
+            {
+                visitedContinents.push_back(j);
+                ContinentDFS(j);
+            }
 		}
 	}
 

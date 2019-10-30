@@ -75,9 +75,7 @@ void Testers::PlayerTest()
 void Testers::MapTest()
 {
 
-	MapLoader mapLoader;
-
-	EmpireMap test = *MapLoader::readMapData("EmpireData2.txt");
+	EmpireMap test = *MapLoader::FindMap();
 
 	std::cout << std::endl;
 	test.displayMatrix();
@@ -99,6 +97,8 @@ void Testers::MapTest()
 	std::cout << std::endl << std::endl << "ARE COUNTRIES CONNECTED?: " << test.IsCountriesConnected()<< std::endl;
 	std::cout << std::endl << std::endl << "ARE CONTINENTS CONNECTED?: " << test.IsContinentsConnected() << std::endl;
 	std::cout << std::endl << std::endl << "ARE COUNTRIES UNIQUE?: " << test.isNotDuplicated() << std::endl;
+
+    system("pause");
 }
 
 
