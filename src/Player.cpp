@@ -88,8 +88,14 @@ void Player::moveOverLand()
         army = country->getArmy(this);
         std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n" ;
     } 
-    std::cout << "\nSelect a country to move a troop from: ";
-    std::cin >> selectionFrom;
+    do {
+        std::cout << "\nSelect a country to move a troop from: ";
+        std::cin >> selectionFrom;
+
+        if(MapLoader::GetMap()->country(selectionFrom)->getArmy(this) == 0)
+            std::cout << "\nYou don't have any troops there, choose another country: ";
+    }while(MapLoader::GetMap()->country(selectionFrom)->getArmy(this) == 0);
+
 
     std::vector<int> adjacent = MapLoader::GetMap()->getAdjacentByLand(selectionFrom);
     
@@ -97,8 +103,13 @@ void Player::moveOverLand()
     for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it){
         std::cout << " Country #" << *it << std::endl;
     };
-    std::cout << "\nSelect country to move a troop to: ";
-    std::cin >> selectionTo;
+
+    do {
+        std::cout << "\nSelect country to move a troop to: ";
+        std::cin >> selectionTo;
+        if (std::find(adjacent.begin(), adjacent.end(), selectionTo) == adjacent.end()) 
+            std::cout << "\nYou cannot travel there from the selected country, choose an adjacent country: ";
+    } while (std::find(adjacent.begin(), adjacent.end(), selectionTo) == adjacent.end());
 
     MapLoader::GetMap()->country(selectionTo)->addArmy(this);
     MapLoader::GetMap()->country(selectionFrom)->removeArmy(this);
@@ -127,8 +138,13 @@ void Player::moveOverSea()
         army = country->getArmy(this);
         std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
     }
-    std::cout << "\nSelect a country to move a troop from: ";
-    std::cin >> selectionFrom;
+    do {
+        std::cout << "\nSelect a country to move a troop from: ";
+        std::cin >> selectionFrom;
+
+        if (MapLoader::GetMap()->country(selectionFrom)->getArmy(this) == 0)
+            std::cout << "\nYou don't have any troops there, choose another country: ";
+    } while (MapLoader::GetMap()->country(selectionFrom)->getArmy(this) == 0);
 
     std::vector<int> adjacent = MapLoader::GetMap()->getAdjacentByLandAndWater(selectionFrom);
 
@@ -136,8 +152,12 @@ void Player::moveOverSea()
     for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it) {
         std::cout << " Country #" << *it << std::endl;
     };
-    std::cout << "\nSelect country to move a troop to: ";
-    std::cin >> selectionTo;
+    do {
+        std::cout << "\nSelect country to move a troop to: ";
+        std::cin >> selectionTo;
+        if (std::find(adjacent.begin(), adjacent.end(), selectionTo) == adjacent.end()) 
+            std::cout << "\nYou cannot travel there from the selected country, choose an adjacent country: ";
+    } while (std::find(adjacent.begin(), adjacent.end(), selectionTo) == adjacent.end());
 
     MapLoader::GetMap()->country(selectionTo)->addArmy(this);
     MapLoader::GetMap()->country(selectionFrom)->removeArmy(this);
