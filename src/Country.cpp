@@ -9,8 +9,6 @@ using namespace std;
 
 // ------ Country class -------
 
-std::map<Player*, int*> Country::armies;
-std::string* Country::owner;
 
 Country::Country()
 {

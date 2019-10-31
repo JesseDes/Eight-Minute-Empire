@@ -15,11 +15,11 @@ public:
     Country();
     void writeOwner(std::string owner);
     std::string getOwner();
-    static void addArmy(Player* player);
-    static void removeArmy(Player* player);
-    static int getArmy(Player* player);
+    void addArmy(Player* player);
+    void removeArmy(Player* player);
+    int getArmy(Player* player);
 
 private:
-    static std::string* owner;
-    static std::map<Player*,int*> armies;
+    std::string* owner;
+    std::map<Player*,int*> armies;
 };
