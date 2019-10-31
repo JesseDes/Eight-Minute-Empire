@@ -208,7 +208,36 @@ void Player::buildCities()
 
 void Player::placeNewArmies()
 {
-	std::cout << "RECRUIT TROOPS \n";
+    int numberOfCountries = MapLoader::GetMap()->getCountries();
+    Country* country;
+    int selection;
+
+    std::cout << "\nThese are the countries you can place troops (cities and starting region): \n\n";
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        if (country->getCities(this) > 0 || j == MapLoader::GetMap()->getStartingCountry()->getCountryName()) {
+            std::cout << "Country [" << j << "] - you have " << country->getArmy(this) << " troops, and " << country->getCities(this) << " cities\n";
+        }
+    }
+    std::cout << "Country [" << MapLoader::GetMap()->getStartingCountry()->getCountryName() << "] - is the starting region ";
+
+    do {
+        std::cout << "\nSelect a country to place a troop in: ";
+        std::cin >> selection;
+
+        if (MapLoader::GetMap()->country(selection)->getCities(this) == 0 && selection != MapLoader::GetMap()->getStartingCountry()->getCountryName())
+            std::cout << "\nYou can only place a troop at the starting region or countries that you have cities in, choose again: ";
+    } while (MapLoader::GetMap()->country(selection)->getCities(this) == 0 && selection != MapLoader::GetMap()->getStartingCountry()->getCountryName());
+
+    MapLoader::GetMap()->country(selection)->addArmy(this);
+
+    std::cout << "\nYour updated troops: \n\n";
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        if (country->getCities(this) > 0 || j == MapLoader::GetMap()->getStartingCountry()->getCountryName()) {
+            std::cout << "Country [" << j << "] - you have " << country->getArmy(this) << " troops, and " << country->getCities(this) << " cities\n";
+        }
+    }
 }
 
 void Player::destroyArmy()

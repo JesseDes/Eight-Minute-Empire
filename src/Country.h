@@ -12,7 +12,8 @@ class Country
 {
 public:
 
-    Country();
+    Country(int countryName);
+    int getCountryName();
     void writeOwner(std::string owner);
     std::string getOwner();
     void addArmy(Player* player);
@@ -27,4 +28,5 @@ private:
     std::string* owner;
     std::map<Player*,int*> armies;
     std::map<Player*, int*> cities;
+    int* countryName;
 };

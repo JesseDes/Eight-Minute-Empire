@@ -119,7 +119,7 @@ void EmpireMap::createCountries()
 {
 	for (int i = 0; i <= *countries; i++)
 	{
-		countryContents.push_back(new Country());
+		countryContents.push_back(new Country(i));
 	}
 }
 

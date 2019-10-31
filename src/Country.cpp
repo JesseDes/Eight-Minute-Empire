@@ -10,9 +10,15 @@ using namespace std;
 // ------ Country class -------
 
 
-Country::Country()
+Country::Country(int cname)
 {
     owner = new std::string("-");
+    countryName = new int(cname);
+}
+
+int Country::getCountryName()
+{
+    return *countryName;
 }
 
 void Country::writeOwner(string owner)
