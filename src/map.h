@@ -24,7 +24,7 @@ public:
 	bool IsContinentsConnected();
 	bool isNotDuplicated();
 	bool isValid();
-    int getStartingCountry();
+    Country* getStartingCountry();
     std::vector<int> getAdjacentByLand(int country);
     std::vector<int> getAdjacentByLandAndWater(int country);
 

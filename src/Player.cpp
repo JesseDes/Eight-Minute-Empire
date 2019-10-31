@@ -77,7 +77,31 @@ void Player::doAction(Action action)
 
 void Player::moveOverLand()
 {
+    int numberOfCountries = MapLoader::GetMap()->getCountries();
+    Country* country;
+    int army;
 
+    int selection;
+    std::cout << "Select which country you want a troop to move from:" << std::endl;
+
+    for (int i = 0; i < numberOfCountries; i++) {
+
+        country = MapLoader::GetMap()->country(i);
+        army = country->getArmy(this);
+
+        std::cout << " - You have " << army << " troops in country" << "[#" << i << "]" << std::endl;
+    } 
+    std::cin >> selection;
+
+    std::cout << "Select one of the adjacent countries to move this troop:" << std::endl;
+    std::vector<int> adjacent = MapLoader::GetMap()->getAdjacentByLand(selection);
+    
+    for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it){
+        std::cout << " Country #" << *it << std::endl;
+    };
+    std::cin >> selection;
+
+    // TODO: remove troop from existing and add troop to new 
 }
 
 void Player::moveOverSea()

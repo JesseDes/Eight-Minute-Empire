@@ -335,9 +335,9 @@ bool EmpireMap::isValid() {
 	return false;
 }
 
-int EmpireMap::getStartingCountry()
+Country* EmpireMap::getStartingCountry()
 {
-    return *startingCountry;
+    return countryContents[*startingCountry];
 }
 
 vector<int> EmpireMap::getAdjacentByLand(int country)

@@ -31,8 +31,12 @@ void GameLoop::GameInit()
 		std::cin >> name;
 		std::cout << "How old are you?";
 		std::cin >> age;
-		playerList.push_back(new Player(age, name));
-
+        Player* player = new Player(age, name);
+		playerList.push_back(player);
+        
+        // adding 3 troops to the starting country
+        for(int j=0;j<3;j++)
+            gameBoard->getStartingCountry()->addArmy(player);
 	}
 }
 
