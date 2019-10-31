@@ -28,7 +28,7 @@ Player::~Player()
 	bidder = NULL;
 }
 
-Action Player::readCard(Deck::Card *gameCard)
+void Player::readCard(Deck::Card *gameCard)
 {
 	if (_goodMap.find(gameCard->good) != _goodMap.end())
 		(*_goodMap[gameCard->good])++;
@@ -54,13 +54,11 @@ Action Player::readCard(Deck::Card *gameCard)
 	selection =  Utils::validInputRange(0, optionList.size(), selection , "Invalid selection, please choose a value between 0 and " + optionList.size());
 	if(selection != optionList.size())
 		doAction(optionList.at(selection));
-
-    return gameCard->actions[selection];
 }
 
 void Player::doAction(Action action)
 {
-	for (int i = 1; i <= action.amount; i++)
+	for (int i = 0; i < action.amount; i++)
 	{
 		switch (action.type)
 		{
@@ -81,32 +79,76 @@ void Player::moveOverLand()
     Country* country;
     int army;
 
-    int selection;
-    std::cout << "Select which country you want a troop to move from:" << std::endl;
-
-    for (int i = 0; i < numberOfCountries; i++) {
-
-        country = MapLoader::GetMap()->country(i);
-        army = country->getArmy(this);
-
-        std::cout << " - You have " << army << " troops in country" << "[#" << i << "]" << std::endl;
-    } 
-    std::cin >> selection;
-
-    std::cout << "Select one of the adjacent countries to move this troop:" << std::endl;
-    std::vector<int> adjacent = MapLoader::GetMap()->getAdjacentByLand(selection);
+    int selectionFrom;
+    int selectionTo;
     
+    std::cout << "\nYour countries & troop info: \n\n";
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        army = country->getArmy(this);
+        std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n" ;
+    } 
+    std::cout << "\nSelect a country to move a troop from: ";
+    std::cin >> selectionFrom;
+
+    std::vector<int> adjacent = MapLoader::GetMap()->getAdjacentByLand(selectionFrom);
+    
+    std::cout << "These are the adjacent countries (by land only):" << std::endl;
     for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it){
         std::cout << " Country #" << *it << std::endl;
     };
-    std::cin >> selection;
+    std::cout << "\nSelect country to move a troop to: ";
+    std::cin >> selectionTo;
 
-    // TODO: remove troop from existing and add troop to new 
+    MapLoader::GetMap()->country(selectionTo)->addArmy(this);
+    MapLoader::GetMap()->country(selectionFrom)->removeArmy(this);
+
+    std::cout << "\nThis is you updated country & troop info:\n\n";
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        army = country->getArmy(this);
+        std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
+    }
+    std::cout << std::endl;
 }
 
 void Player::moveOverSea()
 {
-	std::cout << "MOVING OVER SEA \n";
+    int numberOfCountries = MapLoader::GetMap()->getCountries();
+    Country* country;
+    int army;
+
+    int selectionFrom;
+    int selectionTo;
+
+    std::cout << "\nYour countries & troop info: \n\n";
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        army = country->getArmy(this);
+        std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
+    }
+    std::cout << "\nSelect a country to move a troop from: ";
+    std::cin >> selectionFrom;
+
+    std::vector<int> adjacent = MapLoader::GetMap()->getAdjacentByLandAndWater(selectionFrom);
+
+    std::cout << "These are the adjacent countries(by land and water):" << std::endl;
+    for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it) {
+        std::cout << " Country #" << *it << std::endl;
+    };
+    std::cout << "\nSelect country to move a troop to: ";
+    std::cin >> selectionTo;
+
+    MapLoader::GetMap()->country(selectionTo)->addArmy(this);
+    MapLoader::GetMap()->country(selectionFrom)->removeArmy(this);
+
+    std::cout << "\nThis is you updated country & troop info:\n\n";
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        army = country->getArmy(this);
+        std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
+    }
+    std::cout << std::endl;
 }
 
 void Player::buildCities()

@@ -23,7 +23,7 @@ public:
 	Player(int age, std::string name);
 	~Player();
 	void createCoinPurse(int numberOfPlayers);
-	Action readCard(Deck::Card *gameCard);
+	void readCard(Deck::Card *gameCard);
 	void doAction(Action action);
 	bool payCoin(int cost);
 	int getPlayerAge();

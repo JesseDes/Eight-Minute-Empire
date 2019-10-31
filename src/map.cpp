@@ -346,7 +346,7 @@ vector<int> EmpireMap::getAdjacentByLand(int country)
     cout << endl;
         for (int j = 0; j < *countries; j++) {
             if (map[country][j] == 1) {
-                visitedContinents.push_back(new int(j));
+                adjacentCountries.push_back(j);
             }
     }
     return adjacentCountries;
@@ -357,8 +357,8 @@ vector<int> EmpireMap::getAdjacentByLandAndWater(int country)
     vector<int> adjacentCountries;
     cout << endl;
     for (int j = 0; j < *countries; j++) {
-        if (map[country][j] == 2) {
-            visitedContinents.push_back(new int(j));
+        if (map[country][j] > 0 ) {
+            adjacentCountries.push_back(j);
         }
     }
     return adjacentCountries;

@@ -86,11 +86,7 @@ void GameLoop::GameRun()
 		
 	} while (!(*currentPlayer)->payCoin(gameHand->getCardCost(chosenCard)));
 	
-
-    // CHOOSING AND PERFORMING ACTION 
-    Action chosenAction = (*currentPlayer)->readCard(gameHand->exchange(chosenCard)); 
-    (*currentPlayer)->doAction(chosenAction);
-    // END OF PERFORMING ACTION
+    (*currentPlayer)->readCard(gameHand->exchange(chosenCard)); 
 
 	gameHand->addCard(gameDeck->Draw());
 
