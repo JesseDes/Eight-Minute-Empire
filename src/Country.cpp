@@ -46,3 +46,31 @@ void Country::removeArmy(Player* player)
 {
     (*armies[player])--;
 }
+
+int Country::getCities(Player* player)
+{
+    if (cities.find(player) == cities.end()) {
+        return 0;
+    }
+    else
+        return *cities[player];
+}
+
+void Country::addCity(Player* player)
+{
+    if (cities.find(player) == cities.end()) {
+        cities[player] = new int(1);
+    }
+    else
+        (*cities[player])++;
+}
+
+void Country::removeCity(Player* player)
+{
+    (*cities[player])--;
+}
+
+int Country::getTotalUnits(Player * player)
+{
+    return getArmy(player)+getCities(player);
+}

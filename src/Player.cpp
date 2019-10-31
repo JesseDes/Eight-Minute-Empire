@@ -86,7 +86,9 @@ void Player::moveOverLand()
     for (int j = 0; j < numberOfCountries; j++) {
         country = MapLoader::GetMap()->country(j);
         army = country->getArmy(this);
-        std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n" ;
+        if (army > 0) {
+            std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
+        }
     } 
     do {
         std::cout << "\nSelect a country to move a troop from: ";
@@ -128,7 +130,6 @@ void Player::moveOverSea()
     int numberOfCountries = MapLoader::GetMap()->getCountries();
     Country* country;
     int army;
-
     int selectionFrom;
     int selectionTo;
 
@@ -136,7 +137,9 @@ void Player::moveOverSea()
     for (int j = 0; j < numberOfCountries; j++) {
         country = MapLoader::GetMap()->country(j);
         army = country->getArmy(this);
-        std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
+        if (army > 0) {
+            std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
+        }
     }
     do {
         std::cout << "\nSelect a country to move a troop from: ";
@@ -173,7 +176,34 @@ void Player::moveOverSea()
 
 void Player::buildCities()
 {
-	std::cout << "Build cities \n";
+    int numberOfCountries = MapLoader::GetMap()->getCountries();
+    Country* country;
+    int selection;
+
+    std::cout << "\nThese are the countries you have troops or cities in: \n\n";
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        if (country->getTotalUnits(this) > 0) {
+            std::cout << "Country [" << j << "] - you have " << country->getArmy(this) << " troops, and " << country->getCities(this)<< " cities\n";
+        }
+    }
+    do {
+        std::cout << "\nSelect a country to build a city in: ";
+        std::cin >> selection;
+
+        if (MapLoader::GetMap()->country(selection)->getTotalUnits(this) == 0)
+            std::cout << "\nYou need at least 1 unit to build here, choose another country: ";
+    } while (MapLoader::GetMap()->country(selection)->getTotalUnits(this) == 0);
+
+    MapLoader::GetMap()->country(selection)->addCity(this);
+
+    std::cout << "\nUpdated cities & troops info: \n\n";
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        if (country->getTotalUnits(this) > 0) {
+            std::cout << "Country [" << j << "] - you have " << country->getArmy(this) << " troops, and " << country->getCities(this) << "cities \n";
+        }
+    }
 }
 
 void Player::placeNewArmies()
