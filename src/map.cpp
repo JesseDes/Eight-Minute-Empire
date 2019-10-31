@@ -9,10 +9,13 @@ using namespace std;
 
 // ------ EmpireMap Class -------
 
-EmpireMap::EmpireMap(list<int> mapData)
+EmpireMap::EmpireMap(list<int> mapData, int start)
 {
 	//creating weighted adjacency matrix
 	createAdjacencyMatrix(mapData);
+
+    //Initialising starting country
+    startingCountry = new int(start);
 
 	//initializing continents to 0
 	continents = new int(0);
@@ -131,9 +134,9 @@ void EmpireMap::createContinents(int start) {
 
 	for (int j = 0; j < *countries; j++) {
 		if (map[start][j] == 1) {
-			if (std::find(visited.begin(), visited.end(), j) == visited.end())
+            if (std::find_if(visited.begin(), visited.end(), [j](int* e) {return *e == j;}) == visited.end())
 			{
-				visited.push_back(j);
+				visited.push_back(new int(j));
 				continentContents[*continents].push_back(j);
 				createContinents(j);
 			}
@@ -144,7 +147,7 @@ void EmpireMap::createContinents(int start) {
 	{
 		++(*continents);
 		for (int j = 0; j < *countries; j++) {
-			if (std::find(visited.begin(), visited.end(), j) == visited.end())
+            if (std::find_if(visited.begin(), visited.end(), [j](int* e) {return *e==j; }) == visited.end())
 			{
 				createContinents(j);
 			}
@@ -292,9 +295,9 @@ bool EmpireMap::ContinentDFS(int start) {
 
 	for (int j = 0; j <= *continents; j++) {
 		if (continentMap[start][j] == 1) {
-            if (std::find(visitedContinents.begin(), visitedContinents.end(), j) == visitedContinents.end())
+            if (std::find_if(visitedContinents.begin(), visitedContinents.end(), [j](int* e) {return *e == j; }) == visitedContinents.end())
             {
-                visitedContinents.push_back(j);
+                visitedContinents.push_back(new int(j));
                 ContinentDFS(j);
             }
 		}
@@ -330,4 +333,33 @@ bool EmpireMap::isValid() {
 	if (isNotDuplicated()&&IsCountriesConnected()&&IsContinentsConnected())
 		return true;
 	return false;
+}
+
+int EmpireMap::getStartingCountry()
+{
+    return *startingCountry;
+}
+
+vector<int> EmpireMap::getAdjacentByLand(int country)
+{
+    vector<int> adjacentCountries;
+    cout << endl;
+        for (int j = 0; j < *countries; j++) {
+            if (map[country][j] == 1) {
+                visitedContinents.push_back(new int(j));
+            }
+    }
+    return adjacentCountries;
+}
+
+vector<int> EmpireMap::getAdjacentByLandAndWater(int country)
+{
+    vector<int> adjacentCountries;
+    cout << endl;
+    for (int j = 0; j < *countries; j++) {
+        if (map[country][j] == 2) {
+            visitedContinents.push_back(new int(j));
+        }
+    }
+    return adjacentCountries;
 }

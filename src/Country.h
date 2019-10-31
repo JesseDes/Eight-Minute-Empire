@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <list>
+#include "Player.h"
+
 
 /*
     Handles the Creation of the map, via use of graphs for continent and subgraphs
@@ -9,15 +11,15 @@
 class Country
 {
 public:
+
     Country();
     void writeOwner(std::string owner);
     std::string getOwner();
-    int addArmy();
-    int removeArmy();
-    int getArmy();
-
+    static void addArmy(Player* player);
+    static void removeArmy(Player* player);
+    static int getArmy(Player* player);
 
 private:
-    std::string* owner;
-    std::vector<int> armies; //not implemented yet
+    static std::string* owner;
+    static std::map<Player*,int*> armies;
 };

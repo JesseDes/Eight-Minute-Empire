@@ -9,6 +9,9 @@ class MapLoader
 {
 public:
 	static EmpireMap* FindMap();
+    static EmpireMap* GetMap();
 	static EmpireMap* readMapData(std::string file);
 
+private:
+    static EmpireMap *newMap;
 };

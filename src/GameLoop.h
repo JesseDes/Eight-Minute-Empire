@@ -19,7 +19,6 @@ public:
 	void GameRun();
 	void GameEnd();
 	bool isRunning() { return *_isRunning; }
-
 	
 private:
 	EmpireMap *gameBoard;

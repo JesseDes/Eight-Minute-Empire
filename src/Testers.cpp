@@ -98,7 +98,7 @@ void Testers::MapTest()
 	std::cout << std::endl << std::endl << "ARE CONTINENTS CONNECTED?: " << test.IsContinentsConnected() << std::endl;
 	std::cout << std::endl << std::endl << "ARE COUNTRIES UNIQUE?: " << test.isNotDuplicated() << std::endl;
 
-    system("pause");
+    std::cout << std::endl << std::endl << "Starting Country is: " << test.getStartingCountry() << std::endl;
 }
 
 

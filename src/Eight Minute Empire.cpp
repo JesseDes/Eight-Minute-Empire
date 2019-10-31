@@ -9,20 +9,16 @@
 
 int main()
 {
+	/*GameLoop gameCycle;
+	gameCycle.GameInit();
+	gameCycle.GameStart();
 
-	
-	//GameLoop gameCycle;
-	//gameCycle.GameInit();
-	//gameCycle.GameStart();
+	while (gameCycle.isRunning())
+	{
+		gameCycle.GameRun();
+	}
 
-	//while (gameCycle.isRunning())
-	//{
-	//	gameCycle.GameRun();
-	//}
-
-	//gameCycle.GameEnd();
-	//
-	//system("pause");
+	gameCycle.GameEnd();*/
 	
 	int selection;
 	std::cout << "Select what you'd like to test \n";
@@ -42,4 +38,6 @@ int main()
 		case 4: Testers::BiddingTest(); break;
 		default: Testers::MapTest(); break;
 	}
+
+	system("pause");
 }

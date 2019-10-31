@@ -9,6 +9,9 @@ using namespace std;
 
 // ------ Country class -------
 
+std::map<Player*, int*> Country::armies;
+std::string* Country::owner;
+
 Country::Country()
 {
     owner = new std::string("-");
@@ -23,17 +26,25 @@ string Country::getOwner()
     return *owner;
 }
 
-int Country::getArmy()
+int Country::getArmy(Player* player)
 {
-    return armies[0];
+    if (armies.find(player) == armies.end()) {
+        return 0;
+    }
+    else
+        return *armies[player];
 }
 
-int Country::addArmy()
+void Country::addArmy(Player* player)
 {
-    return armies[0];
+    if (armies.find(player) == armies.end()) {
+        armies[player] = new int(1);
+    }
+    else
+        (*armies[player])++;
 }
 
-int Country::removeArmy()
+void Country::removeArmy(Player* player)
 {
-    return armies[0]; //not sure how we'll implement this
+    (*armies[player])--;
 }

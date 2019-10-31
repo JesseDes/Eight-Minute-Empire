@@ -73,7 +73,7 @@ void GameLoop::GameRun()
 
 	gameHand->showHand();
 
-	std::cout << (*currentPlayer)->getPlayerName() << "which card would you like? \n";
+	std::cout << (*currentPlayer)->getPlayerName() << ", which card would you like? \n";
 	int chosenCard;
 	do 
 	{
@@ -82,7 +82,11 @@ void GameLoop::GameRun()
 		
 	} while (!(*currentPlayer)->payCoin(gameHand->getCardCost(chosenCard)));
 	
-	(*currentPlayer)->readCard(gameHand->exchange(chosenCard));
+
+    // CHOOSING AND PERFORMING ACTION 
+    Action chosenAction = (*currentPlayer)->readCard(gameHand->exchange(chosenCard)); 
+    (*currentPlayer)->doAction(chosenAction);
+    // END OF PERFORMING ACTION
 
 	gameHand->addCard(gameDeck->Draw());
 

@@ -1,5 +1,7 @@
-#include "pch.h"
+#include "pch.h""
 #include "Player.h"
+#include "map.h"
+#include "GameLoop.h"
 
 
 Player::Player(int age , std::string name)
@@ -24,12 +26,9 @@ Player::~Player()
 
 	delete bidder;
 	bidder = NULL;
-
-
 }
 
-
-void Player::readCard(Deck::Card *gameCard)
+Action Player::readCard(Deck::Card *gameCard)
 {
 	if (_goodMap.find(gameCard->good) != _goodMap.end())
 		(*_goodMap[gameCard->good])++;
@@ -43,6 +42,9 @@ void Player::readCard(Deck::Card *gameCard)
 			optionList.push_back(gameCard->actions[i]);	
 
 	int selection = 0;
+
+    // TODO: check if there is more than 1 action 
+
 	std::cout << "which action would you like to perform?" << *playerName <<  " \n";
 	for (std::vector<Action>::iterator it = optionList.begin(); it != optionList.end(); it++)
 		std::cout << "[" << selection++ << "]" << Action::typeToString(it->type) << " " << it->amount << " times \n";
@@ -53,13 +55,11 @@ void Player::readCard(Deck::Card *gameCard)
 	if(selection != optionList.size())
 		doAction(optionList.at(selection));
 
-
+    return gameCard->actions[selection];
 }
 
 void Player::doAction(Action action)
 {
-
-	//TODO: Do something on these functions
 	for (int i = 1; i <= action.amount; i++)
 	{
 		switch (action.type)
@@ -77,8 +77,7 @@ void Player::doAction(Action action)
 
 void Player::moveOverLand()
 {
-	std::cout << "MOVING OVER LAND \n";
-	
+
 }
 
 void Player::moveOverSea()
