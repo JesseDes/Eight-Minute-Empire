@@ -19,10 +19,11 @@ public:
 	void GameRun();
 	void GameEnd();
 	bool isRunning() { return *_isRunning; }
-	
+    static std::vector<Player*> getPlayerList();
+
 private:
 	EmpireMap *gameBoard;
-	std::vector<Player*> playerList;
+	static std::vector<Player*> playerList;
 	Hand *gameHand;
 	Deck *gameDeck;
 	std::vector<Player*>::iterator currentPlayer;

@@ -2,6 +2,8 @@
 #include "Utils.h"
 #include <iterator>
 
+std::vector<Player*> GameLoop::playerList;
+
 GameLoop::~GameLoop()
 {
 	delete _turnCount;
@@ -134,4 +136,8 @@ void GameLoop::setTurnCount(int playerCount)
 		default: _maxTurnCount = new int(*TWO_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
 	}
 
+}
+std::vector<Player*> GameLoop::getPlayerList()
+{
+    return playerList;
 }

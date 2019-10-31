@@ -242,7 +242,43 @@ void Player::placeNewArmies()
 
 void Player::destroyArmy()
 {
-	std::cout << " KILL ARMY \n";
+    int numberOfCountries = MapLoader::GetMap()->getCountries();
+    Country* country;
+    int playerSelection;
+    int countrySelection;
+
+    std::vector<Player*> playerList = GameLoop::getPlayerList();
+
+    std::cout << "\nPlayers List: \n\n";
+
+    for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
+    {
+        int index = std::distance(playerList.begin(), it);
+        std::cout << "["<< index << "]: " << (*it)->getPlayerName()<< std::endl;
+    }
+
+    std::cout << "\nWhich player would you like to target?: ";
+    std::cin >> playerSelection;
+
+    std::cout << "\nList of countries that target plater has troops in: \n\n";
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        if (country->getArmy(playerList[playerSelection]) > 0 ) {
+            std::cout << "Country [" << j << "] - This player has " << country->getArmy(playerList[playerSelection]) << " troops\n";
+        }
+    }
+    std::cout << "\nWhich country would you like to target?: ";
+    std::cin >> countrySelection;
+
+    MapLoader::GetMap()->country(countrySelection)->removeArmy(playerList[playerSelection]);
+
+    std::cout << "\n\nUpdated troops of target player: \n\n";
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        if (country->getArmy(playerList[playerSelection]) > 0) {
+            std::cout << "Country [" << j << "] - This player has " << country->getArmy(playerList[playerSelection]) << " troops\n\n";
+        }
+    }
 }
 
 void Player::placeBid()
