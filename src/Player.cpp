@@ -87,7 +87,7 @@ void Player::moveOverLand()
         country = MapLoader::GetMap()->country(j);
         army = country->getArmy(this);
         if (army > 0) {
-            std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
+            std::cout << "You have " << army << " troops in country " << "[#" << j << "]\n";
         }
     } 
     do {
@@ -101,7 +101,7 @@ void Player::moveOverLand()
 
     std::vector<int> adjacent = MapLoader::GetMap()->getAdjacentByLand(selectionFrom);
     
-    std::cout << "These are the adjacent countries (by land only):" << std::endl;
+    std::cout << "These are the adjacent countries (by land only): " << std::endl;
     for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it){
         std::cout << " Country #" << *it << std::endl;
     };
@@ -123,6 +123,10 @@ void Player::moveOverLand()
         std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
     }
     std::cout << std::endl;
+    
+    //UPDATE OWNER
+    MapLoader::GetMap()->country(selectionTo)->updateOwner();
+    MapLoader::GetMap()->country(selectionFrom)->updateOwner();
 }
 
 void Player::moveOverSea()
@@ -138,7 +142,7 @@ void Player::moveOverSea()
         country = MapLoader::GetMap()->country(j);
         army = country->getArmy(this);
         if (army > 0) {
-            std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
+            std::cout << "You have " << army << " troops in country " << "[#" << j << "]\n";
         }
     }
     do {
@@ -151,7 +155,7 @@ void Player::moveOverSea()
 
     std::vector<int> adjacent = MapLoader::GetMap()->getAdjacentByLandAndWater(selectionFrom);
 
-    std::cout << "These are the adjacent countries(by land and water):" << std::endl;
+    std::cout << "These are the adjacent countries(by land and water): " << std::endl;
     for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it) {
         std::cout << " Country #" << *it << std::endl;
     };
@@ -172,6 +176,10 @@ void Player::moveOverSea()
         std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
     }
     std::cout << std::endl;
+
+    //UPDATE OWNER
+    MapLoader::GetMap()->country(selectionTo)->updateOwner();
+    MapLoader::GetMap()->country(selectionFrom)->updateOwner();
 }
 
 void Player::buildCities()
@@ -184,7 +192,7 @@ void Player::buildCities()
     for (int j = 0; j < numberOfCountries; j++) {
         country = MapLoader::GetMap()->country(j);
         if (country->getTotalUnits(this) > 0) {
-            std::cout << "Country [" << j << "] - you have " << country->getArmy(this) << " troops, and " << country->getCities(this)<< " cities\n";
+            std::cout << "Country [" << j << "] - you have " << country->getArmy(this) << " troops, and " << country->getCities(this)<< " cities \n";
         }
     }
     do {
@@ -204,6 +212,10 @@ void Player::buildCities()
             std::cout << "Country [" << j << "] - you have " << country->getArmy(this) << " troops, and " << country->getCities(this) << "cities \n";
         }
     }
+    std::cout << std::endl;
+
+    //UPDATE OWNER
+    MapLoader::GetMap()->country(selection)->updateOwner();
 }
 
 void Player::placeNewArmies()
@@ -238,6 +250,10 @@ void Player::placeNewArmies()
             std::cout << "Country [" << j << "] - you have " << country->getArmy(this) << " troops, and " << country->getCities(this) << " cities\n";
         }
     }
+    std::cout << std::endl;
+
+    //UPDATE OWNER
+    MapLoader::GetMap()->country(selection)->updateOwner();
 }
 
 void Player::destroyArmy()
@@ -279,6 +295,10 @@ void Player::destroyArmy()
             std::cout << "Country [" << j << "] - This player has " << country->getArmy(playerList[playerSelection]) << " troops\n\n";
         }
     }
+    std::cout << std::endl;
+
+    //UPDATE OWNER
+    MapLoader::GetMap()->country(countrySelection)->updateOwner();
 }
 
 void Player::placeBid()
@@ -320,6 +340,6 @@ int Player::getScore()
 	for (std::map<GoodType, int*>::iterator it = _goodMap.begin(); it != _goodMap.end(); it++)
 		score += Good::GoodToScore(it->first, *it->second);
 
-	//TODO: add score players get from map
+
 	return score;
 }

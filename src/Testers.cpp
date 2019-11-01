@@ -90,7 +90,7 @@ void Testers::MapTest()
 	test.displayContinents();
 
 	std::cout << std::endl << std::endl << "changing owner of country 3 and returning it:" << std::endl;
-	test.country(3)->writeOwner("Siamak");
+	//test.country(3)->writeOwner("Siamak"); //Deprecated function
 
 	std::cout << "owner name is now: " << test.country(3)->getOwner() << std::endl;
 

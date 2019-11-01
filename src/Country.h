@@ -14,8 +14,8 @@ public:
 
     Country(int countryName);
     int getCountryName();
-    void writeOwner(std::string owner);
-    std::string getOwner();
+    void updateOwner();
+    Player* getOwner();
     void addArmy(Player* player);
     void removeArmy(Player* player);
     int getArmy(Player* player);
@@ -25,7 +25,7 @@ public:
     int getTotalUnits(Player* player); //the sum of all army and cities
 
 private:
-    std::string* owner;
+    Player* owner;
     std::map<Player*,int*> armies;
     std::map<Player*, int*> cities;
     int* countryName;

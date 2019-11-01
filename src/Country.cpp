@@ -3,7 +3,7 @@
 #include <list>
 #include <vector>
 #include "Country.h"
-
+#include "GameLoop.h"
 
 using namespace std;
 
@@ -12,7 +12,7 @@ using namespace std;
 
 Country::Country(int cname)
 {
-    owner = new std::string("-");
+    owner = nullptr;
     countryName = new int(cname);
 }
 
@@ -21,13 +21,9 @@ int Country::getCountryName()
     return *countryName;
 }
 
-void Country::writeOwner(string owner)
+Player* Country::getOwner()
 {
-    *this->owner = owner;
-}
-string Country::getOwner()
-{
-    return *owner;
+    return owner;
 }
 
 int Country::getArmy(Player* player)
@@ -80,3 +76,23 @@ int Country::getTotalUnits(Player * player)
 {
     return getArmy(player)+getCities(player);
 }
+
+void Country::updateOwner()
+{
+    std::vector<Player*> playerList = GameLoop::getPlayerList();
+
+    for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
+    {
+        // if no owner is assigned, assign player
+        if (owner == nullptr)
+            owner = *it;
+        // Replace owner with the player with most units
+        else if (this->getTotalUnits(*it) > this->getTotalUnits(owner))
+            owner = nullptr;
+        // Replace owner null if there is more than 1  player with equal number of units
+        else if (this->getTotalUnits(*it) > this->getTotalUnits(owner)) {
+            owner = *it;
+        }
+    }
+}
+
