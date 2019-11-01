@@ -83,15 +83,17 @@ void Country::updateOwner()
 
     for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
     {
-        // if no owner is assigned, assign player
-        if (owner == nullptr)
-            owner = *it;
-        // Replace owner with the player with most units
-        else if (this->getTotalUnits(*it) > this->getTotalUnits(owner))
-            owner = nullptr;
-        // Replace owner null if there is more than 1  player with equal number of units
-        else if (this->getTotalUnits(*it) > this->getTotalUnits(owner)) {
-            owner = *it;
+        if (*it != owner) {
+            // if no owner is assigned, assign player
+            if (owner == nullptr)
+                owner = *it;
+            // Replace owner with the player with most units
+            else if (getTotalUnits(*it) > getTotalUnits(owner))
+                owner = *it;
+            // Replace owner null if there is more than 1  player with equal number of units
+            else if (getTotalUnits(*it) == getTotalUnits(owner)) {
+                owner = nullptr;
+            }
         }
     }
 }

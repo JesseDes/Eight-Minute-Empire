@@ -43,8 +43,6 @@ void Player::readCard(Deck::Card *gameCard)
 
 	int selection = 0;
 
-    // TODO: check if there is more than 1 action 
-
 	std::cout << "which action would you like to perform?" << *playerName <<  " \n";
 	for (std::vector<Action>::iterator it = optionList.begin(); it != optionList.end(); it++)
 		std::cout << "[" << selection++ << "]" << Action::typeToString(it->type) << " " << it->amount << " times \n";
@@ -337,9 +335,24 @@ int Player::getScore()
 {
 	int score = 0;
 	
+    int pointsFromGoods = 0;
 	for (std::map<GoodType, int*>::iterator it = _goodMap.begin(); it != _goodMap.end(); it++)
-		score += Good::GoodToScore(it->first, *it->second);
+        pointsFromGoods += Good::GoodToScore(it->first, *it->second);
 
 
-	return score;
+    // adding a point to total score for every country this player is an owner of
+    int numberOfCountries = MapLoader::GetMap()->getCountries();
+    Country* country;
+    int pointsFromCountries=0;
+    for (int j = 0; j < numberOfCountries; j++) {
+        country = MapLoader::GetMap()->country(j);
+        if (country->getOwner() == this)
+            pointsFromCountries++;
+    }
+
+    std::cout << "\n\nStats for player: " << this->getPlayerName() << std::endl
+        << "Points from goods: " << pointsFromGoods << std::endl
+        << "Points from countries: " << pointsFromCountries << std::endl;
+
+	return (pointsFromGoods + pointsFromCountries);
 }
