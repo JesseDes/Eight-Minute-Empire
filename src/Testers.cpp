@@ -16,9 +16,9 @@ void Testers::DeckTest()
 	Hand gameHand;
 
 	for (int i = 0; i <= gameHand.SIZE_OF_HAND; i++)
-		gameHand.addCard(testDeck.Draw());
+		gameHand.AddCard(testDeck.Draw());
 
-	gameHand.showHand();
+	gameHand.ShowHand();
 }
 
 void Testers::BiddingTest()
@@ -75,9 +75,7 @@ void Testers::PlayerTest()
 void Testers::MapTest()
 {
 
-	MapLoader mapLoader;
-
-	EmpireMap test = *MapLoader::readMapData("EmpireData2.txt");
+	EmpireMap test = *MapLoader::FindMap();
 
 	std::cout << std::endl;
 	test.displayMatrix();
@@ -92,13 +90,15 @@ void Testers::MapTest()
 	test.displayContinents();
 
 	std::cout << std::endl << std::endl << "changing owner of country 3 and returning it:" << std::endl;
-	test.country(3)->writeOwner("Siamak");
+	//test.country(3)->writeOwner("Siamak"); //Deprecated function
 
 	std::cout << "owner name is now: " << test.country(3)->getOwner() << std::endl;
 
 	std::cout << std::endl << std::endl << "ARE COUNTRIES CONNECTED?: " << test.IsCountriesConnected()<< std::endl;
 	std::cout << std::endl << std::endl << "ARE CONTINENTS CONNECTED?: " << test.IsContinentsConnected() << std::endl;
 	std::cout << std::endl << std::endl << "ARE COUNTRIES UNIQUE?: " << test.isNotDuplicated() << std::endl;
+
+    std::cout << std::endl << std::endl << "Starting Country is: " << test.getStartingCountry() << std::endl;
 }
 
 

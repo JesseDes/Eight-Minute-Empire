@@ -11,7 +11,6 @@ BiddingFacility::BiddingFacility()
 
 BiddingFacility::BiddingFacility(int numberOfPlayers)
 {
-	//TODO: Double check these values
 
 	switch (numberOfPlayers)
 	{
@@ -34,7 +33,7 @@ BiddingFacility::~BiddingFacility()
 	currentBid = NULL;
 }
 
-void BiddingFacility::placeBid()
+void BiddingFacility::PlaceBid()
 {
 	int bidAmount = -1;
 	std::cout << "How much would you like to bid? \n";
@@ -45,17 +44,17 @@ void BiddingFacility::placeBid()
 	currentBid = new int(bidAmount);
 }
 
-void BiddingFacility::pay(int payment)
+void BiddingFacility::Pay(int payment)
 {
 	*coinCount -= payment;
 }
 
-int BiddingFacility::getCurrentBid()
+int BiddingFacility::GetCurrentBid()
 {
 	return *currentBid;
 }
 
-int BiddingFacility::getCoinPurse()
+int BiddingFacility::GetCoinPurse()
 {
 	return *coinCount;
 }

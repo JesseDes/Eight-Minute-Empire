@@ -13,20 +13,15 @@
 
 using namespace std;
 
+EmpireMap* MapLoader::newMap;
+
 EmpireMap* MapLoader::FindMap()
 {
-	//fileName = new string("EmpireData.txt"); // default map
 	HANDLE fileHandle;
 	WIN32_FIND_DATAA fileData;
 	int fileCount = 0;
 	std::vector<WIN32_FIND_DATAA> fileList;
-	fileHandle = FindFirstFileA("Assets/*.txt", &fileData);
-
-	/*if (INVALID_HANDLE_VALUE == fileHandle)
-	{
-		std::cout << "Storage ERROR exiting game";
-		return NULL;
-	}*/
+	fileHandle = FindFirstFileA("Assets/*.EMEMAP", &fileData);
 	
 	do
 	{
@@ -46,18 +41,30 @@ EmpireMap* MapLoader::FindMap()
 
 }
 
-
 EmpireMap* MapLoader::readMapData(std::string file)
 {
 	ifstream File;
 
 	File.open("Assets/" + file);
 	std::list<int> data;
+    int start;
 	int number;
+
+    File >> start;
+
 	while (File >> number)
 		data.push_back(number);
 	
-	EmpireMap *newMap = new EmpireMap(data);
-	//std::cout << newMap.isValid();
-	return newMap;
-} 
+
+	newMap = new EmpireMap(data, start);
+    //checking that map is valid: Is connected subgraph of countries and continents and no duplicates
+    if (newMap->isValid())
+        return newMap;
+    else
+        std::cout << "map is invalid";
+}
+
+EmpireMap* MapLoader::GetMap()
+{
+    return newMap;
+}

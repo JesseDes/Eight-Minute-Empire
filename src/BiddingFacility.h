@@ -13,10 +13,10 @@ public:
 	BiddingFacility(int numberOfPlayers);
 	~BiddingFacility();
 
-	void placeBid();
-	void pay(int amount);
-	int getCurrentBid();
-	int getCoinPurse();
+	void PlaceBid(); //prompts the player to place bid and stores the value in currentBid
+	void Pay(int amount); // deducts amount from coinCount
+	int GetCurrentBid(); // returns currentBid
+	int GetCoinPurse(); //retunrs coinCount
 
 private:
 	int *coinCount;
