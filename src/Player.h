@@ -24,7 +24,7 @@ public:
 	~Player();
 	void createCoinPurse(int numberOfPlayers);
 	void readCard(Deck::Card *gameCard);
-	void doAction(Action action);
+	void doAction(Action action); //performs action: add/remove army, add city, travel by land/water
 	bool payCoin(int cost);
 	int getPlayerAge();
 	void placeBid();

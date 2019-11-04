@@ -28,6 +28,7 @@ Player* Country::getOwner()
 
 int Country::getArmy(Player* player)
 {
+    // if no army is found for the given player, we return 0 
     if (armies.find(player) == armies.end()) {
         return 0;
     }
@@ -37,6 +38,7 @@ int Country::getArmy(Player* player)
 
 void Country::addArmy(Player* player)
 {
+    // if no army is found for the given player, we return we initialise it to 1
     if (armies.find(player) == armies.end()) {
         armies[player] = new int(1);
     }
@@ -51,6 +53,7 @@ void Country::removeArmy(Player* player)
 
 int Country::getCities(Player* player)
 {
+    // if no city is found for the given player, we return we return 0
     if (cities.find(player) == cities.end()) {
         return 0;
     }
@@ -60,6 +63,7 @@ int Country::getCities(Player* player)
 
 void Country::addCity(Player* player)
 {
+    // if no city is found for the given player, we return we initialise it to 1
     if (cities.find(player) == cities.end()) {
         cities[player] = new int(1);
     }

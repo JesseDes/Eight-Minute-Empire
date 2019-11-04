@@ -9,7 +9,7 @@ class GameLoop
 public:
 	const int* MAX_PLAYERS = new int(5);
 	const int* MIN_PLAYERS = new int(2);
-	const int* TWO_PLAYER_END_GAME_CARD_COUNT = new int(3); //13
+	const int* TWO_PLAYER_END_GAME_CARD_COUNT = new int(3); 
 	const int* THREE_PLAYER_END_GAME_CARD_COUNT = new int(10);
 	const int* FOUR_PLAYER_END_GAME_CARD_COUNT = new int(8);
 	const int* FIVE_PLAYER_END_GAME_CARD_COUNT = new int(7);
@@ -19,7 +19,7 @@ public:
 	void GameRun();
 	void GameEnd();
 	bool isRunning() { return *_isRunning; }
-    static std::vector<Player*> getPlayerList();
+    static std::vector<Player*> getPlayerList(); //returns a vector of every player in the current game
 
 private:
 	EmpireMap *gameBoard;

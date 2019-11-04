@@ -62,9 +62,14 @@ EmpireMap* MapLoader::readMapData(std::string file)
 	while (File >> number)
 		data.push_back(number);
 	
+
 	newMap = new EmpireMap(data, start);
-	//std::cout << newMap.isValid();
-	return newMap;
+
+    //checking that map is valid: Is connected subgraph of countries and continents and no duplicates
+    if (newMap->isValid())
+        return newMap;
+    else
+        std::cout << "map is invalid";
 }
 
 EmpireMap* MapLoader::GetMap()

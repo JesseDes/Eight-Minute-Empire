@@ -14,32 +14,32 @@ public:
 	Country* country(int country);
 	bool isLand(int a, int b); //verifies if two nodes are connected by land
 	bool isWater(int a, int b);  //verifies if two nodes are connected by water
-	void displayContinents();
-	void displayIsLand(); //not important just for tests
-	void displayIsWater(); //not important just for tests
-	void displayAdjecent();
-	void displayAdjecentContinents();
-	void displayMatrix();
-	bool IsCountriesConnected();
-	bool IsContinentsConnected();
-	bool isNotDuplicated();
-	bool isValid();
-    Country* getStartingCountry();
-    std::vector<int> getAdjacentByLand(int country);
-    std::vector<int> getAdjacentByLandAndWater(int country);
+	void displayContinents(); //displays the contents of each continent
+	void displayIsLand();  // display all countries along with the countries they'ew adjacent to by land
+	void displayIsWater();  // display all countries along with the countries they'ew adjacent to by water
+	void displayAdjecent(); // display all countries along with the countries they'ew adjacent to by land and water
+	void displayAdjecentContinents(); // display all continents and the continents they're adjacent to
+	void displayMatrix(); //displays the adjacency matrix as is
+	bool IsCountriesConnected(); // checks if countries are a connected subgraph
+	bool IsContinentsConnected(); //checks if countinents are a connected subgraph
+	bool isNotDuplicated(); //check that no country is present in two continents
+	bool isValid(); // calls the mathods that check if a map is valid - Countries connected, Continents connected, no duplicates
+    Country* getStartingCountry(); //returns starting country
+    std::vector<int> getAdjacentByLand(int country); //takes a country name (as an int) and returns adjacent by land country names (as int)
+    std::vector<int> getAdjacentByLandAndWater(int country);//takes a country name (as an int) and returns adjacent by land and water country names (as int)
 
 private:
-	bool ContinentDFS(int start);
-	void createAdjacencyMatrix(std::list<int> mapData);
-	void createContinentAdjacencyMatrix();
-	void createContinents(int start);
-	void createCountries();
+	bool ContinentDFS(int start); //performs a depth first seach to check if continents are connected
+	void createAdjacencyMatrix(std::list<int> mapData); //takes a list of ints to create an adjacency matrix
+	void createContinentAdjacencyMatrix(); //created adjacency matrix of continents
+	void createContinents(int start); //finds and pushes each new continents into a vector of vectors of ints called continentContents 
+	void createCountries(); //pushes each new country in a vector of ints called countryContents
 	
-	int** map; //the 2d map array
-	int** continentMap; //the 2d map array
+	int** map; //the 2d map array of countries
+	int** continentMap; //the 2d map array of continents
 	int* countries; //number of countries (nodes)
 	int* continents; // number of groups of countries connected by land
-    int* startingCountry;
+    int* startingCountry; //the country the initial troops get placed on
 	std::vector<Country*> countryContents; //each vector element represents a continent that holds a vector of countries
 	std::vector<std::vector<int*>> continentContents; //each vector element represents a continent that holds a vector of countries
 	std::vector<int*> visited; //for the DFS (creating continents)
