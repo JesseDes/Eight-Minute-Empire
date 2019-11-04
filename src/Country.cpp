@@ -84,6 +84,7 @@ int Country::getTotalUnits(Player * player)
 void Country::updateOwner()
 {
     std::vector<Player*> playerList = GameLoop::getPlayerList();
+	
 
     for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
     {
@@ -100,5 +101,11 @@ void Country::updateOwner()
             }
         }
     }
+
+	if (owner != nullptr)
+		std::cout << "OWNER OF " << *countryName << " IS " << owner->getPlayerName() << " \n";
+	else
+		std::cout << "OWNER OF " << *countryName << " IS NOBODY \n";
+
 }
 

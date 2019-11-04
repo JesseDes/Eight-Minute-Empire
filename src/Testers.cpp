@@ -16,9 +16,9 @@ void Testers::DeckTest()
 	Hand gameHand;
 
 	for (int i = 0; i <= gameHand.SIZE_OF_HAND; i++)
-		gameHand.addCard(testDeck.Draw());
+		gameHand.AddCard(testDeck.Draw());
 
-	gameHand.showHand();
+	gameHand.ShowHand();
 }
 
 void Testers::BiddingTest()

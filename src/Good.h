@@ -15,6 +15,6 @@ enum class GoodType {
 };
 class Good {
 public:
-	static std::string GoodToString(GoodType good);
-	static int GoodToScore(GoodType good, int amount);
+	static std::string GoodToString(GoodType good);	//returns string value associate with a goodType
+	static int GoodToScore(GoodType good, int amount); //calculates the score for a specific GoodType for a certain amount of it
 };

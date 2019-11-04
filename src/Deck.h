@@ -24,11 +24,11 @@ class Deck{
 		Deck();
 		//Deck(std::string deckSource);
 		~Deck();
-		Card* Draw();
-		void Shuffle();
+		Card* Draw();		//Draws 1 card from the cards array and increments drawCount;
+		void Shuffle();		// Shuffles the cards array 
 
 	private :
-		void GenerateCards();
+		void GenerateCards(); //creates random cards to fill the deck
 		std::array<Deck::Card*, NUMBER_OF_CARDS> cards;
 		int *drawCount = new int(0);
 };

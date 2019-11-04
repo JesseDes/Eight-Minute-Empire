@@ -12,7 +12,10 @@ Player::Player(int age , std::string name)
 
 void Player::createCoinPurse(int numberofPlayers)
 {
+	
 	bidder = new BiddingFacility(numberofPlayers);
+	std::cout << bidder->GetCoinPurse() << " coins start \n";
+
 }
 
 
@@ -26,10 +29,21 @@ Player::~Player()
 
 	delete bidder;
 	bidder = NULL;
+
+	delete countryList;
+	countryList = NULL;
+
+	for (std::map<GoodType, int*>::iterator it = _goodMap.begin(); it != _goodMap.end(); it++)
+	{
+		delete it->second;
+		it->second = NULL;
+	}
+
 }
 
 void Player::readCard(Deck::Card *gameCard)
 {
+	//incremets the good count in the map of goods
 	if (_goodMap.find(gameCard->good) != _goodMap.end())
 		(*_goodMap[gameCard->good])++;
 	else
@@ -37,12 +51,16 @@ void Player::readCard(Deck::Card *gameCard)
 	
 	std::vector<Action> optionList;
 
+	//loads all actions into a list
+
 	for (int i = 0; i <= Deck::MAX_ACTIONS_PER_CARD; i++)
 		if (gameCard->actions[i].type != ActionType::null)
 			optionList.push_back(gameCard->actions[i]);	
 
 	int selection = 0;
 
+
+	//prompts to select an action from the list
 	std::cout << "which action would you like to perform?" << *playerName <<  " \n";
 	for (std::vector<Action>::iterator it = optionList.begin(); it != optionList.end(); it++)
 		std::cout << "[" << selection++ << "]" << Action::typeToString(it->type) << " " << it->amount << " times \n";
@@ -50,6 +68,8 @@ void Player::readCard(Deck::Card *gameCard)
 	std::cout << "[" << selection << "]" << "Do Nothing \n";
 	std::cin >> selection;
 	selection =  Utils::validInputRange(0, optionList.size(), selection , "Invalid selection, please choose a value between 0 and " + optionList.size());
+	
+	//if selection is equal to the size that option selected was do nothing
 	if(selection != optionList.size())
 		doAction(optionList.at(selection));
 }
@@ -302,23 +322,26 @@ void Player::destroyArmy()
 void Player::placeBid()
 {
 	std::cout << *playerName << " ";
-	bidder->placeBid();
+	bidder->PlaceBid();
 }
 
 bool Player::payCoin(int cost)
 {
-	if (cost <= bidder->getCoinPurse())
+	if (cost <= bidder->GetCoinPurse())
 	{
-		bidder->pay(cost);
+		bidder->Pay(cost);
 		return true;
 	}
 	else
+	{
+		std::cout << "You can't afford it, you only have " << bidder->GetCoinPurse() << " coins left \n";
 		return false;
+	}
 }
 
 int Player::getBid()
 {
-	return bidder->getCurrentBid();
+	return bidder->GetCurrentBid();
 }
 
 int Player::getPlayerAge()
@@ -328,7 +351,7 @@ int Player::getPlayerAge()
 
 int Player::getCoins()
 {
-	return bidder->getCoinPurse();
+	return bidder->GetCoinPurse();
 }
 
 int Player::getScore()
