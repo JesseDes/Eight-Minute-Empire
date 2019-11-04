@@ -41,7 +41,7 @@ private:
 	int* continents; // number of groups of countries connected by land
     int* startingCountry;
 	std::vector<Country*> countryContents; //each vector element represents a continent that holds a vector of countries
-	std::vector<std::vector<int>> continentContents; //each vector element represents a continent that holds a vector of countries
+	std::vector<std::vector<int*>> continentContents; //each vector element represents a continent that holds a vector of countries
 	std::vector<int*> visited; //for the DFS (creating continents)
 	std::vector<int*> visitedContinents; //for the DFS (checking is connected subgraph)
 	

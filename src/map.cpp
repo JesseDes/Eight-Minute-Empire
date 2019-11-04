@@ -102,9 +102,9 @@ void EmpireMap::createContinentAdjacencyMatrix()
 
 				for (auto k = 0; k <= *continents; k++) {
 					for (auto v : continentContents[k]) {
-						if (v == i)
+						if (*v == i)
 							continent1 = k;
-						if (v == j)
+						if (*v == j)
 							continent2 = k;
 					}
 				}
@@ -137,7 +137,7 @@ void EmpireMap::createContinents(int start) {
             if (std::find_if(visited.begin(), visited.end(), [j](int* e) {return *e == j;}) == visited.end())
 			{
 				visited.push_back(new int(j));
-				continentContents[*continents].push_back(j);
+				continentContents[*continents].push_back(new int(j));
 				createContinents(j);
 			}
 		}
@@ -318,7 +318,7 @@ bool EmpireMap::isNotDuplicated() {
 		visit = 0;
 		for (int j = 0; j <= *continents; j++) {
 			for (auto v : continentContents[j]) {
-				if (v == i)
+				if (*v == i)
 					visit++;
 			}
 		}
