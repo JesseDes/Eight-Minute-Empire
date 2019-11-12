@@ -19,7 +19,7 @@ Player is able to place bids and pay for cards.
 class Player
 {
 public:
-
+	
 	Player(int age, std::string name);
 	~Player();
 	void createCoinPurse(int numberOfPlayers);			//Gives players the number of coins based on the number of players
@@ -44,6 +44,8 @@ private:
 	void moveOverLand();
 	void buildCities();
 	void destroyArmy();
+	//add hand to store past cards
+	//add token counter for cities and armies decrement each placement, if killed you get it back
 
 };
 
