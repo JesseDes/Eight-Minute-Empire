@@ -8,6 +8,7 @@ Player::Player(int age , std::string name)
 {
 	playerAge = new int(age);
 	playerName = new std::string(name);
+	playerHand = new Hand();
 }
 
 void Player::createCoinPurse(int numberofPlayers)
@@ -39,39 +40,79 @@ Player::~Player()
 		it->second = NULL;
 	}
 
+	delete armyPieces;
+	armyPieces = NULL;
+
+	delete cityPieces;
+	cityPieces = NULL;
+
+	delete playerHand;
+	playerHand = NULL;
 }
 
 void Player::readCard(Deck::Card *gameCard)
 {
+	playerHand->AddCard(gameCard);
+
 	//incremets the good count in the map of goods
 	if (_goodMap.find(gameCard->good) != _goodMap.end())
 		(*_goodMap[gameCard->good])++;
 	else
 		_goodMap[gameCard->good] = new int(1);
 	
-	std::vector<Action> optionList;
 
-	//loads all actions into a list
-
-	for (int i = 0; i <= Deck::MAX_ACTIONS_PER_CARD; i++)
-		if (gameCard->actions[i].type != ActionType::null)
-			optionList.push_back(gameCard->actions[i]);	
+	//prompts to select an action from the list
+	std::cout << "which action would you like to perform?" << *playerName << " \n";
 
 	int selection = 0;
 
+	if (gameCard->isAnd)
+	{
+		std::cout << "[0]";
+		for (int i = 0; i < gameCard->numberOfActions; i++)
+		{
+			std::cout << Action::typeToString(gameCard->actions[i].type) << " " << gameCard->actions[i].amount << " times";
+			
+			if (i < gameCard->numberOfActions - 1)
+				std::cout << " AND ";
+		}
+		std::cout << "\n[1] Do nothing \n";
 
-	//prompts to select an action from the list
-	std::cout << "which action would you like to perform?" << *playerName <<  " \n";
-	for (std::vector<Action>::iterator it = optionList.begin(); it != optionList.end(); it++)
-		std::cout << "[" << selection++ << "]" << Action::typeToString(it->type) << " " << it->amount << " times \n";
-		
-	std::cout << "[" << selection << "]" << "Do Nothing \n";
-	std::cin >> selection;
-	selection =  Utils::validInputRange(0, optionList.size(), selection , "Invalid selection, please choose a value between 0 and " + optionList.size());
-	
-	//if selection is equal to the size that option selected was do nothing
-	if(selection != optionList.size())
+		std::cin >> selection;
+		selection = Utils::validInputRange(0,  1, selection, "Invalid selection, please choose a value between 0 and 1");
+
+		if (selection == 0)
+		{
+			for (int i = 0; i < gameCard->numberOfActions; i++)
+				doAction(gameCard->actions[i]);
+		}
+
+		return;
+	}
+	else
+	{
+		Action nothing;
+		nothing.type = ActionType::null;
+		nothing.amount = 0;
+		std::vector<Action> optionList;
+
+		//loads all actions into a list
+
+		for (int i = 0; i <= Deck::MAX_ACTIONS_PER_CARD; i++)
+			if (gameCard->actions[i].type != ActionType::null)
+				optionList.push_back(gameCard->actions[i]);
+
+		optionList.push_back(nothing);
+
+
+		for (std::vector<Action>::iterator it = optionList.begin(); it != optionList.end(); it++)
+			std::cout << "[" << selection++ << "]" << Action::typeToString(it->type) << " " << it->amount << " times \n";
+
+		std::cin >> selection;
+		selection = Utils::validInputRange(0, optionList.size() - 1, selection, "Invalid selection, please choose a value between 0 and " + optionList.size());
+
 		doAction(optionList.at(selection));
+	}
 }
 
 void Player::doAction(Action action)
@@ -85,6 +126,7 @@ void Player::doAction(Action action)
 			case ActionType::build: Player::buildCities(); break;
 			case ActionType::recruit: Player::placeNewArmies(); break;
 			case ActionType::kill: Player::destroyArmy(); break;
+			case ActionType::null: break;
 
 			default: std::cout << "invalid action"; break;
 		}
@@ -221,7 +263,13 @@ void Player::buildCities()
             std::cout << "\nYou need at least 1 unit to build here, choose another country: ";
     } while (MapLoader::GetMap()->country(selection)->getTotalUnits(this) == 0);
 
-    MapLoader::GetMap()->country(selection)->addCity(this);
+	if (cityPieces > 0)
+	{
+		MapLoader::GetMap()->country(selection)->addCity(this);
+		(*cityPieces)--;
+	}
+	else
+		std::cout << "You are out of city pieces";
 
     std::cout << "\nUpdated cities & troops info: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
@@ -257,9 +305,16 @@ void Player::placeNewArmies()
 
         if (MapLoader::GetMap()->country(selection)->getCities(this) == 0 && selection != MapLoader::GetMap()->getStartingCountry()->getCountryName())
             std::cout << "\nYou can only place a troop at the starting region or countries that you have cities in, choose again: ";
+
     } while (MapLoader::GetMap()->country(selection)->getCities(this) == 0 && selection != MapLoader::GetMap()->getStartingCountry()->getCountryName());
 
-    MapLoader::GetMap()->country(selection)->addArmy(this);
+	if (armyPieces > 0)
+	{
+		MapLoader::GetMap()->country(selection)->addArmy(this);
+		(*armyPieces)--;
+	}
+	else
+		std::cout << "You are out of army pieces";
 
     std::cout << "\nYour updated troops: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
@@ -305,6 +360,7 @@ void Player::destroyArmy()
     std::cin >> countrySelection;
 
     MapLoader::GetMap()->country(countrySelection)->removeArmy(playerList[playerSelection]);
+	
 
     std::cout << "\n\nUpdated troops of target player: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
@@ -378,4 +434,15 @@ int Player::getScore()
         << "Points from countries: " << pointsFromCountries << std::endl;
 
 	return (pointsFromGoods + pointsFromCountries);
+}
+
+void Player::GivePieces(int armies, int cities)
+{
+	armyPieces = new int(armies);
+	cityPieces = new int(cities);
+}
+
+void Player::DrawArmyPiece()
+{
+	(armyPieces)++;
 }

@@ -62,6 +62,9 @@ void Deck::GenerateCards()
 		Action action2;
 		action2.amount = 1;
 		card->numberOfActions = 1;
+		if (rand() % 2 == 1)
+			card->isAnd = false;
+		
 
 		if (true)
 		{

@@ -49,6 +49,7 @@ void Country::addArmy(Player* player)
 void Country::removeArmy(Player* player)
 {
     (*armies[player])--;
+	player->DrawArmyPiece();
 }
 
 int Country::getCities(Player* player)
