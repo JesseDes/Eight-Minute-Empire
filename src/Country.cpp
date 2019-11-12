@@ -100,6 +100,10 @@ void Country::updateOwner()
                 owner = nullptr;
             }
         }
+		//if no units owner is null
+		else if (getTotalUnits(*it) == 0 ) {
+			owner = nullptr;
+		}
     }
 
 	if (owner != nullptr)
