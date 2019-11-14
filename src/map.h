@@ -2,6 +2,7 @@
 #include <list>
 #include <vector>
 #include "Country.h"
+#include "Continent.h"
 
 class EmpireMap
 {
@@ -12,6 +13,7 @@ public:
 	int getCountries(); // returns number of countries
 	int getContinents(); // returns number of continents
 	Country* country(int country);
+    Continent* continent(int continent);
 	bool isLand(int a, int b); //verifies if two nodes are connected by land
 	bool isWater(int a, int b);  //verifies if two nodes are connected by water
 	void displayContinents(); //displays the contents of each continent
@@ -32,7 +34,8 @@ private:
 	bool ContinentDFS(int start); //performs a depth first seach to check if continents are connected
 	void createAdjacencyMatrix(std::list<int> mapData); //takes a list of ints to create an adjacency matrix
 	void createContinentAdjacencyMatrix(); //created adjacency matrix of continents
-	void createContinents(int start); //finds and pushes each new continents into a vector of vectors of ints called continentContents 
+	void findContinentCountries(int start); //finds and pushes each new continents into a vector of vectors of ints called continentCountries 
+    void createContinents(); //finds and pushes each new continents into a vector of vectors of ints called continentCountries 
 	void createCountries(); //pushes each new country in a vector of ints called countryContents
 	
 	int** map; //the 2d map array of countries
@@ -41,7 +44,8 @@ private:
 	int* continents; // number of groups of countries connected by land
     int* startingCountry; //the country the initial troops get placed on
 	std::vector<Country*> countryContents; //each vector element represents a continent that holds a vector of countries
-	std::vector<std::vector<int*>> continentContents; //each vector element represents a continent that holds a vector of countries
+	std::vector<std::vector<int*>> continentCountries; //each vector element represents a continent that holds a vector of countries
+    std::vector<Continent*> continentContents; //each vector element represents a continent that holds a vector of countries
 	std::vector<int*> visited; //for the DFS (creating continents)
 	std::vector<int*> visitedContinents; //for the DFS (checking is connected subgraph)
 	

@@ -21,7 +21,8 @@ EmpireMap::EmpireMap(list<int> mapData, int start)
 	continents = new int(0);
 
 	//creating continents
-	createContinents(0);
+	findContinentCountries(0);
+    createContinents();
 
 	//creating continent adjacency matrix
 	createContinentAdjacencyMatrix();
@@ -101,7 +102,7 @@ void EmpireMap::createContinentAdjacencyMatrix()
 			if (isWater(i, j)) {
 
 				for (auto k = 0; k <= *continents; k++) {
-					for (auto v : continentContents[k]) {
+					for (auto v : continentCountries[k]) {
 						if (*v == i)
 							continent1 = k;
 						if (*v == j)
@@ -128,16 +129,21 @@ Country* EmpireMap::country(int country)
 	return countryContents[country];
 }
 
-void EmpireMap::createContinents(int start) {
+Continent* EmpireMap::continent(int continent)
+{
+    return continentContents[continent];
+}
+
+void EmpireMap::findContinentCountries(int start) {
 
 	for (int j = 0; j < *countries; j++) {
 		if (map[start][j] == 1) {
             if (std::find_if(visited.begin(), visited.end(), [j](int* e) {return *e == j;}) == visited.end())
 			{
-                continentContents.resize((*continents) + 1);
+                continentCountries.resize((*continents) + 1);
 				visited.push_back(new int(j));
-				continentContents[*continents].push_back(new int(j));
-				createContinents(j);
+				continentCountries[*continents].push_back(new int(j));
+				findContinentCountries(j);
 			}
 		}
 	}
@@ -149,10 +155,10 @@ void EmpireMap::createContinents(int start) {
 		for (int j = 0; j < *countries; j++) {
             if (std::find_if(visited.begin(), visited.end(), [j](int* e) {return *e==j; }) == visited.end())
 			{
-                continentContents.resize((*continents) + 1);
+                continentCountries.resize((*continents) + 1);
                 visited.push_back(new int(j));
-                continentContents[*continents].push_back(new int(j));
-				createContinents(j);
+                continentCountries[*continents].push_back(new int(j));
+				findContinentCountries(j);
 			}
 		}
 	}
@@ -233,11 +239,21 @@ void EmpireMap::displayContinents() {
 		// print current vertex number
 		cout << "continent " << i << " --> countries: ";
 
-		for (auto v : continentContents[i])
+		for (auto v : continentCountries[i])
 			cout << v << " ";
 		cout << endl;
 	}
 }
+
+
+void EmpireMap::createContinents() {
+
+    for (auto i = 0; i <= *continents; i++)
+    {
+        continentContents.push_back(new Continent(i, continentCountries[i]));
+    }
+}
+
 
 void EmpireMap::displayIsWater() {
 
@@ -320,7 +336,7 @@ bool EmpireMap::isNotDuplicated() {
 	for (int i = 0; i < *countries; i++) {
 		visit = 0;
 		for (int j = 0; j <= *continents; j++) {
-			for (auto v : continentContents[j]) {
+			for (auto v : continentCountries[j]) {
 				if (*v == i)
 					visit++;
 			}

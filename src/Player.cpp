@@ -294,7 +294,7 @@ void Player::destroyArmy()
     std::cout << "\nWhich player would you like to target?: ";
     std::cin >> playerSelection;
 
-    std::cout << "\nList of countries that target plater has troops in: \n\n";
+    std::cout << "\nList of countries that target player has troops in: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = MapLoader::GetMap()->country(j);
         if (country->getArmy(playerList[playerSelection]) > 0 ) {
@@ -373,9 +373,25 @@ int Player::getScore()
             pointsFromCountries++;
     }
 
+
+
+
+    // adding a point to total score for every country this player is an owner of
+    int numberOfContinents = MapLoader::GetMap()->getContinents();
+    Continent* continent;
+    int pointsFromContinents = 0;
+    for (int j = 0; j < numberOfContinents; j++) {
+        continent = MapLoader::GetMap()->continent(j);
+        continent->updateOwner();
+        if (continent->getOwner() == this)
+            pointsFromContinents++;
+    }
+
+
     std::cout << "\n\nStats for player: " << this->getPlayerName() << std::endl
         << "Points from goods: " << pointsFromGoods << std::endl
-        << "Points from countries: " << pointsFromCountries << std::endl;
+        << "Points from countries: " << pointsFromCountries << std::endl
+        << "Points from continents: " << pointsFromContinents << std::endl;
 
 	return (pointsFromGoods + pointsFromCountries);
 }
