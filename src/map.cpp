@@ -130,25 +130,28 @@ Country* EmpireMap::country(int country)
 
 void EmpireMap::createContinents(int start) {
 
-	continentContents.resize((*continents) + 1);
-
 	for (int j = 0; j < *countries; j++) {
 		if (map[start][j] == 1) {
             if (std::find_if(visited.begin(), visited.end(), [j](int* e) {return *e == j;}) == visited.end())
 			{
+                continentContents.resize((*continents) + 1);
 				visited.push_back(new int(j));
 				continentContents[*continents].push_back(new int(j));
 				createContinents(j);
 			}
 		}
 	}
-
+    
+    // If this statements is true the we have just discovered a new continent
 	if (visited.size() < *countries)
 	{
 		++(*continents);
 		for (int j = 0; j < *countries; j++) {
             if (std::find_if(visited.begin(), visited.end(), [j](int* e) {return *e==j; }) == visited.end())
 			{
+                continentContents.resize((*continents) + 1);
+                visited.push_back(new int(j));
+                continentContents[*continents].push_back(new int(j));
 				createContinents(j);
 			}
 		}

@@ -108,5 +108,8 @@
     <None Include="Assets\Deck.json">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\badmap.EMEMAP">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
