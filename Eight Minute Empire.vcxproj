@@ -147,12 +147,10 @@
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Assets\EmpireData.txt" />
-    <Text Include="Assets\EmpireData2.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Assets\badmap.EMEMAP" />
     <None Include="Assets\Deck.json" />
+    <None Include="Assets\EmpireData.EMEMAP" />
+    <None Include="Assets\EmpireData2.EMEMAP" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

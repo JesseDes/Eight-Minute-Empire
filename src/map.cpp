@@ -148,6 +148,8 @@ void EmpireMap::findContinentCountries(int start) {
 		}
 	}
     
+    visited.push_back(new int(start));
+
     // If this statements is true the we have just discovered a new continent
 	if (visited.size() < *countries)
 	{
@@ -155,9 +157,6 @@ void EmpireMap::findContinentCountries(int start) {
 		for (int j = 0; j < *countries; j++) {
             if (std::find_if(visited.begin(), visited.end(), [j](int* e) {return *e==j; }) == visited.end())
 			{
-                continentCountries.resize((*continents) + 1);
-                visited.push_back(new int(j));
-                continentCountries[*continents].push_back(new int(j));
 				findContinentCountries(j);
 			}
 		}
@@ -240,7 +239,7 @@ void EmpireMap::displayContinents() {
 		cout << "continent " << i << " --> countries: ";
 
 		for (auto v : continentCountries[i])
-			cout << v << " ";
+			cout << *v << " ";
 		cout << endl;
 	}
 }

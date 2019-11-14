@@ -35,7 +35,7 @@ private:
 	void createAdjacencyMatrix(std::list<int> mapData); //takes a list of ints to create an adjacency matrix
 	void createContinentAdjacencyMatrix(); //created adjacency matrix of continents
 	void findContinentCountries(int start); //finds and pushes each new continents into a vector of vectors of ints called continentCountries 
-    void createContinents(); //finds and pushes each new continents into a vector of vectors of ints called continentCountries 
+    void createContinents(); //creates each continent
 	void createCountries(); //pushes each new country in a vector of ints called countryContents
 	
 	int** map; //the 2d map array of countries
@@ -44,7 +44,7 @@ private:
 	int* continents; // number of groups of countries connected by land
     int* startingCountry; //the country the initial troops get placed on
 	std::vector<Country*> countryContents; //each vector element represents a continent that holds a vector of countries
-	std::vector<std::vector<int*>> continentCountries; //each vector element represents a continent that holds a vector of countries
+	std::vector<std::vector<int*>> continentCountries; //each vector element hold a list of country names associated to a continent
     std::vector<Continent*> continentContents; //each vector element represents a continent that holds a vector of countries
 	std::vector<int*> visited; //for the DFS (creating continents)
 	std::vector<int*> visitedContinents; //for the DFS (checking is connected subgraph)

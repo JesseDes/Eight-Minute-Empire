@@ -103,18 +103,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Assets\EmpireData.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="Assets\EmpireData2.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Assets\Deck.json">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\badmap.EMEMAP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\EmpireData2.EMEMAP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\EmpireData.EMEMAP">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
