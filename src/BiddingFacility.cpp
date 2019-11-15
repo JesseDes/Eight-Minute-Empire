@@ -4,6 +4,8 @@
 
 using namespace std;
 
+int* BiddingFacility::COIN_SUPPLY = new int(40);
+
 BiddingFacility::BiddingFacility()
 {
 	coinCount = new int(14);
@@ -21,6 +23,7 @@ BiddingFacility::BiddingFacility(int numberOfPlayers)
 		default: coinCount = new int(8);break;
 	}
 
+	*COIN_SUPPLY -= *coinCount;
 }
 
 
@@ -47,6 +50,7 @@ void BiddingFacility::PlaceBid()
 void BiddingFacility::Pay(int payment)
 {
 	*coinCount -= payment;
+	*COIN_SUPPLY += payment;
 }
 
 int BiddingFacility::GetCurrentBid()

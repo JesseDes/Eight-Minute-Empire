@@ -12,6 +12,8 @@ public:
 	BiddingFacility();
 	BiddingFacility(int numberOfPlayers);
 	~BiddingFacility();
+	static int *COIN_SUPPLY;
+
 
 	void PlaceBid(); //prompts the player to place bid and stores the value in currentBid
 	void Pay(int amount); // deducts amount from coinCount

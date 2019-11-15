@@ -53,7 +53,7 @@ void Deck::GenerateCards()
 	{
 		Card *card = new Card();		
 		//random good seleced and added to card
-		card->good = (GoodType)(rand() % 6);
+		card->good = (GoodType)(rand() % 5);
 		//random actions selected and added for i times for the first action and 1 time for the 2nd action
 		Action action1;
 		action1.type = (ActionType) (rand() % 5);
@@ -62,6 +62,9 @@ void Deck::GenerateCards()
 		Action action2;
 		action2.amount = 1;
 		card->numberOfActions = 1;
+		if (rand() % 2 == 1)
+			card->isAnd = false;
+		
 
 		if (true)
 		{

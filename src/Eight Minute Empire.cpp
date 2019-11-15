@@ -9,7 +9,7 @@
 
 int main()
 {
-
+	/*
 	GameLoop gameCycle;
 	gameCycle.GameInit();
 	gameCycle.GameStart();
@@ -18,6 +18,10 @@ int main()
 		gameCycle.GameRun();
 
 	gameCycle.GameEnd();
+	*/
+	
+	//Testers::StatsTest();
+	//Testers::PhaseTest();
 
 	system("pause");
 }

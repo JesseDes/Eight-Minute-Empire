@@ -28,7 +28,7 @@ struct Action {
 			case ActionType::moveSea: return "move over Sea";
 			case ActionType::kill: return " Kill an army";
 			case ActionType::recruit: return " recruit an army";
-			default: return "NULL";
+			default: return "Do Nothing";
 		}
 	}
 };

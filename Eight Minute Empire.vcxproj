@@ -124,8 +124,14 @@
     <ClInclude Include="src\Hand.h" />
     <ClInclude Include="src\map.h" />
     <ClInclude Include="src\MapLoader.h" />
+    <ClInclude Include="src\Observer.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\PhaseObservable.h" />
+    <ClInclude Include="src\PhaseObserver.h" />
     <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\StatsObservable.h" />
+    <ClInclude Include="src\StatsObserver.h" />
+    <ClInclude Include="src\Subject.h" />
     <ClInclude Include="src\Testers.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
@@ -139,8 +145,14 @@
     <ClCompile Include="src\Hand.cpp" />
     <ClCompile Include="src\map.cpp" />
     <ClCompile Include="src\MapLoader.cpp" />
+    <ClCompile Include="src\Observer.cpp" />
     <ClCompile Include="src\pch.cpp" />
+    <ClCompile Include="src\PhaseObservable.cpp" />
+    <ClCompile Include="src\PhaseObserver.cpp" />
     <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\StatsObservable.cpp" />
+    <ClCompile Include="src\StatsObserver.cpp" />
+    <ClCompile Include="src\Subject.cpp" />
     <ClCompile Include="src\Testers.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>

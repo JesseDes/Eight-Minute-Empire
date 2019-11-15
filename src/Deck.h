@@ -18,6 +18,7 @@ class Deck{
 			int numberOfActions;
 			GoodType good;
 			Action actions[MAX_ACTIONS_PER_CARD + 1];
+			bool isAnd;
 			Card() {}
 		};
 
