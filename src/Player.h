@@ -37,6 +37,11 @@ public:
 	int getCoins();				// returns the coinPurse value from the bidder
 	std::string getPlayerName() { return *playerName; };		// returns player name
 	int getScore();		//calculates the players score from their goods and territories 
+	void GivePieces(int army, int cities);	//serves the player the number of board pieces they get
+	void DrawArmyPiece();
+	int GetGoodPoints();
+	std::vector<int>* GetCountries();
+	std::map<GoodType, int*>* GetGoods();
     void setPlayerStrategy(IPlayerStrategy *behavior);
 
 private:
@@ -45,6 +50,9 @@ private:
 	int *playerAge;
 	std::map<GoodType,int*> _goodMap;
 	std::string *playerName;
+	Hand *playerHand;
+	int *armyPieces;
+	int *cityPieces;
 	void placeNewArmies();
 	void moveOverSea();
 	void moveOverLand();

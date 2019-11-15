@@ -33,3 +33,8 @@ int Utils::validInputMax( int max, int value, std::string msg)
 
 	return value;
 }
+
+void Utils::View(std::string output)
+{
+	std::cout << output << std::endl;
+}

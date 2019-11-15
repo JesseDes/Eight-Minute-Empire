@@ -10,16 +10,18 @@
 
 int main()
 {
-
-	//GameLoop gameCycle;
-	//gameCycle.GameInit();
-	//gameCycle.GameStart();
-
-	//while (gameCycle.isRunning())
-	//	gameCycle.GameRun();
+	/*
+	GameLoop gameCycle;
+	gameCycle.GameInit();
+	gameCycle.GameStart();
 
 	//gameCycle.GameEnd();
 
+	gameCycle.GameEnd();
+	*/
+	
+	//Testers::StatsTest();
+	//Testers::PhaseTest();
     Testers test;
     test.StrategyTest();
 

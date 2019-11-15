@@ -59,8 +59,17 @@ void Hand::ShowHand()
 		std::cout << "Card #" << index << " Cost : "<< GetCardCost(index) << " Good: " << Good::GoodToString((*it)->good) << " ";
 
 		for (int i = 0; i < (*it)->numberOfActions; i++)
+		{
 			std::cout << "Action " << Action::typeToString((*it)->actions[i].type) << " " << (*it)->actions[i].amount << " times ";
-
+			
+			if (i != (*it)->numberOfActions - 1)
+			{
+				if ((*it)->isAnd)
+					std::cout << " AND ";
+				else
+					std::cout << " OR ";
+			}
+		}
 		std::cout << "\n";
 	}
 }
