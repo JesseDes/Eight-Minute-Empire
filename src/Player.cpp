@@ -8,16 +8,18 @@ Player::Player(int age , std::string name)
 {
 	playerAge = new int(age);
 	playerName = new std::string(name);
+    behavior = 0;
 }
 
 void Player::createCoinPurse(int numberofPlayers)
 {
-	
 	bidder = new BiddingFacility(numberofPlayers);
 	std::cout << bidder->GetCoinPurse() << " coins start \n";
-
 }
 
+BiddingFacility* Player::getBidder() {
+    return bidder;
+}
 
 Player::~Player()
 {
@@ -321,8 +323,7 @@ void Player::destroyArmy()
 
 void Player::placeBid()
 {
-	std::cout << *playerName << " ";
-	bidder->PlaceBid();
+    behavior->placeBid(this);
 }
 
 bool Player::payCoin(int cost)
@@ -341,7 +342,7 @@ bool Player::payCoin(int cost)
 
 int Player::getBid()
 {
-	return bidder->GetCurrentBid();
+    return behavior->getBid(this);
 }
 
 int Player::getPlayerAge()
@@ -373,9 +374,6 @@ int Player::getScore()
             pointsFromCountries++;
     }
 
-
-
-
     // adding a point to total score for every country this player is an owner of
     int numberOfContinents = MapLoader::GetMap()->getContinents();
     Continent* continent;
@@ -394,4 +392,8 @@ int Player::getScore()
         << "Points from continents: " << pointsFromContinents << std::endl;
 
 	return (pointsFromGoods + pointsFromCountries);
+}
+
+void Player::setPlayerStrategy(IPlayerStrategy* behavior) {
+    this->behavior = behavior;
 }

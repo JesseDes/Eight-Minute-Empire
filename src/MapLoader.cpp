@@ -60,7 +60,6 @@ EmpireMap* MapLoader::readMapData(std::string file)
     //checking that map is valid: Is connected subgraph of countries and continents and no duplicates
     if (newMap->isValid()) {
         std::cout << "\nmap is valid\n\n";
-        newMap->displayContinents();
         return newMap;
     }
     else {

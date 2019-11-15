@@ -127,6 +127,7 @@
     <ClInclude Include="src\MapLoader.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\PlayerStrategies.h" />
     <ClInclude Include="src\Testers.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
@@ -143,6 +144,7 @@
     <ClCompile Include="src\MapLoader.cpp" />
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\PlayerStrategies.cpp" />
     <ClCompile Include="src\Testers.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>

@@ -7,6 +7,7 @@
 #include "Utils.h"
 #include <string>
 #include <map>
+#include "PlayerStrategies.h"
 
 
 /*
@@ -15,6 +16,8 @@ Player is able to read Cards and choose one action among them
 Player is able to place bids and pay for cards.
 
 */
+
+class IPlayerStrategy; //forward declaration 
 
 class Player
 {
@@ -27,11 +30,13 @@ public:
 	void doAction(Action action); //performs action: add/remove army, add city, travel by land/water an amount of times as specified by the action.amount attribute
 	bool payCoin(int cost);		//The player coinpurse is reduced by cost amount
 	int getPlayerAge();			// returns the age of the player
+    BiddingFacility* getBidder(); // returns the bidder
 	void placeBid();			//calls the bidder to prompt the player to place a bid
 	int getBid();				// returns the players bid from the bidder
 	int getCoins();				// returns the coinPurse value from the bidder
 	std::string getPlayerName() { return *playerName; };		// returns player name
 	int getScore();		//calculates the players score from their goods and territories 
+    void setPlayerStrategy(IPlayerStrategy *behavior);
 
 private:
 	std::vector<int> *countryList; 
@@ -46,6 +51,7 @@ private:
 	void destroyArmy();
 	//add hand to store past cards
 	//add token counter for cities and armies decrement each placement, if killed you get it back
+    IPlayerStrategy* behavior;
 
 };
 

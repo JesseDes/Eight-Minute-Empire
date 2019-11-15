@@ -17,5 +17,6 @@ public:
 	static void BiddingTest();
 	static void PlayerTest();
 	static void MapTest();
+    static void StrategyTest();
 };
 

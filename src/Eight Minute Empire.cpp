@@ -7,17 +7,21 @@
 #include "Utils.h"
 #include "GameLoop.h"
 
+
 int main()
 {
 
-	GameLoop gameCycle;
-	gameCycle.GameInit();
-	gameCycle.GameStart();
+	//GameLoop gameCycle;
+	//gameCycle.GameInit();
+	//gameCycle.GameStart();
 
-	while (gameCycle.isRunning())
-		gameCycle.GameRun();
+	//while (gameCycle.isRunning())
+	//	gameCycle.GameRun();
 
-	gameCycle.GameEnd();
+	//gameCycle.GameEnd();
+
+    Testers test;
+    test.StrategyTest();
 
 	system("pause");
 }

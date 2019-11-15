@@ -57,6 +57,9 @@
     <ClInclude Include="src\Continent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\PlayerStrategies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Eight Minute Empire.cpp">
@@ -99,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Continent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlayerStrategies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -102,3 +102,63 @@ void Testers::MapTest()
 }
 
 
+void Testers::StrategyTest() 
+{
+    EmpireMap* gameBoard = MapLoader::FindMap();
+
+    std::vector<Player*> playerList;
+
+
+    std::cout << "creating Human player-> name: 'Human', age: 9\n";
+    std::cout << "creating COMPUTER (greedy) player -> name: 'Greed', age: 8\n";
+    std::cout << "creating COMPUTER (moderate) player -> name: 'Moderate', age: 7\n";
+
+    Human human;
+    GreedyComputer gBot;
+    ModerateComputer mBot;
+
+    Player* playerHuman = new Player(9, "Human");
+    playerHuman->setPlayerStrategy(&human);
+
+    Player* playerBotGreed = new Player(8, "Greed");
+    playerBotGreed->setPlayerStrategy(&gBot);
+
+    Player* playerBotModerate = new Player(7, "Moderate");
+    playerBotModerate->setPlayerStrategy(&mBot);
+
+    playerList.push_back(playerHuman);
+    playerList.push_back(playerBotGreed);
+    playerList.push_back(playerBotModerate);
+
+    // adding 3 troops to the starting country
+    for (int j = 0; j < 3; j++)
+    {
+        gameBoard->getStartingCountry()->addArmy(playerHuman);
+        gameBoard->getStartingCountry()->addArmy(playerBotGreed);
+        gameBoard->getStartingCountry()->addArmy(playerBotModerate);
+    }
+
+    //create deck , shuffle, and add cards to hand
+    Deck* gameDeck = new Deck();
+    gameDeck->Shuffle();
+
+    Hand* gameHand = new Hand();
+
+    for (int i = 0; i <= gameHand->SIZE_OF_HAND; i++)
+        gameHand->AddCard(gameDeck->Draw());
+
+    //determine first player
+    std::vector<Player*>::iterator currentPlayer = playerList.begin();
+    for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
+    {
+        (*it)->createCoinPurse(playerList.size());
+        std::cout << (*it)->getPlayerName() << " ";
+        (*it)->placeBid();
+
+        //currentPlayer is set to the player with the highest Bid and the youngest age (if matching bids) 
+        if (it != playerList.begin() && ((*currentPlayer)->getBid() < (*it)->getBid() || ((*currentPlayer)->getBid() == (*it)->getBid() && (*currentPlayer)->getPlayerAge() > (*it)->getPlayerAge())))
+            currentPlayer = it;
+    }
+    (*currentPlayer)->payCoin((*currentPlayer)->getBid());
+    std::cout << "HIGHEST BIDDER WAS :" << (*currentPlayer)->getPlayerName() << "\n";
+}
