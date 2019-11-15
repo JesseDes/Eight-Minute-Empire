@@ -32,6 +32,11 @@ public:
 	int getCoins();				// returns the coinPurse value from the bidder
 	std::string getPlayerName() { return *playerName; };		// returns player name
 	int getScore();		//calculates the players score from their goods and territories 
+	void GivePieces(int army, int cities);	//serves the player the number of board pieces they get
+	void DrawArmyPiece();
+	int GetGoodPoints();
+	std::vector<int>* GetCountries();
+	std::map<GoodType, int*>* GetGoods();
 
 private:
 	std::vector<int> *countryList; 
@@ -39,13 +44,13 @@ private:
 	int *playerAge;
 	std::map<GoodType,int*> _goodMap;
 	std::string *playerName;
+	Hand *playerHand;
+	int *armyPieces;
+	int *cityPieces;
 	void placeNewArmies();
 	void moveOverSea();
 	void moveOverLand();
 	void buildCities();
 	void destroyArmy();
-	//add hand to store past cards
-	//add token counter for cities and armies decrement each placement, if killed you get it back
-
 };
 

@@ -4,6 +4,11 @@
 
 std::vector<Player*> GameLoop::playerList;
 
+GameLoop::GameLoop()
+{
+
+}
+
 GameLoop::~GameLoop()
 {
 	delete turnCount;
@@ -11,6 +16,13 @@ GameLoop::~GameLoop()
 
 	delete _isRunning;
 	_isRunning = NULL;
+	
+	delete _isShadowPhase;
+	_isShadowPhase = NULL;
+
+	delete shadowArmyCount;
+	shadowArmyCount = NULL;
+	
 
 	for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
 	{
@@ -30,6 +42,9 @@ GameLoop::~GameLoop()
 	delete *currentPlayer;
 	*currentPlayer = NULL;
 	
+	delete shadowPlayer;
+	shadowPlayer = NULL;
+
 	delete turnCount;
 	turnCount = NULL;
 
@@ -52,6 +67,7 @@ void GameLoop::GameInit()
 
 	setTurnCount(playerCount);
 	
+
 	//create players
 	for (int i = 0; i < playerCount; i++)
 	{
@@ -63,10 +79,7 @@ void GameLoop::GameInit()
 		std::cin >> age;
         Player* player = new Player(age, name);
 		playerList.push_back(player);
-        
-        // adding 3 troops to the starting country
-        for(int j=0;j<3;j++)
-            gameBoard->getStartingCountry()->addArmy(player);
+
 	}
 }
 
@@ -80,13 +93,18 @@ void GameLoop::GameStart()
 
 	for (int i = 0; i <= gameHand->SIZE_OF_HAND; i++)
 		gameHand->AddCard(gameDeck->Draw());
-
+	
 	//determine first player
 	currentPlayer = playerList.begin();
 	for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
 	{
 		(*it)->createCoinPurse(playerList.size());
 		(*it)->placeBid();
+		(*it)->GivePieces(*ARMY_PIECES_PER_PLAYER, *CITY_PIECES_PER_PLAYER);
+
+		// adding 3 troops to the starting country
+		for (int j = 0; j < 3; j++)
+			gameBoard->getStartingCountry()->addArmy((*it));
 
 		//currentPlayer is set to the player with the highest Bid and the youngest age (if matching bids) 
 		if (it != playerList.begin() && ((*currentPlayer)->getBid() < (*it)->getBid() || ((*currentPlayer)->getBid() == (*it)->getBid() && (*currentPlayer)->getPlayerAge() > (*it)->getPlayerAge())))
@@ -98,32 +116,65 @@ void GameLoop::GameStart()
 	std::cout << "HIGHEST BIDDER WAS :"<< (*currentPlayer)->getPlayerName() << "\n";
 
 	//game has now begun
-	*_isRunning = true;
-
+	 *_isRunning = true;
+	 if (playerList.size() == 2)
+	 {
+		 *_isShadowPhase = true;
+		 shadowPlayer = new Player(0, "Shadow Player");
+	 }
+	 
 }
 
 void GameLoop::GameRun()
 {
-
 	std::cout << "It is " << (*currentPlayer)->getPlayerName() << "'s turn \n";
 
-	*turnCount += 1;
-
-	gameHand->ShowHand();
-
-	std::cout << (*currentPlayer)->getPlayerName() << ", which card would you like? \n";
-	int chosenCard;
-	do 
+	if (*_isShadowPhase)
 	{
-		std::cin >> chosenCard;
-		chosenCard = Utils::validInputRange(0, gameHand->SIZE_OF_HAND, chosenCard, "Invalid Selection Please choose a card from the list above");
+		std::cout << "Place shadow player army in a country \n";
 		
-	} while (!(*currentPlayer)->payCoin(gameHand->GetCardCost(chosenCard)));
-	
-    //reads card and performs action
-    (*currentPlayer)->readCard(gameHand->Exchange(chosenCard)); 
+		int numberOfCountries=  MapLoader::GetMap()->getCountries();
+		Country* country;
+		for (int j = 0; j < numberOfCountries; j++) 
+		{
+			country = MapLoader::GetMap()->country(j);
+			std::cout << "Country [" << j << "] Shadow Player has " << country->getArmy(shadowPlayer) << " troops \n";
+			
+		}
 
-	gameHand->AddCard(gameDeck->Draw());
+
+		int selection;
+		std::cin >> selection;
+		selection = Utils::validInputRange(0, numberOfCountries - 1, selection, "please choose a value between 0 and " + ( numberOfCountries - 1));
+		
+		MapLoader::GetMap()->country(selection)->addArmy(shadowPlayer);
+
+		(*shadowArmyCount)--;
+
+		if (*shadowArmyCount == 0)
+			*_isShadowPhase = false;
+	}
+	else
+	{
+
+		*turnCount += 1;
+
+		gameHand->ShowHand();
+
+		std::cout << (*currentPlayer)->getPlayerName() << ", which card would you like? \n";
+		int chosenCard;
+		do
+		{
+			std::cin >> chosenCard;
+			chosenCard = Utils::validInputRange(0, gameHand->SIZE_OF_HAND, chosenCard, "Invalid Selection Please choose a card from the list above");
+
+		} while (!(*currentPlayer)->payCoin(gameHand->GetCardCost(chosenCard)));
+
+		//reads card and performs action
+		(*currentPlayer)->readCard(gameHand->Exchange(chosenCard));
+
+		gameHand->AddCard(gameDeck->Draw());
+	}
 
 	if (*turnCount >= *maxTurnCount)
 	{

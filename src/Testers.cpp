@@ -8,7 +8,10 @@
 #include <list>
 #include "map.h"
 #include "MapLoader.h"
-
+#include "PhaseObservable.h"
+#include "PhaseObserver.h"
+#include "StatsObservable.h"
+#include "StatsObserver.h"
 
 void Testers::DeckTest()
 {
@@ -101,4 +104,89 @@ void Testers::MapTest()
     std::cout << std::endl << std::endl << "Starting Country is: " << test.getStartingCountry() << std::endl;
 }
 
+void Testers::PhaseTest()
+{
+	Player playerOne(5, "PlayerOne");
+	Player playerTwo(5, "PlayerToo");
+	PhaseObservable *subject = new PhaseObservable();
+	PhaseObserver *watcher = new PhaseObserver(subject);
 
+	Action act;
+	act.type = ActionType::build;
+	act.amount = 2;
+	subject->StartTurn(playerOne.getPlayerName());
+	subject->Bid(12, playerOne.getPlayerName());
+	subject->PayPrice(5, 0 , playerOne.getPlayerName());
+	subject->SetAction(&act , playerOne.getPlayerName());
+
+	act.type = ActionType::kill;
+	subject->StartTurn(playerTwo.getPlayerName());
+	subject->Bid(12, playerTwo.getPlayerName());
+	subject->PayPrice(15,2 , playerTwo.getPlayerName());
+	subject->SetAction(&act, playerTwo.getPlayerName());
+	
+
+}
+
+void Testers::StatsTest()
+{
+	Player *playerOne = new Player(5, "PlayerOne");
+
+	StatsObservable *subject = new StatsObservable();
+	StatsObserver *watcher = new StatsObserver(subject);
+
+
+	Deck gameDeck;
+	gameDeck.Shuffle();
+	EmpireMap gameBoard = *MapLoader::FindMap();
+
+	subject->SetPlayer(playerOne);					//Player acquiring a bunch of territores
+
+	gameBoard.country(0)->addArmy(playerOne);
+	gameBoard.country(0)->updateOwner();
+	gameBoard.country(1)->addArmy(playerOne);
+	gameBoard.country(1)->addArmy(playerOne);
+	gameBoard.country(1)->addCity(playerOne);
+	gameBoard.country(1)->updateOwner();
+	gameBoard.country(2)->addArmy(playerOne);
+	gameBoard.country(2)->addArmy(playerOne);
+	gameBoard.country(2)->addArmy(playerOne);
+	gameBoard.country(2)->addArmy(playerOne);
+	gameBoard.country(2)->updateOwner();
+	subject->UpdateCountries(playerOne->GetCountries());
+	
+	gameBoard.country(0)->removeArmy(playerOne); // Player losing some territories
+	
+	gameBoard.country(0)->updateOwner();
+	gameBoard.country(1)->removeArmy(playerOne);
+	gameBoard.country(2)->removeArmy(playerOne);
+	gameBoard.country(1)->updateOwner();
+	gameBoard.country(2)->updateOwner();
+
+	subject->UpdateCountries(playerOne->GetCountries());
+	
+	int currentPoints = 0;
+	for (int i = 0; i < 5; i++)
+	{
+		playerOne->readCard(gameDeck.Draw());
+		if (currentPoints < playerOne->GetGoodPoints())
+		{
+			currentPoints = playerOne->GetGoodPoints();
+			subject->UpdatePlayerGoods(playerOne->GetGoods());
+		}
+		else if (i == 4 && currentPoints == 0)
+		{
+			Deck::Card card;
+			Action act;
+			act.type = ActionType::null;
+			act.amount = 0;
+			card.actions[0] = act;
+			card.numberOfActions = 1;
+			card.good = GoodType::gem;
+			
+			playerOne->readCard(&card);
+			subject->UpdatePlayerGoods(playerOne->GetGoods());
+		}
+	}
+	
+}
