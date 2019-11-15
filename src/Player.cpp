@@ -43,6 +43,10 @@ Player::~Player()
 
 }
 
+void Player::chooseCard(Hand *gameHand) {
+    behavior->chooseCard(this, gameHand);
+}
+
 void Player::readCard(Deck::Card *gameCard)
 {
 	//incremets the good count in the map of goods

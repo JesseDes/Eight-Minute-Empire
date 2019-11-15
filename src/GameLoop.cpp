@@ -62,6 +62,7 @@ void GameLoop::GameInit()
 		std::cout << "How old are you? \n";
 		std::cin >> age;
         Player* player = new Player(age, name);
+        //player->setPlayerStrategy(new Human); //UNCOMMENT TO MAKE ORIGINAL PROGRAM WORK
 		playerList.push_back(player);
         
         // adding 3 troops to the starting country

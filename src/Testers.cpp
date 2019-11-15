@@ -161,4 +161,31 @@ void Testers::StrategyTest()
     }
     (*currentPlayer)->payCoin((*currentPlayer)->getBid());
     std::cout << "HIGHEST BIDDER WAS :" << (*currentPlayer)->getPlayerName() << "\n";
+
+    //Looping gameplay
+    while (true)
+    {
+        std::cout << "It is " << (*currentPlayer)->getPlayerName() << "'s turn \n";
+
+        //DISPLAY CARDS
+        gameHand->ShowHand();
+
+        std::cout << (*currentPlayer)->getPlayerName() << ", which card would you like? \n";
+
+        //CHOOSE CARD
+        (*currentPlayer)->chooseCard(gameHand);
+
+        //ADD CARD
+        gameHand->AddCard(gameDeck->Draw());
+
+        //if player is last in the vector, go back to beginning else, increment iterator
+        if (std::distance(currentPlayer, playerList.end()) == 1)
+        {
+            currentPlayer = playerList.begin();
+        }
+        else
+        {
+            currentPlayer++;
+        }
+    }
 }
