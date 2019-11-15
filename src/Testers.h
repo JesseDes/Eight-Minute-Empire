@@ -4,11 +4,6 @@
 A utility class with all tests available to run
 */
 
-struct TestType{
-	int test;
-	char type;
-};
-
 
 class Testers
 {
@@ -17,5 +12,9 @@ public:
 	static void BiddingTest();
 	static void PlayerTest();
 	static void MapTest();
+	static void PhaseTest();
+	static void StatsTest();
+	static void SingletonTest();
+	static void SystemTest();
 };
 

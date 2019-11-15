@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "map.h"
 #include "MapLoader.h"
+#include "Testers.h"
 //GameLoop manages the 
 class GameLoop
 {
@@ -15,6 +16,7 @@ public:
 	const int* FIVE_PLAYER_END_GAME_CARD_COUNT = new int(7); // 7
 	const int* ARMY_PIECES_PER_PLAYER = new int(14);
 	const int* CITY_PIECES_PER_PLAYER = new int(3);
+	GameLoop();
 	~GameLoop();
 	void GameInit();		//initial board set up and player counting
 	void GameStart();		// Getting player info, serving players their coins and determining starting player

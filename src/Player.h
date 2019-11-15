@@ -34,6 +34,9 @@ public:
 	int getScore();		//calculates the players score from their goods and territories 
 	void GivePieces(int army, int cities);	//serves the player the number of board pieces they get
 	void DrawArmyPiece();
+	int GetGoodPoints();
+	std::vector<int>* GetCountries();
+	std::map<GoodType, int*>* GetGoods();
 
 private:
 	std::vector<int> *countryList; 

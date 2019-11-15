@@ -414,9 +414,7 @@ int Player::getScore()
 {
 	int score = 0;
 	
-    int pointsFromGoods = 0;
-	for (std::map<GoodType, int*>::iterator it = _goodMap.begin(); it != _goodMap.end(); it++)
-        pointsFromGoods += Good::GoodToScore(it->first, *it->second);
+	int pointsFromGoods = GetGoodPoints();
 
 
     // adding a point to total score for every country this player is an owner of
@@ -436,6 +434,16 @@ int Player::getScore()
 	return (pointsFromGoods + pointsFromCountries);
 }
 
+int Player::GetGoodPoints()
+{
+
+	int pointsFromGoods = 0;
+	for (std::map<GoodType, int*>::iterator it = _goodMap.begin(); it != _goodMap.end(); it++)
+		pointsFromGoods += Good::GoodToScore(it->first, *it->second);
+
+	return pointsFromGoods;
+}
+
 void Player::GivePieces(int armies, int cities)
 {
 	armyPieces = new int(armies);
@@ -445,4 +453,24 @@ void Player::GivePieces(int armies, int cities)
 void Player::DrawArmyPiece()
 {
 	(armyPieces)++;
+}
+
+std::vector<int>* Player::GetCountries()
+{
+	delete countryList;
+	countryList = new std::vector<int>();
+
+	int numberOfCountries = MapLoader::GetMap()->getCountries();
+
+	for (int i = 0; i < numberOfCountries; i++)
+	{
+		if (MapLoader::GetMap()->country(i)->getOwner() == this)
+			countryList->push_back(i);
+	}
+	return countryList;
+}
+
+std::map<GoodType, int*>* Player::GetGoods()
+{
+	return &_goodMap;
 }

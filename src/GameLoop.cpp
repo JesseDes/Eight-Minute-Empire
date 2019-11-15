@@ -4,6 +4,11 @@
 
 std::vector<Player*> GameLoop::playerList;
 
+GameLoop::GameLoop()
+{
+
+}
+
 GameLoop::~GameLoop()
 {
 	delete turnCount;
@@ -62,6 +67,7 @@ void GameLoop::GameInit()
 
 	setTurnCount(playerCount);
 	
+
 	//create players
 	for (int i = 0; i < playerCount; i++)
 	{
@@ -111,13 +117,12 @@ void GameLoop::GameStart()
 
 	//game has now begun
 	 *_isRunning = true;
-	 /* TODO: Enable this when you work on shadow placement
-	 if (playerList.size == 2)
+	 if (playerList.size() == 2)
 	 {
 		 *_isShadowPhase = true;
 		 shadowPlayer = new Player(0, "Shadow Player");
 	 }
-	 */
+	 
 }
 
 void GameLoop::GameRun()
@@ -128,15 +133,23 @@ void GameLoop::GameRun()
 	{
 		std::cout << "Place shadow player army in a country \n";
 		
-//		gameBoard->getCountries;
-		
-		//int selection;
-		//TODO: List all countries to player and prompt to choose one
-		//TODO: Place an army in that country to the shadow player
-		
-		*shadowPlayer;
+		int numberOfCountries=  MapLoader::GetMap()->getCountries();
+		Country* country;
+		for (int j = 0; j < numberOfCountries; j++) 
+		{
+			country = MapLoader::GetMap()->country(j);
+			std::cout << "Country [" << j << "] Shadow Player has " << country->getArmy(shadowPlayer) << " troops \n";
+			
+		}
 
-		*shadowArmyCount--;
+
+		int selection;
+		std::cin >> selection;
+		selection = Utils::validInputRange(0, numberOfCountries - 1, selection, "please choose a value between 0 and " + ( numberOfCountries - 1));
+		
+		MapLoader::GetMap()->country(selection)->addArmy(shadowPlayer);
+
+		(*shadowArmyCount)--;
 
 		if (*shadowArmyCount == 0)
 			*_isShadowPhase = false;
