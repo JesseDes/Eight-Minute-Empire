@@ -54,6 +54,7 @@
     <ClInclude Include="src\Country.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Continent.h">
     <ClInclude Include="src\Observer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -113,6 +114,7 @@
     <ClCompile Include="src\Country.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Continent.cpp">
     <ClCompile Include="src\Observer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -133,15 +135,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Assets\EmpireData.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="Assets\EmpireData2.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Assets\Deck.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\badmap.EMEMAP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\EmpireData2.EMEMAP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\EmpireData.EMEMAP">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClInclude Include="src\Action.h" />
     <ClInclude Include="src\BiddingFacility.h" />
+    <ClInclude Include="src\Continent.h" />
     <ClInclude Include="src\Country.h" />
     <ClInclude Include="src\Deck.h" />
     <ClInclude Include="src\GameLoop.h" />
@@ -137,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BiddingFacility.cpp" />
+    <ClCompile Include="src\Continent.cpp" />
     <ClCompile Include="src\Country.cpp" />
     <ClCompile Include="src\Deck.cpp" />
     <ClCompile Include="src\Eight Minute Empire.cpp" />
@@ -157,11 +159,10 @@
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Assets\EmpireData.txt" />
-    <Text Include="Assets\EmpireData2.txt" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Assets\badmap.EMEMAP" />
     <None Include="Assets\Deck.json" />
+    <None Include="Assets\EmpireData.EMEMAP" />
+    <None Include="Assets\EmpireData2.EMEMAP" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
