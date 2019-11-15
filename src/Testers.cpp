@@ -190,13 +190,3 @@ void Testers::StatsTest()
 	}
 	
 }
-
-void Testers::SingletonTest()
-{
-	//TODO: Test Singleton map 
-}
-
-void Testers::SystemTest()
-{
-	//TODO: test Player System Pattern
-}

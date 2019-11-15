@@ -14,7 +14,5 @@ public:
 	static void MapTest();
 	static void PhaseTest();
 	static void StatsTest();
-	static void SingletonTest();
-	static void SystemTest();
 };
 
