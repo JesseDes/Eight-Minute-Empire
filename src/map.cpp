@@ -7,7 +7,18 @@
 
 using namespace std;
 
-// ------ EmpireMap Class -------
+// Global static pointer used to ensure a single instance of the class
+EmpireMap* EmpireMap::mapInstance = NULL;
+
+EmpireMap* EmpireMap::instance(list<int> mapData, int start) {
+    if (mapInstance == NULL) {
+        mapInstance = new EmpireMap(mapData, start);
+    }
+    else 
+        std::cout << "map instance was already created, returning  existing instance";
+    
+    return mapInstance;
+}
 
 EmpireMap::EmpireMap(list<int> mapData, int start)
 {

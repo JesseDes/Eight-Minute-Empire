@@ -79,30 +79,30 @@ void Testers::PlayerTest()
 void Testers::MapTest()
 {
 
-	EmpireMap test = *MapLoader::FindMap();
+	EmpireMap* test = MapLoader::FindMap();
 
 	std::cout << std::endl;
-	test.displayMatrix();
+	(*test).displayMatrix();
 	std::cout << std::endl;
-	test.displayAdjecent();
+    (*test).displayAdjecent();
 	std::cout << std::endl;
-	test.displayAdjecentContinents();
-	std::cout << std::endl << "number of continents: "<< test.getContinents();
-	std::cout << std::endl << "number of countries: "<< test.getCountries();
+    (*test).displayAdjecentContinents();
+	std::cout << std::endl << "number of continents: "<< (*test).getContinents();
+	std::cout << std::endl << "number of countries: "<< (*test).getCountries();
 
 	std::cout << std::endl << std::endl<<"displaying continent contents:"<< std::endl;
-	test.displayContinents();
+    (*test).displayContinents();
 
 	std::cout << std::endl << std::endl << "changing owner of country 3 and returning it:" << std::endl;
 	//test.country(3)->writeOwner("Siamak"); //Deprecated function
 
-	std::cout << "owner name is now: " << test.country(3)->getOwner() << std::endl;
+	std::cout << "owner name is now: " << (*test).country(3)->getOwner() << std::endl;
 
-	std::cout << std::endl << std::endl << "ARE COUNTRIES CONNECTED?: " << test.IsCountriesConnected()<< std::endl;
-	std::cout << std::endl << std::endl << "ARE CONTINENTS CONNECTED?: " << test.IsContinentsConnected() << std::endl;
-	std::cout << std::endl << std::endl << "ARE COUNTRIES UNIQUE?: " << test.isNotDuplicated() << std::endl;
+	std::cout << std::endl << std::endl << "ARE COUNTRIES CONNECTED?: " << (*test).IsCountriesConnected()<< std::endl;
+	std::cout << std::endl << std::endl << "ARE CONTINENTS CONNECTED?: " << (*test).IsContinentsConnected() << std::endl;
+	std::cout << std::endl << std::endl << "ARE COUNTRIES UNIQUE?: " << (*test).isNotDuplicated() << std::endl;
 
-    std::cout << std::endl << std::endl << "Starting Country is: " << test.getStartingCountry() << std::endl;
+    std::cout << std::endl << std::endl << "Starting Country is: " << (*test).getStartingCountry() << std::endl;
 }
 
 void Testers::PhaseTest()
@@ -139,30 +139,30 @@ void Testers::StatsTest()
 
 	Deck gameDeck;
 	gameDeck.Shuffle();
-	EmpireMap gameBoard = *MapLoader::FindMap();
+	EmpireMap* gameBoard = MapLoader::FindMap();
 
 	subject->SetPlayer(playerOne);					//Player acquiring a bunch of territores
 
-	gameBoard.country(0)->addArmy(playerOne);
-	gameBoard.country(0)->updateOwner();
-	gameBoard.country(1)->addArmy(playerOne);
-	gameBoard.country(1)->addArmy(playerOne);
-	gameBoard.country(1)->addCity(playerOne);
-	gameBoard.country(1)->updateOwner();
-	gameBoard.country(2)->addArmy(playerOne);
-	gameBoard.country(2)->addArmy(playerOne);
-	gameBoard.country(2)->addArmy(playerOne);
-	gameBoard.country(2)->addArmy(playerOne);
-	gameBoard.country(2)->updateOwner();
+	(*gameBoard).country(0)->addArmy(playerOne);
+    (*gameBoard).country(0)->updateOwner();
+    (*gameBoard).country(1)->addArmy(playerOne);
+    (*gameBoard).country(1)->addArmy(playerOne);
+    (*gameBoard).country(1)->addCity(playerOne);
+    (*gameBoard).country(1)->updateOwner();
+    (*gameBoard).country(2)->addArmy(playerOne);
+    (*gameBoard).country(2)->addArmy(playerOne);
+    (*gameBoard).country(2)->addArmy(playerOne);
+    (*gameBoard).country(2)->addArmy(playerOne);
+    (*gameBoard).country(2)->updateOwner();
 	subject->UpdateCountries(playerOne->GetCountries());
 	
-	gameBoard.country(0)->removeArmy(playerOne); // Player losing some territories
+    (*gameBoard).country(0)->removeArmy(playerOne); // Player losing some territories
 	
-	gameBoard.country(0)->updateOwner();
-	gameBoard.country(1)->removeArmy(playerOne);
-	gameBoard.country(2)->removeArmy(playerOne);
-	gameBoard.country(1)->updateOwner();
-	gameBoard.country(2)->updateOwner();
+    (*gameBoard).country(0)->updateOwner();
+    (*gameBoard).country(1)->removeArmy(playerOne);
+    (*gameBoard).country(2)->removeArmy(playerOne);
+    (*gameBoard).country(1)->updateOwner();
+    (*gameBoard).country(2)->updateOwner();
 
 	subject->UpdateCountries(playerOne->GetCountries());
 	
@@ -302,4 +302,16 @@ void Testers::StrategyTest()
 std::vector<Player*> Testers::getPlayerList()
 {
     return playerList;
+}
+
+void Testers::SingletonMapTest()
+{
+    std::cout << "select map 1\n";
+    EmpireMap* map1 = MapLoader::FindMap();
+
+    std::cout << "\n\nselect map 2\n";
+    EmpireMap* map2 = MapLoader::FindMap();
+
+    std::cout << "\n\npointer of first map instance: " << map1 <<"\n";
+    std::cout << "pointer of second map instance: " << map2 << "\n";
 }

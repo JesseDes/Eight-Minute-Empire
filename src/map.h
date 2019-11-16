@@ -8,8 +8,9 @@ class EmpireMap
 {
 public:
 
-	EmpireMap(std::list<int> mapData, int start); // takes a weighted adjacency matrix as a list
+    static EmpireMap* instance(std::list<int> mapData, int start);
 	~EmpireMap();
+
 	int getCountries(); // returns number of countries
 	int getContinents(); // returns number of continents
 	Country* country(int country);
@@ -31,6 +32,10 @@ public:
     std::vector<int> getAdjacentByLandAndWater(int country);//takes a country name (as an int) and returns adjacent by land and water country names (as int)
 
 private:
+
+	EmpireMap(std::list<int> mapData, int start); // takes a weighted adjacency matrix as a list
+    static EmpireMap* mapInstance;
+
 	bool ContinentDFS(int start); //performs a depth first seach to check if continents are connected
 	void createAdjacencyMatrix(std::list<int> mapData); //takes a list of ints to create an adjacency matrix
 	void createContinentAdjacencyMatrix(); //created adjacency matrix of continents

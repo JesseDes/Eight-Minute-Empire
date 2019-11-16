@@ -19,11 +19,23 @@ int main()
 
 	gameCycle.GameEnd();
 	*/
+
+    std::cout << "choose a test: \n"
+        << "[0] stats test \n"
+        << "[1] phase test \n"
+        << "[2] strategy test \n"
+        << "[3] singleton map test \n";
+
+    int selection;
+    std::cin >> selection;
 	
-	//Testers::StatsTest();
-	//Testers::PhaseTest();
-    Testers test;
-    test.StrategyTest();
+    switch (selection) 
+    {
+        case 0: Testers::StatsTest(); break;
+        case 1: Testers::PhaseTest(); break;
+        case 2: Testers::StrategyTest(); break;
+        case 3: Testers::SingletonMapTest(); break;
+    }
 
 	system("pause");
 }

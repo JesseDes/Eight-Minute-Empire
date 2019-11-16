@@ -17,8 +17,9 @@ public:
 	static void PhaseTest();
 	static void StatsTest();
     static void StrategyTest();
-    static std::vector<Player*> getPlayerList(); //returns a vector of every player in the current game 
+    static std::vector<Player*> getPlayerList(); //returns a vector of every player in the current game (needed for strategy test)
+    static void SingletonMapTest();
 private:
-    static std::vector<Player*> playerList;
+    static std::vector<Player*> playerList; //vector of every player in current game (needed for strategy test)
 };
 
