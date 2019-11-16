@@ -8,6 +8,7 @@ class Hand; //forward declaration
 class IPlayerStrategy {
 
 public:
+    virtual std::string printStrategyType() = 0;
     virtual void placeBid(Player* player) = 0;
     virtual int getBid(Player* player) = 0;
     virtual void chooseCard(Player* player, Hand *gameHand) = 0;
@@ -20,8 +21,10 @@ public:
     virtual void destroyArmy(Player* player) = 0;
 };
 
+// human strategy forced user input for every decision
 class Human : public IPlayerStrategy {
 public:
+    virtual std::string printStrategyType();
     virtual void placeBid(Player* player);
     virtual int getBid(Player* player);
     virtual void chooseCard(Player* player, Hand *gameHand);
@@ -34,8 +37,10 @@ public:
     virtual void destroyArmy(Player* player);
 };
 
+//GreedyComputer strategy focuses on building cities and killing other players 
 class GreedyComputer : public IPlayerStrategy {
 public:
+    virtual std::string printStrategyType();
     virtual void placeBid(Player* player);
     virtual int getBid(Player* player);
     virtual void chooseCard(Player* player, Hand *gameHand);
@@ -50,8 +55,10 @@ private:
     int* bid;
 };
 
+//ModerateComputer strategy focuses on conquering land 
 class ModerateComputer : public IPlayerStrategy {
 public:
+    virtual std::string printStrategyType();
     virtual void placeBid(Player* player);
     virtual int getBid(Player* player);
     virtual void chooseCard(Player* player, Hand *gameHand);

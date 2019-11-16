@@ -231,3 +231,7 @@ std::map<GoodType, int*>* Player::GetGoods()
 void Player::setPlayerStrategy(IPlayerStrategy* behavior) {
     this->behavior = behavior;
 }
+
+IPlayerStrategy* Player::getPlayerStrategy() {
+    return behavior;
+}

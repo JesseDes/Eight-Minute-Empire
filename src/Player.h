@@ -43,6 +43,7 @@ public:
 	std::vector<int>* GetCountries();
 	std::map<GoodType, int*>* GetGoods();
     void setPlayerStrategy(IPlayerStrategy *behavior);
+    IPlayerStrategy* getPlayerStrategy();
 
 private:
 	std::vector<int> *countryList; 

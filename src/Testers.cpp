@@ -257,6 +257,24 @@ void Testers::StrategyTest()
     {
         std::cout << "It is " << (*currentPlayer)->getPlayerName() << "'s turn \n";
 
+        int strategySelection;
+        std::cout << "Current player's strategy type is :" << (*currentPlayer)->getPlayerStrategy()->printStrategyType() << "\n\n" <<
+            "Would you like to set a new player strategy?\n\n" <<
+            "[0] No\n" <<
+            "[1] Human\n" <<
+            "[2] Greedy (computer focused on building and killing)\n" << 
+            "[3] Moderate (computer focused on conquering)\n";
+
+        std::cin >> strategySelection;
+
+        switch (strategySelection) 
+        {
+            case 0: break;// do nothing
+            case 1: (*currentPlayer)->setPlayerStrategy(&human); break;
+            case 2: (*currentPlayer)->setPlayerStrategy(&gBot); break;
+            case 3: (*currentPlayer)->setPlayerStrategy(&mBot); break;
+        }
+
         //DISPLAY CARDS
         gameHand->ShowHand();
 
@@ -277,6 +295,8 @@ void Testers::StrategyTest()
         {
             currentPlayer++;
         }
+
+
     }
 }
 std::vector<Player*> Testers::getPlayerList()

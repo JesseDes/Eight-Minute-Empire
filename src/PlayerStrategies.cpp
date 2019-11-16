@@ -6,6 +6,9 @@
 
 //HUMAN
 
+std::string Human::printStrategyType() {
+    return "Human";
+}
 void Human::placeBid(Player* player)
 {
     (*player).getBidder()->PlaceBid();
@@ -328,6 +331,10 @@ void Human::destroyArmy(Player * player)
 
 //GREEDY COMPUTER (focused on building cities and destroying opponents)
 
+std::string GreedyComputer::printStrategyType() {
+    return "GreedyComputer";
+}
+
 void GreedyComputer::placeBid(Player* player)
 {
     bid = new int(0);
@@ -513,6 +520,10 @@ void GreedyComputer::destroyArmy(Player * player)
 
 
 //MODERATE COMPUTER (focused conquering land)
+
+std::string ModerateComputer::printStrategyType() {
+    return "ModerateComputer";
+}
 
 void ModerateComputer::placeBid(Player* player)
 {
