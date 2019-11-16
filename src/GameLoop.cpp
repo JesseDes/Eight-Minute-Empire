@@ -1,3 +1,5 @@
+#pragma once
+
 #include "GameLoop.h"
 #include "Utils.h"
 #include <iterator>

@@ -12,6 +12,7 @@
 #include "PhaseObserver.h"
 #include "StatsObservable.h"
 #include "StatsObserver.h"
+#include "GameLoop.h"
 
 void Testers::DeckTest()
 {
@@ -191,13 +192,10 @@ void Testers::StatsTest()
 	
 }
 
-
+std::vector<Player*> Testers::playerList;
 void Testers::StrategyTest() 
 {
     EmpireMap* gameBoard = MapLoader::FindMap();
-
-    std::vector<Player*> playerList;
-
 
     std::cout << "creating Human player-> name: 'Human', age: 9\n";
     std::cout << "creating COMPUTER (greedy) player -> name: 'Greed', age: 8\n";
@@ -209,12 +207,15 @@ void Testers::StrategyTest()
 
     Player* playerHuman = new Player(9, "Human");
     playerHuman->setPlayerStrategy(&human);
+    playerHuman->GivePieces(10,10); 
 
     Player* playerBotGreed = new Player(8, "Greed");
     playerBotGreed->setPlayerStrategy(&gBot);
+    playerBotGreed->GivePieces(10, 10);
 
     Player* playerBotModerate = new Player(7, "Moderate");
     playerBotModerate->setPlayerStrategy(&mBot);
+    playerBotModerate->GivePieces(10, 10);
 
     playerList.push_back(playerHuman);
     playerList.push_back(playerBotGreed);
@@ -242,7 +243,6 @@ void Testers::StrategyTest()
     for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
     {
         (*it)->createCoinPurse(playerList.size());
-        std::cout << (*it)->getPlayerName() << " ";
         (*it)->placeBid();
 
         //currentPlayer is set to the player with the highest Bid and the youngest age (if matching bids) 
@@ -278,4 +278,8 @@ void Testers::StrategyTest()
             currentPlayer++;
         }
     }
+}
+std::vector<Player*> Testers::getPlayerList()
+{
+    return playerList;
 }
