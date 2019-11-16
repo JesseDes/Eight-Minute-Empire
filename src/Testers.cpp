@@ -132,6 +132,7 @@ void Testers::PhaseTest()
 void Testers::StatsTest()
 {
 	Player *playerOne = new Player(5, "PlayerOne");
+    playerOne->setPlayerStrategy(new Human);
 
 	StatsObservable *subject = new StatsObservable();
 	StatsObserver *watcher = new StatsObserver(subject);

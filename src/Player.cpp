@@ -208,6 +208,11 @@ void Player::DrawArmyPiece()
 	(armyPieces)++;
 }
 
+void Player::DropArmyPiece()
+{
+    (armyPieces)--;
+}
+
 std::vector<int>* Player::GetCountries()
 {
 	delete countryList;

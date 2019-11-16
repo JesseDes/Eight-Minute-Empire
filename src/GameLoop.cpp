@@ -80,7 +80,7 @@ void GameLoop::GameInit()
 		std::cout << "How old are you? \n";
 		std::cin >> age;
         Player* player = new Player(age, name);
-        //player->setPlayerStrategy(new Human); //UNCOMMENT TO MAKE ORIGINAL PROGRAM WORK
+        player->setPlayerStrategy(new Human);
 		playerList.push_back(player);
 
 	}
@@ -124,6 +124,7 @@ void GameLoop::GameStart()
 	 {
 		 *_isShadowPhase = true;
 		 shadowPlayer = new Player(0, "Shadow Player");
+         shadowPlayer->setPlayerStrategy(new Human);
 	 }
 	 
 }

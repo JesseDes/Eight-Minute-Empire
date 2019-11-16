@@ -264,7 +264,7 @@ void Human::placeNewArmies(Player * player, int* armyPieces)
     if (armyPieces > 0)
     {
         MapLoader::GetMap()->country(selection)->addArmy(player);
-        (*armyPieces)--;
+        player->DropArmyPiece();
     }
     else
         std::cout << "You are out of army pieces";
