@@ -107,8 +107,16 @@ void Testers::MapTest()
 
 void Testers::PhaseTest()
 {
+	Human human;
 	Player playerOne(5, "PlayerOne");
 	Player playerTwo(5, "PlayerToo");
+	playerOne.GivePieces(10, 10);
+	playerTwo.GivePieces(10, 10);
+	playerOne.createCoinPurse(2);
+	playerTwo.createCoinPurse(2);
+	playerOne.setPlayerStrategy(&human);
+	playerTwo.setPlayerStrategy(&human);
+
 	PhaseObservable *subject = new PhaseObservable();
 	PhaseObserver *watcher = new PhaseObserver(subject);
 
@@ -116,13 +124,15 @@ void Testers::PhaseTest()
 	act.type = ActionType::build;
 	act.amount = 2;
 	subject->StartTurn(playerOne.getPlayerName());
-	subject->Bid(12, playerOne.getPlayerName());
+	playerOne.placeBid();
+	subject->Bid(playerOne.getBid(), playerOne.getPlayerName());
 	subject->PayPrice(5, 0 , playerOne.getPlayerName());
 	subject->SetAction(&act , playerOne.getPlayerName());
 
 	act.type = ActionType::kill;
 	subject->StartTurn(playerTwo.getPlayerName());
-	subject->Bid(12, playerTwo.getPlayerName());
+	playerTwo.placeBid();
+	subject->Bid(playerTwo.getBid(), playerTwo.getPlayerName());
 	subject->PayPrice(15,2 , playerTwo.getPlayerName());
 	subject->SetAction(&act, playerTwo.getPlayerName());
 	
