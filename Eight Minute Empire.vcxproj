@@ -133,6 +133,7 @@
     <ClInclude Include="src\StatsObservable.h" />
     <ClInclude Include="src\StatsObserver.h" />
     <ClInclude Include="src\Subject.h" />
+    <ClInclude Include="src\PlayerStrategies.h" />
     <ClInclude Include="src\Testers.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
@@ -155,6 +156,7 @@
     <ClCompile Include="src\StatsObservable.cpp" />
     <ClCompile Include="src\StatsObserver.cpp" />
     <ClCompile Include="src\Subject.cpp" />
+    <ClCompile Include="src\PlayerStrategies.cpp" />
     <ClCompile Include="src\Testers.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>

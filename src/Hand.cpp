@@ -20,6 +20,12 @@ void Hand::AddCard(Deck::Card* card)
 		cardList.push_back(card);
 }
 
+Deck::Card* Hand::ViewCard(int cardIndex)
+{
+    Deck::Card *returnCard = cardList.at(cardIndex);
+    return returnCard;
+}
+
 Deck::Card* Hand::Exchange(int cardIndex)
 {
 	Deck::Card *returnCard;

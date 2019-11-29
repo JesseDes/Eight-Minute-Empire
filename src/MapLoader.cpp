@@ -55,12 +55,11 @@ EmpireMap* MapLoader::readMapData(std::string file)
 	while (File >> number)
 		data.push_back(number);
 	
+    newMap = EmpireMap::instance(data, start);
 
-	newMap = new EmpireMap(data, start);
     //checking that map is valid: Is connected subgraph of countries and continents and no duplicates
     if (newMap->isValid()) {
         std::cout << "\nmap is valid\n\n";
-        newMap->displayContinents();
         return newMap;
     }
     else {

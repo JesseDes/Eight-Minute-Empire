@@ -7,6 +7,7 @@
 #include "Utils.h"
 #include "GameLoop.h"
 
+
 int main()
 {
 	/*
@@ -14,14 +15,27 @@ int main()
 	gameCycle.GameInit();
 	gameCycle.GameStart();
 
-	while (gameCycle.isRunning())
-		gameCycle.GameRun();
+	//gameCycle.GameEnd();
 
 	gameCycle.GameEnd();
 	*/
+
+    std::cout << "choose a test: \n"
+        << "[0] stats test \n"
+        << "[1] phase test \n"
+        << "[2] strategy test \n"
+        << "[3] singleton map test \n";
+
+    int selection;
+    std::cin >> selection;
 	
-	//Testers::StatsTest();
-	//Testers::PhaseTest();
+    switch (selection) 
+    {
+        case 0: Testers::StatsTest(); break;
+        case 1: Testers::PhaseTest(); break;
+        case 2: Testers::StrategyTest(); break;
+        case 3: Testers::SingletonMapTest(); break;
+    }
 
 	system("pause");
 }

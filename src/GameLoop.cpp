@@ -1,3 +1,5 @@
+#pragma once
+
 #include "GameLoop.h"
 #include "Utils.h"
 #include <iterator>
@@ -78,6 +80,7 @@ void GameLoop::GameInit()
 		std::cout << "How old are you? \n";
 		std::cin >> age;
         Player* player = new Player(age, name);
+        //player->setPlayerStrategy(new Human); //UNCOMMENT TO MAKE ORIGINAL PROGRAM WORK
 		playerList.push_back(player);
 
 	}

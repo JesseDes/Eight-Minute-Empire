@@ -73,6 +73,9 @@
     <ClInclude Include="src\StatsObservable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\PlayerStrategies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Eight Minute Empire.cpp">
@@ -131,6 +134,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\StatsObservable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlayerStrategies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
