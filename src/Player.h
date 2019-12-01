@@ -44,6 +44,8 @@ public:
 	std::map<GoodType, int*>* GetGoods();
     void setPlayerStrategy(IPlayerStrategy *behavior);
     IPlayerStrategy* getPlayerStrategy();
+	void PlaceShadowPlayer(Player *shadowPlayer);
+	int getCardCount() { return *playerHand; };
 
 private:
 	std::vector<int> *countryList; 
@@ -51,7 +53,7 @@ private:
 	int *playerAge;
 	std::map<GoodType,int*> _goodMap;
 	std::string *playerName;
-	Hand *playerHand;
+	int *playerHand;
 	int *armyPieces;
 	int *cityPieces;
 	void placeNewArmies();

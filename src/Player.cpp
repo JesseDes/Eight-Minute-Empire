@@ -8,7 +8,7 @@ Player::Player(int age , std::string name)
 {
 	playerAge = new int(age);
 	playerName = new std::string(name);
-	playerHand = new Hand();
+	playerHand = new int(0);
     behavior = 0;
 }
 
@@ -59,7 +59,7 @@ void Player::chooseCard(Hand *gameHand) {
 void Player::readCard(Deck::Card *gameCard)
 {
 
-	playerHand->AddCard(gameCard);
+	(*playerHand)++;
 	//incremets the good count in the map of goods
 	if (_goodMap.find(gameCard->good) != _goodMap.end())
 		(*_goodMap[gameCard->good])++;
@@ -178,12 +178,12 @@ int Player::getScore()
             pointsFromContinents++;
     }
 
-
+/*
     std::cout << "\n\nStats for player: " << this->getPlayerName() << std::endl
         << "Points from goods: " << pointsFromGoods << std::endl
         << "Points from countries: " << pointsFromCountries << std::endl
         << "Points from continents: " << pointsFromContinents << std::endl;
-
+		*/
 	return (pointsFromGoods + pointsFromCountries);
 }
 
@@ -205,7 +205,7 @@ void Player::GivePieces(int armies, int cities)
 
 void Player::DrawArmyPiece()
 {
-	(armyPieces)++;
+	(*armyPieces)++;
 }
 
 std::vector<int>* Player::GetCountries()
@@ -234,4 +234,9 @@ void Player::setPlayerStrategy(IPlayerStrategy* behavior) {
 
 IPlayerStrategy* Player::getPlayerStrategy() {
     return behavior;
+}
+
+void Player::PlaceShadowPlayer(Player *shadowPlayer)
+{
+	behavior->placeShadowArmy(shadowPlayer);
 }

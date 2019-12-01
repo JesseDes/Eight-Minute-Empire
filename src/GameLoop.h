@@ -17,7 +17,7 @@ public:
 
 	const int* MAX_PLAYERS = new int(5);
 	const int* MIN_PLAYERS = new int(2);
-	const int* TWO_PLAYER_END_GAME_CARD_COUNT = new int(13);  // 13
+	const int* TWO_PLAYER_END_GAME_CARD_COUNT = new int(2);  // 13
 	const int* THREE_PLAYER_END_GAME_CARD_COUNT = new int(10); // 10
 	const int* FOUR_PLAYER_END_GAME_CARD_COUNT = new int(8); // 8
 	const int* FIVE_PLAYER_END_GAME_CARD_COUNT = new int(7); // 7

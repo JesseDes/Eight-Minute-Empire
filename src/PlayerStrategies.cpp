@@ -3,6 +3,7 @@
 #include "MapLoader.h"
 #include "Testers.h"
 #include "GameLoop.h"
+#include <stdlib.h>     
 
 //HUMAN
 
@@ -325,6 +326,24 @@ void Human::destroyArmy(Player * player)
     EmpireMap::instance()->country(countrySelection)->updateOwner();
 }
 
+void Human::placeShadowArmy(Player* shadowPlayer)
+{
+	int numberOfCountries = EmpireMap::instance()->getCountries();
+	Country* country;
+	for (int j = 0; j < numberOfCountries; j++)
+	{
+		country = EmpireMap::instance()->country(j);
+		std::cout << "Country [" << j << "] Shadow Player has " << country->getArmy(shadowPlayer) << " troops \n";
+
+	}
+
+	int selection;
+	selection = Utils::validInputRange(0, numberOfCountries - 1, "please choose a value between 0 and " + (numberOfCountries - 1));
+
+	EmpireMap::instance()->country(selection)->addArmy(shadowPlayer);
+}
+
+
 
 //GREEDY COMPUTER (focused on building cities and destroying opponents)
 
@@ -428,7 +447,7 @@ void GreedyComputer::buildCities(Player * player, int* cityPieces)
 
     int numberOfCountries = EmpireMap::instance()->getCountries();
     Country* country;
-    int selection;
+    int selection = -1;
 
     std::cout << "\nThese are the countries you have troops or cities in: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
@@ -439,6 +458,9 @@ void GreedyComputer::buildCities(Player * player, int* cityPieces)
         }
     }
     std::cout << "\nPlayer decided to build on country ["<< selection << "]\n\n";
+
+	if(selection < 0)
+		return;
 
     if (cityPieces > 0)
     {
@@ -471,7 +493,7 @@ void GreedyComputer::destroyArmy(Player * player)
     int numberOfCountries = EmpireMap::instance()->getCountries();
     Country* country;
     int playerSelection;
-    int countrySelection;
+    int countrySelection = -1;
 
     std::vector<Player*> playerList = GameLoop::getPlayerList(); // TODO: in GameLoop we have to replace with this -> GameLoop::getPlayerList();
 
@@ -486,6 +508,9 @@ void GreedyComputer::destroyArmy(Player * player)
         }
     }
 
+	if (countrySelection < 0)
+		return;
+
     std::cout << "\nPlayer decided to kill [" << playerSelection << "]\n\n";
 
 
@@ -498,6 +523,10 @@ void GreedyComputer::destroyArmy(Player * player)
             countrySelection = j;
         }
     }
+	if (countrySelection < 0)
+		return;
+
+
     std::cout << "\nPlayer decided to kill on country [" << countrySelection << "]\n\n";
 
     EmpireMap::instance()->country(countrySelection)->removeArmy(playerList[playerSelection]);
@@ -515,6 +544,13 @@ void GreedyComputer::destroyArmy(Player * player)
     EmpireMap::instance()->country(countrySelection)->updateOwner();
 }
 
+void GreedyComputer::placeShadowArmy(Player *shadowPlayer)
+{
+	int countrySelection = rand() % (EmpireMap::instance()->getCountries() - 1);
+	Utils::View("Placing army at country" + std::to_string(countrySelection) );
+	EmpireMap::instance()->country(countrySelection)->addArmy(shadowPlayer);
+
+}
 
 //MODERATE COMPUTER (focused conquering land)
 
@@ -614,7 +650,7 @@ void ModerateComputer::moveOverLand(Player * player)
     Country* country;
     int army;
 
-    int selectionFrom;
+    int selectionFrom = -1;
     int selectionTo;
 
     std::cout << "\nYour countries & troop info: \n\n";
@@ -626,6 +662,8 @@ void ModerateComputer::moveOverLand(Player * player)
             selectionFrom = j; 
         }
     }
+	if (selectionFrom < 0)
+		return;
 
     std::cout << "\nPlayer is moving from: [" << selectionFrom << "]\n\n";
 
@@ -661,7 +699,7 @@ void ModerateComputer::moveOverSea(Player * player)
     Country* country;
     int army;
 
-    int selectionFrom;
+    int selectionFrom = - 1;
     int selectionTo;
 
     std::cout << "\nYour countries & troop info: \n\n";
@@ -673,6 +711,10 @@ void ModerateComputer::moveOverSea(Player * player)
             selectionFrom = j;
         }
     }
+	
+	if (selectionFrom < 0)
+		return;
+
 
     std::cout << "\nPlayer is moving from: [" << selectionFrom << "]\n\n";
 
@@ -715,4 +757,12 @@ void ModerateComputer::placeNewArmies(Player * player, int* armyPieces)
 void ModerateComputer::destroyArmy(Player * player)
 {
     // Currently, bot will never opt to move over land
+}
+
+void ModerateComputer::placeShadowArmy(Player *shadowPlayer)
+{
+	int countrySelection = rand() % (EmpireMap::instance()->getCountries() - 1);
+	Utils::View("Placing army at country" + std::to_string(countrySelection));
+	EmpireMap::instance()->country(countrySelection)->addArmy(shadowPlayer);
+
 }

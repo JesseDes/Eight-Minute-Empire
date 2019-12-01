@@ -68,7 +68,10 @@ void GameLoop::GameInit()
 	std::cout << "How many Players will be playing?\n";
 	
 	int playerCount;
-	playerCount = Utils::validInputRange(*MIN_PLAYERS, *MAX_PLAYERS,  "Value must be between" + std::to_string(*MIN_PLAYERS) + " and " + std::to_string(*MAX_PLAYERS));
+	if(gameMode == GameType::TOURNAMENT)
+		playerCount = Utils::validInputRange(*MIN_PLAYERS, 4,  "Value must be between" + std::to_string(*MIN_PLAYERS) + " and 4");
+	else 
+		playerCount = Utils::validInputRange(*MIN_PLAYERS, *MAX_PLAYERS, "Value must be between" + std::to_string(*MIN_PLAYERS) + " and " + std::to_string(*MAX_PLAYERS));
 
 	setTurnCount(playerCount);
 	
@@ -139,20 +142,7 @@ void GameLoop::GameRun()
 	{
 		std::cout << "Place shadow player army in a country \n";
 		
-		int numberOfCountries=  EmpireMap::instance()->getCountries();
-		Country* country;
-		for (int j = 0; j < numberOfCountries; j++) 
-		{
-			country = EmpireMap::instance()->country(j);
-			std::cout << "Country [" << j << "] Shadow Player has " << country->getArmy(shadowPlayer) << " troops \n";
-			
-		}
-
-
-		int selection;
-		selection = Utils::validInputRange(0, numberOfCountries - 1,  "please choose a value between 0 and " + ( numberOfCountries - 1));
-		
-		EmpireMap::instance()->country(selection)->addArmy(shadowPlayer);
+		(*currentPlayer)->PlaceShadowPlayer(shadowPlayer);
 
 		(*shadowArmyCount)--;
 
@@ -167,15 +157,17 @@ void GameLoop::GameRun()
 		gameHand->ShowHand();
 
 		std::cout << (*currentPlayer)->getPlayerName() << ", which card would you like? \n";
-		int chosenCard;
+		
+		/*int chosenCard;
 		do
 		{
 			chosenCard = Utils::validInputRange(0, gameHand->SIZE_OF_HAND, "Invalid Selection Please choose a card from the list above");
 
 		} while (!(*currentPlayer)->payCoin(gameHand->GetCardCost(chosenCard)));
-
-		//reads card and performs action
-		(*currentPlayer)->readCard(gameHand->Exchange(chosenCard));
+		*/
+		//reads card and performs actio
+		//(*currentPlayer)->readCard(gameHand->Exchange(chosenCard));
+		(*currentPlayer)->chooseCard(gameHand);
 
 		gameHand->AddCard(gameDeck->Draw());
 	}
@@ -201,12 +193,15 @@ void GameLoop::GameEnd()
 {
 	int highScore = 0;	//highscore is stored as int to avoid redoing calculations
 	currentPlayer = playerList.begin();
-
+	std::string SPACE_BETWEEN_COLUMNS = "        ";
+	Utils::View("Player Name" + SPACE_BETWEEN_COLUMNS + "Cards" + SPACE_BETWEEN_COLUMNS + "Points" + SPACE_BETWEEN_COLUMNS + "Coins");
+	SPACE_BETWEEN_COLUMNS = "           ";	//Enlarge the space since to try and keep things well placed
 	for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
 	{
 		int currentScore = (*it)->getScore();
-		 std::cout << (*it)->getPlayerName() << " : " << currentScore << " points! \n";
+		 //std::cout << (*it)->getPlayerName() << " : " << currentScore << " points! \n";
 
+		Utils::View((*it)->getPlayerName() + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->getCardCount()) + SPACE_BETWEEN_COLUMNS + std::to_string(currentScore) + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->getCoins()));
 		 if (currentScore > highScore || (currentScore == highScore && (*currentPlayer)->getPlayerAge() < (*it)->getPlayerAge())  )
 			 currentPlayer = it;
 	}
@@ -231,7 +226,7 @@ void GameLoop::setTurnCount(int playerCount)
 		}
 	}
 	else if (_gameType == GameType::TOURNAMENT)
-		maxTurnCount = new int(30 / playerCount);
+		maxTurnCount = new int((30 / playerCount) * playerCount);	//it may seem redundant but the first divison is a floor to nearest int then we do it per player ex: 30/4 = 7 * 4 =28
 	
 
 }

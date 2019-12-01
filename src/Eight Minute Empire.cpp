@@ -6,11 +6,13 @@
 #include "Testers.h"
 #include "Utils.h"
 #include "GameLoop.h"
-
+#include <time.h>
+#include <stdlib.h>
 
 int main()
 {
-	
+	srand(time(NULL));
+
 	GameLoop gameCycle;
 	while (true)	//init cycle Loop Keep trying trying to load a map until a valid one is found
 	{
@@ -27,6 +29,7 @@ int main()
 		}
 	}
 	gameCycle.GameStart();
+
 	while (gameCycle.isRunning())
 		gameCycle.GameRun();
 

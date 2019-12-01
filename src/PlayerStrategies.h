@@ -19,6 +19,7 @@ public:
     virtual void buildCities(Player* player, int* cityPieces) = 0;
     virtual void placeNewArmies(Player* player, int* armyPieces) = 0;
     virtual void destroyArmy(Player* player) = 0;
+	virtual void placeShadowArmy(Player* player) = 0;
 };
 
 // human strategy forced user input for every decision
@@ -35,6 +36,7 @@ public:
     virtual void buildCities(Player* player, int* cityPieces);
     virtual void placeNewArmies(Player* player, int* armyPieces);
     virtual void destroyArmy(Player* player);
+	virtual void placeShadowArmy(Player* player);
 };
 
 //GreedyComputer strategy focuses on building cities and killing other players 
@@ -51,6 +53,7 @@ public:
     virtual void buildCities(Player* player, int* cityPieces);
     virtual void placeNewArmies(Player* player, int* armyPieces);
     virtual void destroyArmy(Player* player);
+	virtual void placeShadowArmy(Player* player);
 private:
     int* bid;
 };
@@ -69,6 +72,7 @@ public:
     virtual void buildCities(Player* player,int* cityPieces);
     virtual void placeNewArmies(Player* player, int* armyPieces);
     virtual void destroyArmy(Player* player);
+	virtual void placeShadowArmy(Player* player);
 private:
     int* bid;
 };
