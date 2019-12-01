@@ -23,7 +23,7 @@ int Continent::getTotalCountries(Player * player)
 {
     int totalCountries = 0;
     for (auto v : countries) {
-        if (MapLoader::GetMap()->country(*v)->getOwner() == player) {
+        if (EmpireMap::instance()->country(*v)->getOwner() == player) {
             totalCountries++;
         }
     }

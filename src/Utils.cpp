@@ -1,37 +1,68 @@
 #include "pch.h"
 #include "Utils.h"
 
-int Utils::validInputRange(int min, int max, int value, std::string msg)
+int Utils::validInputRange(int min, int max, std::string msg)
 {
-	while (value < min || value > max)
+	int selection;
+	try
 	{
-		std::cout << msg << "\n";
-		std::cin >> value;
+		std::cin >> selection;
+		if (selection < min || selection > max || std::cin.fail())
+			throw msg;
+	}
+	catch (std::string error)
+	{
+		std::cout << error << "\n";
+		std::cin.clear();
+		std::cin.ignore(256, '\n');
+
+		selection = validInputRange(min, max, error);
 	}
 
-	return value;
+	return selection;
+
 }
 
-int Utils::validInputMin(int min, int value, std::string msg)
+int Utils::validInputMin(int min, std::string msg)
 {
-	while (value < min)
+	int selection;
+	try
 	{
-		std::cout << msg << "\n";
-		std::cin >> value;
+		std::cin >> selection;
+		if (selection < min || std::cin.fail())
+			throw msg;
+	}
+	catch (std::string error)
+	{
+		std::cout << error << "\n";
+		std::cin.clear();
+		std::cin.ignore(256, '\n');
+
+		selection = validInputMin(min, error);
 	}
 
-	return value;
+	return selection;
 }
 
-int Utils::validInputMax( int max, int value, std::string msg)
+int Utils::validInputMax( int max, std::string msg)
 {
-	while (value > max)
+	int selection;
+	try
 	{
-		std::cout << msg << "\n";
-		std::cin >> value;
+		std::cin >> selection;
+		if (selection > max || std::cin.fail())
+			throw msg;
+	}
+	catch (std::string error)
+	{
+		std::cout << error << "\n";
+		std::cin.clear();
+		std::cin.ignore(256, '\n');
+
+		selection = validInputMax( max, error);
 	}
 
-	return value;
+	return selection;
 }
 
 void Utils::View(std::string output)

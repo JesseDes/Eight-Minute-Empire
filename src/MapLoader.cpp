@@ -10,12 +10,11 @@
 #include <Windows.h>
 #include <vector>
 #include "Utils.h"
+#include <stdio.h>
 
 using namespace std;
 
-EmpireMap* MapLoader::newMap;
-
-EmpireMap* MapLoader::FindMap()
+void MapLoader::FindMap()
 {
 	HANDLE fileHandle;
 	WIN32_FIND_DATAA fileData;
@@ -32,16 +31,16 @@ EmpireMap* MapLoader::FindMap()
 	
 	int selection;
 	std::cout << "Which map would you like to use? \n";
-	std::cin >> selection;
-	selection = Utils::validInputRange(0, (fileCount - 1), selection, "You must choose a value between 0 and " + (fileCount - 1));
+
+	selection = Utils::validInputRange(0, (fileCount - 1),  "You must choose a value between 0 and " + (fileCount - 1));
 
 	std::cout << fileList[selection].cFileName << " Selected \n";
 	
-	return readMapData(fileList[selection].cFileName);
+	readMapData(fileList[selection].cFileName);
 
 }
 
-EmpireMap* MapLoader::readMapData(std::string file)
+void MapLoader::readMapData(std::string file)
 {
 	ifstream File;
 
@@ -49,27 +48,26 @@ EmpireMap* MapLoader::readMapData(std::string file)
 	std::list<int> data;
     int start;
 	int number;
-
-    File >> start;
-
+	File >> start;
 	while (File >> number)
 		data.push_back(number);
-	
-    newMap = EmpireMap::instance(data, start);
 
-    //checking that map is valid: Is connected subgraph of countries and continents and no duplicates
-    if (newMap->isValid()) {
-        std::cout << "\nmap is valid\n\n";
-        return newMap;
-    }
-    else {
-        std::cout << "\nmap is invalid\n\n";
-        system("pause");
-        exit(0);
-    }
-}
-
-EmpireMap* MapLoader::GetMap()
-{
-    return newMap;
+	try
+	{
+		EmpireMap::instance(data, start);
+	}
+	catch (CurruptedMapException e)
+	{
+		cerr << "Map File: " + file + " is corrupted, deleting... \n";
+		File.close();
+		std::string filePath = "Assets/" + file;
+		remove(filePath.c_str());
+		throw(e);
+	}
+	catch (InvalidMapException e)
+	{
+		std::cout << "\n map is invalid\n\n";
+		throw(e);
+	}
+		
 }

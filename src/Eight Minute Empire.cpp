@@ -10,32 +10,27 @@
 
 int main()
 {
-	/*
+	
 	GameLoop gameCycle;
-	gameCycle.GameInit();
+	while (true)	//init cycle Loop Keep trying trying to load a map until a valid one is found
+	{
+		try
+		{
+			gameCycle.GameInit();
+			break;
+		}
+		catch (...)
+		{
+			Utils::View("Restarting application");
+			system("pause");
+			system("CLS");
+		}
+	}
 	gameCycle.GameStart();
-
-	//gameCycle.GameEnd();
+	while (gameCycle.isRunning())
+		gameCycle.GameRun();
 
 	gameCycle.GameEnd();
-	*/
-
-    std::cout << "choose a test: \n"
-        << "[0] stats test \n"
-        << "[1] phase test \n"
-        << "[2] strategy test \n"
-        << "[3] singleton map test \n";
-
-    int selection;
-    std::cin >> selection;
 	
-    switch (selection) 
-    {
-        case 0: Testers::StatsTest(); break;
-        case 1: Testers::PhaseTest(); break;
-        case 2: Testers::StrategyTest(); break;
-        case 3: Testers::SingletonMapTest(); break;
-    }
-
 	system("pause");
 }

@@ -158,21 +158,21 @@ int Player::getScore()
 
 
     // adding a point to total score for every country this player is an owner of
-    int numberOfCountries = MapLoader::GetMap()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->getCountries();
     Country* country;
     int pointsFromCountries=0;
     for (int j = 0; j < numberOfCountries; j++) {
-        country = MapLoader::GetMap()->country(j);
+        country = EmpireMap::instance()->country(j);
         if (country->getOwner() == this)
             pointsFromCountries++;
     }
 
     // adding a point to total score for every country this player is an owner of
-    int numberOfContinents = MapLoader::GetMap()->getContinents();
+    int numberOfContinents = EmpireMap::instance()->getContinents();
     Continent* continent;
     int pointsFromContinents = 0;
     for (int j = 0; j < numberOfContinents; j++) {
-        continent = MapLoader::GetMap()->continent(j);
+        continent = EmpireMap::instance()->continent(j);
         continent->updateOwner();
         if (continent->getOwner() == this)
             pointsFromContinents++;
@@ -213,11 +213,11 @@ std::vector<int>* Player::GetCountries()
 	delete countryList;
 	countryList = new std::vector<int>();
 
-	int numberOfCountries = MapLoader::GetMap()->getCountries();
+	int numberOfCountries = EmpireMap::instance()->getCountries();
 
 	for (int i = 0; i < numberOfCountries; i++)
 	{
-		if (MapLoader::GetMap()->country(i)->getOwner() == this)
+		if (EmpireMap::instance()->country(i)->getOwner() == this)
 			countryList->push_back(i);
 	}
 	return countryList;

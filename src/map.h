@@ -4,11 +4,28 @@
 #include "Country.h"
 #include "Continent.h"
 
+class InvalidMapException : public std::exception
+{
+	const char * error() const throw()
+	{
+		return "Map is invalid";
+	}
+};
+
+class CurruptedMapException : public std::exception
+{
+	const char * error() const throw()
+	{
+		return "Map is currpt";
+	}
+};
+
 class EmpireMap
 {
 public:
 
     static EmpireMap* instance(std::list<int> mapData, int start);
+	static EmpireMap* instance() { return mapInstance; };
 	~EmpireMap();
 
 	int getCountries(); // returns number of countries
@@ -26,7 +43,6 @@ public:
 	bool IsCountriesConnected(); // checks if countries are a connected subgraph
 	bool IsContinentsConnected(); //checks if countinents are a connected subgraph
 	bool isNotDuplicated(); //check that no country is present in two continents
-	bool isValid(); // calls the mathods that check if a map is valid - Countries connected, Continents connected, no duplicates
     Country* getStartingCountry(); //returns starting country
     std::vector<int> getAdjacentByLand(int country); //takes a country name (as an int) and returns adjacent by land country names (as int)
     std::vector<int> getAdjacentByLandAndWater(int country);//takes a country name (as an int) and returns adjacent by land and water country names (as int)
@@ -42,7 +58,8 @@ private:
 	void findContinentCountries(int start); //finds and pushes each new continents into a vector of vectors of ints called continentCountries 
     void createContinents(); //creates each continent
 	void createCountries(); //pushes each new country in a vector of ints called countryContents
-	
+	void isValid(); // calls the mathods that check if a map is valid - Countries connected, Continents connected, no duplicates
+
 	int** map; //the 2d map array of countries
 	int** continentMap; //the 2d map array of continents
 	int* countries; //number of countries (nodes)

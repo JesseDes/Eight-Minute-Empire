@@ -32,9 +32,6 @@ GameLoop::~GameLoop()
 		(*it) = NULL;
 	}
 
-	delete gameBoard;
-	gameBoard = NULL;
-
 	delete gameDeck;
 	gameDeck = NULL;
 
@@ -56,16 +53,22 @@ GameLoop::~GameLoop()
 
 void GameLoop::GameInit()
 {
-	do
-	{
-		gameBoard = MapLoader::FindMap();
-	} while (!gameBoard->isValid());
+	Utils::View("Select Game Mode");
+	Utils::View("[0] Normal Play");
+	Utils::View("[1] Tournament Mode");
+
+	int gameMode;
+
+	gameMode = Utils::validInputRange(0, 1,  "Please select a valid game mode");
+	
+	_gameType = (GameType)gameMode;
+
+	MapLoader::FindMap();
 
 	std::cout << "How many Players will be playing?\n";
 	
 	int playerCount;
-	std::cin >> playerCount;
-	playerCount = Utils::validInputRange(*MIN_PLAYERS, *MAX_PLAYERS, playerCount, "Value must be between" + std::to_string(*MIN_PLAYERS) + " and " + std::to_string(*MAX_PLAYERS));
+	playerCount = Utils::validInputRange(*MIN_PLAYERS, *MAX_PLAYERS,  "Value must be between" + std::to_string(*MIN_PLAYERS) + " and " + std::to_string(*MAX_PLAYERS));
 
 	setTurnCount(playerCount);
 	
@@ -78,9 +81,9 @@ void GameLoop::GameInit()
 		std::cout << "Player " << (i + 1) << " What is your name? \n";
 		std::cin >> name;
 		std::cout << "How old are you? \n";
-		std::cin >> age;
+		age = Utils::validInputMin(0,"Please enter a valid age");
         Player* player = new Player(age, name);
-        //player->setPlayerStrategy(new Human); //UNCOMMENT TO MAKE ORIGINAL PROGRAM WORK
+        getGameTypeStrategies(player); 
 		playerList.push_back(player);
 
 	}
@@ -107,7 +110,7 @@ void GameLoop::GameStart()
 
 		// adding 3 troops to the starting country
 		for (int j = 0; j < 3; j++)
-			gameBoard->getStartingCountry()->addArmy((*it));
+			EmpireMap::instance()->getStartingCountry()->addArmy((*it));
 
 		//currentPlayer is set to the player with the highest Bid and the youngest age (if matching bids) 
 		if (it != playerList.begin() && ((*currentPlayer)->getBid() < (*it)->getBid() || ((*currentPlayer)->getBid() == (*it)->getBid() && (*currentPlayer)->getPlayerAge() > (*it)->getPlayerAge())))
@@ -136,21 +139,20 @@ void GameLoop::GameRun()
 	{
 		std::cout << "Place shadow player army in a country \n";
 		
-		int numberOfCountries=  MapLoader::GetMap()->getCountries();
+		int numberOfCountries=  EmpireMap::instance()->getCountries();
 		Country* country;
 		for (int j = 0; j < numberOfCountries; j++) 
 		{
-			country = MapLoader::GetMap()->country(j);
+			country = EmpireMap::instance()->country(j);
 			std::cout << "Country [" << j << "] Shadow Player has " << country->getArmy(shadowPlayer) << " troops \n";
 			
 		}
 
 
 		int selection;
-		std::cin >> selection;
-		selection = Utils::validInputRange(0, numberOfCountries - 1, selection, "please choose a value between 0 and " + ( numberOfCountries - 1));
+		selection = Utils::validInputRange(0, numberOfCountries - 1,  "please choose a value between 0 and " + ( numberOfCountries - 1));
 		
-		MapLoader::GetMap()->country(selection)->addArmy(shadowPlayer);
+		EmpireMap::instance()->country(selection)->addArmy(shadowPlayer);
 
 		(*shadowArmyCount)--;
 
@@ -168,8 +170,7 @@ void GameLoop::GameRun()
 		int chosenCard;
 		do
 		{
-			std::cin >> chosenCard;
-			chosenCard = Utils::validInputRange(0, gameHand->SIZE_OF_HAND, chosenCard, "Invalid Selection Please choose a card from the list above");
+			chosenCard = Utils::validInputRange(0, gameHand->SIZE_OF_HAND, "Invalid Selection Please choose a card from the list above");
 
 		} while (!(*currentPlayer)->payCoin(gameHand->GetCardCost(chosenCard)));
 
@@ -216,17 +217,62 @@ void GameLoop::GameEnd()
 void GameLoop::setTurnCount(int playerCount)
 {
 	//turns is equal to specific amount * number of players
-	switch (playerCount)
+
+	if (_gameType == GameType::NORMAL)
 	{
+		switch (playerCount)
+		{
 		case 2: maxTurnCount = new int(*TWO_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
 		case 3: maxTurnCount = new int(*THREE_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
 		case 4: maxTurnCount = new int(*FOUR_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
 		case 5: maxTurnCount = new int(*FIVE_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
 
 		default: maxTurnCount = new int(*TWO_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
+		}
 	}
+	else if (_gameType == GameType::TOURNAMENT)
+		maxTurnCount = new int(30 / playerCount);
+	
 
 }
+
+
+void GameLoop::getGameTypeStrategies(Player *player)
+{
+	Utils::View("What kind of Strategy would you like to use?");
+	int selection;
+
+	if (_gameType == GameType::NORMAL)
+	{
+		Utils::View("[0] Moderate Computer");
+		Utils::View("[1] Greedy Computer");
+		Utils::View("[2] Human");
+
+		selection = Utils::validInputRange(0, 2,  "Please select a valid strategy");
+
+		switch (selection)
+		{
+			case 0: player->setPlayerStrategy(new ModerateComputer()); break;
+			case 1:  player->setPlayerStrategy(new GreedyComputer()); break;
+			case 2:  player->setPlayerStrategy(new Human()); break;
+		}
+	}
+	else if (_gameType == GameType::TOURNAMENT)
+	{
+		Utils::View("[0] Moderate Computer");
+		Utils::View("[1] Greedy Computer");
+
+		selection = Utils::validInputRange(0, 1,  "Please select a valid strategy");
+
+		switch (selection)
+		{
+			case 0: player->setPlayerStrategy(new ModerateComputer()); break;
+			case 1:  player->setPlayerStrategy(new GreedyComputer()); break;
+		}
+	}
+}
+
+
 std::vector<Player*> GameLoop::getPlayerList()
 {
     return playerList;
