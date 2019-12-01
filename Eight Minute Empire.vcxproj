@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClInclude Include="src\Action.h" />
     <ClInclude Include="src\BiddingFacility.h" />
+    <ClInclude Include="src\Cardsfactory.h" />
     <ClInclude Include="src\Continent.h" />
     <ClInclude Include="src\Country.h" />
     <ClInclude Include="src\Deck.h" />
@@ -143,6 +144,7 @@
     <ClCompile Include="src\Country.cpp" />
     <ClCompile Include="src\Deck.cpp" />
     <ClCompile Include="src\Eight Minute Empire.cpp" />
+    <ClCompile Include="src\Gamecard.cpp" />
     <ClCompile Include="src\GameLoop.cpp" />
     <ClCompile Include="src\Good .cpp" />
     <ClCompile Include="src\Hand.cpp" />

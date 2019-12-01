@@ -12,7 +12,7 @@ public:
     virtual void placeBid(Player* player) = 0;
     virtual int getBid(Player* player) = 0;
     virtual void chooseCard(Player* player, Hand *gameHand) = 0;
-    virtual void readCard(Player* player, Deck::Card *gameCard) = 0;
+    virtual void readCard(Player* player, Card *gameCard) = 0;
 
     virtual void moveOverLand(Player* player) = 0;
     virtual void moveOverSea(Player* player) = 0;
@@ -28,7 +28,7 @@ public:
     virtual void placeBid(Player* player);
     virtual int getBid(Player* player);
     virtual void chooseCard(Player* player, Hand *gameHand);
-    virtual void readCard(Player* player, Deck::Card *gameCard);
+    virtual void readCard(Player* player,Card *gameCard);
 
     virtual void moveOverLand(Player* player);
     virtual void moveOverSea(Player* player);
@@ -44,7 +44,7 @@ public:
     virtual void placeBid(Player* player);
     virtual int getBid(Player* player);
     virtual void chooseCard(Player* player, Hand *gameHand);
-    virtual void readCard(Player* player, Deck::Card *gameCard);
+    virtual void readCard(Player* player,Card *gameCard);
 
     virtual void moveOverLand(Player* player);
     virtual void moveOverSea(Player* player);
@@ -62,7 +62,7 @@ public:
     virtual void placeBid(Player* player);
     virtual int getBid(Player* player);
     virtual void chooseCard(Player* player, Hand *gameHand);
-    virtual void readCard(Player* player, Deck::Card *gameCard);
+    virtual void readCard(Player* player,Card *gameCard);
 
     virtual void moveOverLand(Player* player);
     virtual void moveOverSea(Player* player);

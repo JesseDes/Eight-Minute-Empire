@@ -32,7 +32,7 @@ void Human::chooseCard(Player* player,Hand * gameHand)
     (player)->readCard(gameHand->Exchange(chosenCard));
 }
 
-void Human::readCard(Player * player, Deck::Card * gameCard)
+void Human::readCard(Player * player, Card * gameCard)
 {
 
     //prompts to select an action from the list
@@ -377,7 +377,7 @@ void GreedyComputer::chooseCard(Player* player, Hand * gameHand)
     (player)->readCard(gameHand->Exchange(chosenCard));
 }
 
-void GreedyComputer::readCard(Player * player, Deck::Card * gameCard)
+void GreedyComputer::readCard(Player * player, Card * gameCard)
 {
     int selection = 0;
 
@@ -573,7 +573,7 @@ void ModerateComputer::chooseCard(Player* player, Hand * gameHand)
     (player)->readCard(gameHand->Exchange(chosenCard));
 }
 
-void ModerateComputer::readCard(Player * player, Deck::Card * gameCard)
+void ModerateComputer::readCard(Player * player, Card * gameCard)
 {
     int selection = 0;
 

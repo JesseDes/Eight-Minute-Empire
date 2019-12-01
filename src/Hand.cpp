@@ -9,26 +9,26 @@ Hand::Hand()
 Hand::~Hand()
 {
 	
-	for (std::vector<Deck::Card*>::iterator it = cardList.begin(); it != cardList.end(); it++)
+	for (std::vector<Card*>::iterator it = cardList.begin(); it != cardList.end(); it++)
 		(*it) = NULL; //Don't delete the content that is up to Deck to do
 	
 }
 
-void Hand::AddCard(Deck::Card* card)
+void Hand::AddCard(Card* card)
 {		
 	if (cardList.size() <= SIZE_OF_HAND )
 		cardList.push_back(card);
 }
 
-Deck::Card* Hand::ViewCard(int cardIndex)
+Card* Hand::ViewCard(int cardIndex)
 {
-    Deck::Card *returnCard = cardList.at(cardIndex);
+    Card *returnCard = cardList.at(cardIndex);
     return returnCard;
 }
 
-Deck::Card* Hand::Exchange(int cardIndex)
+Card* Hand::Exchange(int cardIndex)
 {
-	Deck::Card *returnCard;
+	Card *returnCard;
 	
 	returnCard = cardList.at(cardIndex);
 	cardList.erase(cardList.begin() + cardIndex);
@@ -53,7 +53,7 @@ int Hand::GetCardCost(int index)
 
 void Hand::ShowHand()
 {
-	for (std::vector<Deck::Card*>::iterator it = cardList.begin(); it != cardList.end(); it++)
+	for (std::vector<Card*>::iterator it = cardList.begin(); it != cardList.end(); it++)
 	{
 		int index = std::distance(cardList.begin(), it);
 		std::cout << "Card #" << index << " Cost : "<< GetCardCost(index) << " Good: " << Good::GoodToString((*it)->good) << " ";
