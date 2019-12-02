@@ -30,14 +30,14 @@ void StatsObserver::DisplayCountriesChart()
 	}
 
 	
-	std::string output = _subject->GetPlayer()->getPlayerName() + "'s Countries are currently:\n";
+	std::string output = _subject->GetPlayer()->getPlayerName() + "'s owned Countries are currently:\n";
 	for (int i = 0; i < _subject->GetCountryList()->size(); i++)
 	{
 		int country = _subject->GetCountryList()->at(i);
 		output += "Country " + std::to_string(country) + " |";
-		for (int j = 0; j < MapLoader::GetMap()->country(country)->getArmy(_subject->GetPlayer()); j++)
+		for (int j = 0; j < EmpireMap::instance()->country(country)->getArmy(_subject->GetPlayer()); j++)
 			output += "*";
-		for (int j = 0; j < MapLoader::GetMap()->country(country)->getCities(_subject->GetPlayer()); j++)
+		for (int j = 0; j < EmpireMap::instance()->country(country)->getCities(_subject->GetPlayer()); j++)
 			output += "[]";
 		output += "\n";
 	}

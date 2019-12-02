@@ -4,13 +4,23 @@
 #include "map.h"
 #include "MapLoader.h"
 #include "Testers.h"
-//GameLoop manages the 
+#include "PhaseObservable.h"
+#include "PhaseObserver.h"
+#include "StatsObservable.h"
+#include "StatsObserver.h"
+
 class GameLoop
 {
 public:
+	enum GameType
+	{
+		NORMAL,
+		TOURNAMENT
+	};
+
 	const int* MAX_PLAYERS = new int(5);
 	const int* MIN_PLAYERS = new int(2);
-	const int* TWO_PLAYER_END_GAME_CARD_COUNT = new int(13);  // 13
+	const int* TWO_PLAYER_END_GAME_CARD_COUNT = new int(2);  // 13
 	const int* THREE_PLAYER_END_GAME_CARD_COUNT = new int(10); // 10
 	const int* FOUR_PLAYER_END_GAME_CARD_COUNT = new int(8); // 8
 	const int* FIVE_PLAYER_END_GAME_CARD_COUNT = new int(7); // 7
@@ -26,7 +36,6 @@ public:
     static std::vector<Player*> getPlayerList(); //returns a vector of every player in the current game
 
 private:
-	EmpireMap *gameBoard;
 	static std::vector<Player*> playerList;
 	Hand *gameHand;
 	Deck *gameDeck;
@@ -38,5 +47,11 @@ private:
 	bool *_isShadowPhase = new bool(false);
 	int *shadowArmyCount = new int(10);
 	Player *shadowPlayer;
+	GameType _gameType;
+	void getGameTypeStrategies(Player *player);
+	PhaseObservable *phaseSubject;
+	PhaseObserver *phaseObserver;
+	StatsObservable *statsSubject;
+	StatsObserver *statsObserver;
 	
 };

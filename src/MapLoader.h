@@ -8,10 +8,7 @@ Parse Map files to create Map objects. Map objects will be able to determine if 
 class MapLoader
 {
 public:
-	static EmpireMap* FindMap();	//prompts user to select a map file in the Assets folder
-    static EmpireMap* GetMap();	    // returns newMap
-	static EmpireMap* readMapData(std::string file); //reads a map file and returns a map object
+	static void FindMap();	//prompts user to select a map file in the Assets folder
+	static void readMapData(std::string file); //reads a map file and returns a map object
 
-private:
-    static EmpireMap *newMap;
 };

@@ -8,7 +8,8 @@ Player::Player(int age , std::string name)
 {
 	playerAge = new int(age);
 	playerName = new std::string(name);
-	playerHand = new Hand();
+	playerHand = new int(0);
+	playerActions = new int(0);
     behavior = 0;
 }
 
@@ -50,6 +51,9 @@ Player::~Player()
 
 	delete playerHand;
 	playerHand = NULL;
+
+	delete playerActions;
+	playerActions = NULL;
 }
 
 void Player::chooseCard(Hand *gameHand) {
@@ -59,7 +63,7 @@ void Player::chooseCard(Hand *gameHand) {
 void Player::readCard(Card *gameCard)
 {
 
-	playerHand->AddCard(gameCard);
+	(*playerHand)++;
 	//incremets the good count in the map of goods
 	if (_goodMap.find(gameCard->good) != _goodMap.end())
 		(*_goodMap[gameCard->good])++;
@@ -75,6 +79,9 @@ void Player::readCard(Card *gameCard)
 
 void Player::doAction(Action action)
 {
+	if(action.type != ActionType::null)
+		(*playerActions)++;
+
 	for (int i = 0; i < action.amount; i++)
 	{
 		switch (action.type)
@@ -158,32 +165,32 @@ int Player::getScore()
 
 
     // adding a point to total score for every country this player is an owner of
-    int numberOfCountries = MapLoader::GetMap()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->getCountries();
     Country* country;
     int pointsFromCountries=0;
     for (int j = 0; j < numberOfCountries; j++) {
-        country = MapLoader::GetMap()->country(j);
+        country = EmpireMap::instance()->country(j);
         if (country->getOwner() == this)
             pointsFromCountries++;
     }
 
     // adding a point to total score for every country this player is an owner of
-    int numberOfContinents = MapLoader::GetMap()->getContinents();
+    int numberOfContinents = EmpireMap::instance()->getContinents();
     Continent* continent;
     int pointsFromContinents = 0;
     for (int j = 0; j < numberOfContinents; j++) {
-        continent = MapLoader::GetMap()->continent(j);
+        continent = EmpireMap::instance()->continent(j);
         continent->updateOwner();
         if (continent->getOwner() == this)
             pointsFromContinents++;
     }
 
-
+/*
     std::cout << "\n\nStats for player: " << this->getPlayerName() << std::endl
         << "Points from goods: " << pointsFromGoods << std::endl
         << "Points from countries: " << pointsFromCountries << std::endl
         << "Points from continents: " << pointsFromContinents << std::endl;
-
+		*/
 	return (pointsFromGoods + pointsFromCountries);
 }
 
@@ -205,7 +212,7 @@ void Player::GivePieces(int armies, int cities)
 
 void Player::DrawArmyPiece()
 {
-	(armyPieces)++;
+	(*armyPieces)++;
 }
 
 std::vector<int>* Player::GetCountries()
@@ -213,11 +220,11 @@ std::vector<int>* Player::GetCountries()
 	delete countryList;
 	countryList = new std::vector<int>();
 
-	int numberOfCountries = MapLoader::GetMap()->getCountries();
+	int numberOfCountries = EmpireMap::instance()->getCountries();
 
 	for (int i = 0; i < numberOfCountries; i++)
 	{
-		if (MapLoader::GetMap()->country(i)->getOwner() == this)
+		if (EmpireMap::instance()->country(i)->getOwner() == this)
 			countryList->push_back(i);
 	}
 	return countryList;
@@ -234,4 +241,9 @@ void Player::setPlayerStrategy(IPlayerStrategy* behavior) {
 
 IPlayerStrategy* Player::getPlayerStrategy() {
     return behavior;
+}
+
+void Player::PlaceShadowPlayer(Player *shadowPlayer)
+{
+	behavior->placeShadowArmy(shadowPlayer);
 }

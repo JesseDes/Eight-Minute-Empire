@@ -6,20 +6,36 @@
 #include "Testers.h"
 #include "Utils.h"
 #include "GameLoop.h"
-
+#include <time.h>
+#include <stdlib.h>
 
 int main()
 {
-	/*
+	srand(time(NULL));
+	
 	GameLoop gameCycle;
-	gameCycle.GameInit();
+	while (true)	//init cycle Loop Keep trying trying to load a map until a valid one is found
+	{
+		try
+		{
+			gameCycle.GameInit();
+			break;
+		}
+		catch (...)
+		{
+			Utils::View("Restarting application");
+			system("pause");
+			system("CLS");
+		}
+	}
 	gameCycle.GameStart();
 
-	//gameCycle.GameEnd();
+	while (gameCycle.isRunning())
+		gameCycle.GameRun();
 
 	gameCycle.GameEnd();
-	*/
-
+	
+	/*
     std::cout << "choose a test: \n"
         << "[0] stats test \n"
         << "[1] phase test \n"
@@ -27,8 +43,7 @@ int main()
         << "[3] singleton map test \n"
         << "[4] card factory test \n";
 
-    int selection;
-    std::cin >> selection;
+    int selection = Utils::validInputRange(0,4,"Please select a valid option");
 	
     switch (selection) 
     {
@@ -38,6 +53,6 @@ int main()
         case 3: Testers::SingletonMapTest(); break;
         case 4: Testers::FactoryTest(); break;
     }
-
+	*/
 	system("pause");
 }

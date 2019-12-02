@@ -12,7 +12,23 @@ EmpireMap* EmpireMap::mapInstance = NULL;
 
 EmpireMap* EmpireMap::instance(list<int> mapData, int start) {
     if (mapInstance == NULL) {
-        mapInstance = new EmpireMap(mapData, start);
+		try
+		{
+			mapInstance = new EmpireMap(mapData, start);
+			mapInstance->isValid();
+		}
+		catch (CurruptedMapException e)
+		{
+			delete mapInstance;
+			mapInstance = NULL;
+			throw(e);
+		}
+		catch (InvalidMapException e)
+		{
+			delete mapInstance;
+			mapInstance = NULL;
+			throw(e);
+		}
     }
     else 
         std::cout << "map instance was already created, returning  existing instance";
@@ -20,26 +36,34 @@ EmpireMap* EmpireMap::instance(list<int> mapData, int start) {
     return mapInstance;
 }
 
+
 EmpireMap::EmpireMap(list<int> mapData, int start)
 {
-	//creating weighted adjacency matrix
-	createAdjacencyMatrix(mapData);
+	try
+	{
+		//creating weighted adjacency matrix
+		createAdjacencyMatrix(mapData);
 
-    //Initialising starting country
-    startingCountry = new int(start);
+		//Initialising starting country
+		startingCountry = new int(start);
 
-	//initializing continents to 0
-	continents = new int(0);
+		//initializing continents to 0
+		continents = new int(0);
 
-	//creating continents
-	findContinentCountries(0);
-    createContinents();
+		//creating continents
+		findContinentCountries(0);
+		createContinents();
 
-	//creating continent adjacency matrix
-	createContinentAdjacencyMatrix();
-	
-	//creating country objects
-	createCountries();
+		//creating continent adjacency matrix
+		createContinentAdjacencyMatrix();
+
+		//creating country objects
+		createCountries();
+	}
+	catch (CurruptedMapException e)
+	{
+		throw(e);
+	}
 }
 
 EmpireMap::~EmpireMap()
@@ -67,6 +91,12 @@ void EmpireMap::createAdjacencyMatrix(std::list<int> mapData)
 {
 	// Setting size equal to the number of nodes (countries)
 	//int nodes = sqrt(mapData.size());
+	if (mapData.size() == 0)
+	{
+		CurruptedMapException e;
+		throw(e);		
+	}
+
 	countries = new int(sqrt(mapData.size()));
 
 	// Creating our dynamic 2d array
@@ -357,11 +387,14 @@ bool EmpireMap::isNotDuplicated() {
 	return true;
 }
 
-bool EmpireMap::isValid() {
+void EmpireMap::isValid() {
 
-	if (isNotDuplicated()&&IsCountriesConnected()&&IsContinentsConnected())
-		return true;
-	return false;
+	if (!(isNotDuplicated() && IsCountriesConnected() && IsContinentsConnected()))
+	{
+		InvalidMapException e;
+		throw(e);
+	}
+
 }
 
 Country* EmpireMap::getStartingCountry()

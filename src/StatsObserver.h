@@ -1,3 +1,4 @@
+#pragma once
 #include "Observer.h"
 #include "StatsObservable.h"
 

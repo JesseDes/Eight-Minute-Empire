@@ -76,34 +76,6 @@ void Testers::PlayerTest()
 	//playerOne.readCard(card);	
 }
 
-void Testers::MapTest()
-{
-
-	EmpireMap* test = MapLoader::FindMap();
-
-	std::cout << std::endl;
-	(*test).displayMatrix();
-	std::cout << std::endl;
-    (*test).displayAdjecent();
-	std::cout << std::endl;
-    (*test).displayAdjecentContinents();
-	std::cout << std::endl << "number of continents: "<< (*test).getContinents();
-	std::cout << std::endl << "number of countries: "<< (*test).getCountries();
-
-	std::cout << std::endl << std::endl<<"displaying continent contents:"<< std::endl;
-    (*test).displayContinents();
-
-	std::cout << std::endl << std::endl << "changing owner of country 3 and returning it:" << std::endl;
-	//test.country(3)->writeOwner("Siamak"); //Deprecated function
-
-	std::cout << "owner name is now: " << (*test).country(3)->getOwner() << std::endl;
-
-	std::cout << std::endl << std::endl << "ARE COUNTRIES CONNECTED?: " << (*test).IsCountriesConnected()<< std::endl;
-	std::cout << std::endl << std::endl << "ARE CONTINENTS CONNECTED?: " << (*test).IsContinentsConnected() << std::endl;
-	std::cout << std::endl << std::endl << "ARE COUNTRIES UNIQUE?: " << (*test).isNotDuplicated() << std::endl;
-
-    std::cout << std::endl << std::endl << "Starting Country is: " << (*test).getStartingCountry() << std::endl;
-}
 
 void Testers::PhaseTest()
 {
@@ -151,7 +123,8 @@ void Testers::StatsTest()
 
 	Deck gameDeck;
 	gameDeck.Shuffle();
-	EmpireMap* gameBoard = MapLoader::FindMap();
+	MapLoader::FindMap();
+	EmpireMap* gameBoard = EmpireMap::instance();
 
 	subject->SetPlayer(playerOne);					//Player acquiring a bunch of territores
 
@@ -207,7 +180,8 @@ void Testers::StatsTest()
 std::vector<Player*> Testers::playerList;
 void Testers::StrategyTest() 
 {
-    EmpireMap* gameBoard = MapLoader::FindMap();
+	MapLoader::FindMap();
+    EmpireMap* gameBoard = EmpireMap::instance();
 
     std::cout << "creating Human player-> name: 'Human', age: 9\n";
     std::cout << "creating COMPUTER (greedy) player -> name: 'Greed', age: 8\n";
@@ -317,10 +291,12 @@ std::vector<Player*> Testers::getPlayerList()
 void Testers::SingletonMapTest()
 {
     std::cout << "select map 1\n";
-    EmpireMap* map1 = MapLoader::FindMap();
+	MapLoader::FindMap();
+    EmpireMap* map1 = EmpireMap::instance();
 
     std::cout << "\n\nselect map 2\n";
-    EmpireMap* map2 = MapLoader::FindMap();
+	MapLoader::FindMap();
+    EmpireMap* map2 = EmpireMap::instance();
 
     std::cout << "\n\npointer of first map instance: " << map1 <<"\n";
     std::cout << "pointer of second map instance: " << map2 << "\n";
@@ -330,7 +306,6 @@ void Testers::FactoryTest()
 {
     while (true) {
 
-        int cardSelection;
         std::cout << "Select one the the following card type: \n\n" <<
             "[0] Wood \n" <<
             "[1] Stone\n" <<
@@ -338,8 +313,7 @@ void Testers::FactoryTest()
             "[3] Gem \n"
             "[4] Metal\n" <<
             "[5] Wild \n";
-
-        std::cin >> cardSelection;
+		int cardSelection = Utils::validInputRange(0,5 ,"Please select valid card type");
 
         Card *card;
         switch (cardSelection) {
