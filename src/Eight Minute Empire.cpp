@@ -12,7 +12,7 @@
 int main()
 {
 	srand(time(NULL));
-
+	
 	GameLoop gameCycle;
 	while (true)	//init cycle Loop Keep trying trying to load a map until a valid one is found
 	{
@@ -35,7 +35,7 @@ int main()
 
 	gameCycle.GameEnd();
 	
-
+	/*
     std::cout << "choose a test: \n"
         << "[0] stats test \n"
         << "[1] phase test \n"
@@ -43,8 +43,7 @@ int main()
         << "[3] singleton map test \n"
         << "[4] card factory test \n";
 
-    int selection;
-    std::cin >> selection;
+    int selection = Utils::validInputRange(0,4,"Please select a valid option");
 	
     switch (selection) 
     {
@@ -54,6 +53,6 @@ int main()
         case 3: Testers::SingletonMapTest(); break;
         case 4: Testers::FactoryTest(); break;
     }
-
+	*/
 	system("pause");
 }

@@ -4,7 +4,10 @@
 #include "map.h"
 #include "MapLoader.h"
 #include "Testers.h"
-
+#include "PhaseObservable.h"
+#include "PhaseObserver.h"
+#include "StatsObservable.h"
+#include "StatsObserver.h"
 
 class GameLoop
 {
@@ -46,5 +49,9 @@ private:
 	Player *shadowPlayer;
 	GameType _gameType;
 	void getGameTypeStrategies(Player *player);
+	PhaseObservable *phaseSubject;
+	PhaseObserver *phaseObserver;
+	StatsObservable *statsSubject;
+	StatsObserver *statsObserver;
 	
 };

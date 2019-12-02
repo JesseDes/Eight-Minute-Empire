@@ -306,7 +306,6 @@ void Testers::FactoryTest()
 {
     while (true) {
 
-        int cardSelection;
         std::cout << "Select one the the following card type: \n\n" <<
             "[0] Wood \n" <<
             "[1] Stone\n" <<
@@ -314,8 +313,7 @@ void Testers::FactoryTest()
             "[3] Gem \n"
             "[4] Metal\n" <<
             "[5] Wild \n";
-
-        std::cin >> cardSelection;
+		int cardSelection = Utils::validInputRange(0,5 ,"Please select valid card type");
 
         Card *card;
         switch (cardSelection) {

@@ -30,7 +30,7 @@ void StatsObserver::DisplayCountriesChart()
 	}
 
 	
-	std::string output = _subject->GetPlayer()->getPlayerName() + "'s Countries are currently:\n";
+	std::string output = _subject->GetPlayer()->getPlayerName() + "'s owned Countries are currently:\n";
 	for (int i = 0; i < _subject->GetCountryList()->size(); i++)
 	{
 		int country = _subject->GetCountryList()->at(i);

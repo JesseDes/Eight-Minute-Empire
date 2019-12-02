@@ -9,6 +9,7 @@ Player::Player(int age , std::string name)
 	playerAge = new int(age);
 	playerName = new std::string(name);
 	playerHand = new int(0);
+	playerActions = new int(0);
     behavior = 0;
 }
 
@@ -50,6 +51,9 @@ Player::~Player()
 
 	delete playerHand;
 	playerHand = NULL;
+
+	delete playerActions;
+	playerActions = NULL;
 }
 
 void Player::chooseCard(Hand *gameHand) {
@@ -75,6 +79,9 @@ void Player::readCard(Card *gameCard)
 
 void Player::doAction(Action action)
 {
+	if(action.type != ActionType::null)
+		(*playerActions)++;
+
 	for (int i = 0; i < action.amount; i++)
 	{
 		switch (action.type)

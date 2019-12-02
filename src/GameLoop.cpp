@@ -8,11 +8,28 @@ std::vector<Player*> GameLoop::playerList;
 
 GameLoop::GameLoop()
 {
+	phaseSubject = new PhaseObservable();
+	phaseObserver = new PhaseObserver(phaseSubject);
+
+	statsSubject = new StatsObservable();
+	statsObserver = new StatsObserver(statsSubject);
 
 }
 
 GameLoop::~GameLoop()
 {
+	delete phaseObserver;
+	delete phaseSubject;
+
+	phaseSubject = NULL;
+	phaseObserver = NULL;
+	
+	delete statsObserver;
+	delete statsSubject;
+
+	statsSubject = NULL;
+	statsObserver = NULL;
+
 	delete turnCount;
 	turnCount = NULL;
 
@@ -151,24 +168,17 @@ void GameLoop::GameRun()
 	}
 	else
 	{
-
+		phaseSubject->StartTurn((*currentPlayer)->getPlayerName());
+		statsSubject->SetPlayer(*currentPlayer);
+		statsSubject->UpdateCountries((*currentPlayer)->GetCountries());
+		statsSubject->UpdatePlayerGoods((*currentPlayer)->GetGoods());
+		
 		*turnCount += 1;
-
 		gameHand->ShowHand();
 
 		std::cout << (*currentPlayer)->getPlayerName() << ", which card would you like? \n";
 		
-		/*int chosenCard;
-		do
-		{
-			chosenCard = Utils::validInputRange(0, gameHand->SIZE_OF_HAND, "Invalid Selection Please choose a card from the list above");
-
-		} while (!(*currentPlayer)->payCoin(gameHand->GetCardCost(chosenCard)));
-		*/
-		//reads card and performs actio
-		//(*currentPlayer)->readCard(gameHand->Exchange(chosenCard));
 		(*currentPlayer)->chooseCard(gameHand);
-
 		gameHand->AddCard(gameDeck->Draw());
 	}
 
@@ -191,7 +201,16 @@ void GameLoop::GameRun()
 
 void GameLoop::GameEnd()
 {
-	int highScore = 0;	//highscore is stored as int to avoid redoing calculations
+	Utils::View("\n\n ***********************FINAL RESULTS****************** \n\n");
+	for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
+	{
+		statsSubject->SetPlayer(*it);
+		statsSubject->UpdateCountries((*it)->GetCountries());
+		statsSubject->UpdatePlayerGoods((*it)->GetGoods());
+	}
+
+
+	int highScore = 0;
 	currentPlayer = playerList.begin();
 	std::string SPACE_BETWEEN_COLUMNS = "        ";
 	Utils::View("Player Name" + SPACE_BETWEEN_COLUMNS + "Cards" + SPACE_BETWEEN_COLUMNS + "Points" + SPACE_BETWEEN_COLUMNS + "Coins");
@@ -199,11 +218,13 @@ void GameLoop::GameEnd()
 	for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
 	{
 		int currentScore = (*it)->getScore();
-		 //std::cout << (*it)->getPlayerName() << " : " << currentScore << " points! \n";
 
-		Utils::View((*it)->getPlayerName() + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->getCardCount()) + SPACE_BETWEEN_COLUMNS + std::to_string(currentScore) + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->getCoins()));
-		 if (currentScore > highScore || (currentScore == highScore && (*currentPlayer)->getPlayerAge() < (*it)->getPlayerAge())  )
-			 currentPlayer = it;
+		Utils::View((*it)->getPlayerName() + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->getActionCount()) + SPACE_BETWEEN_COLUMNS + std::to_string(currentScore) + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->getCoins()));
+		if (currentScore > highScore)
+		{
+			highScore = currentScore;
+			currentPlayer = it;
+		}
 	}
 
 	std::cout << (*currentPlayer)->getPlayerName() << " Wins!!!!!!!!! \n";

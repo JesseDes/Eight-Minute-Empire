@@ -46,6 +46,7 @@ public:
     IPlayerStrategy* getPlayerStrategy();
 	void PlaceShadowPlayer(Player *shadowPlayer);
 	int getCardCount() { return *playerHand; };
+	int getActionCount() { return *playerActions; };
 
 private:
 	std::vector<int> *countryList; 
@@ -64,6 +65,7 @@ private:
 	//add hand to store past cards
 	//add token counter for cities and armies decrement each placement, if killed you get it back
     IPlayerStrategy* behavior;
+	int *playerActions;
 
 };
 
