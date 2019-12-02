@@ -3,6 +3,8 @@
 #include "Action.h"
 #include "Good.h"
 #include <array>
+#include "Cardsfactory.h"
+
 
 /*
 Deck is a class that will generate a list of Card objects
@@ -10,26 +12,18 @@ Cards are a class that contains a Good and a list of doable actions for the play
 */
 
 class Deck{
-	public:
+public:
 	static const int NUMBER_OF_CARDS = 41;		//All numbers are 0 based
 	static const int MAX_ACTIONS_PER_CARD = 1;
 
-		struct Card{
-			int numberOfActions;
-			GoodType good;
-			Action actions[MAX_ACTIONS_PER_CARD + 1];
-			bool isAnd;
-			Card() {}
-		};
+	Deck();
+	//Deck(std::string deckSource);
+	~Deck();
+	Card* Draw();		//Draws 1 card from the cards array and increments drawCount;
+	void Shuffle();		// Shuffles the cards array 
 
-		Deck();
-		//Deck(std::string deckSource);
-		~Deck();
-		Card* Draw();		//Draws 1 card from the cards array and increments drawCount;
-		void Shuffle();		// Shuffles the cards array 
-
-	private :
-		void GenerateCards(); //creates random cards to fill the deck
-		std::array<Deck::Card*, NUMBER_OF_CARDS> cards;
-		int *drawCount = new int(0);
+private :
+	void GenerateCards(); //creates random cards to fill the deck
+	std::array<Card*, NUMBER_OF_CARDS> cards;
+	int *drawCount = new int(0);
 };

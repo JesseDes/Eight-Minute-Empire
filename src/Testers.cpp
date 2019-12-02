@@ -59,10 +59,10 @@ void Testers::PlayerTest()
 	playerOne.payCoin(playerOne.getBid());
 	std::cout << "Post bid coin amount: " << playerOne.getCoins() << "\n";
 
-	Deck::Card card;
+    Card* card = CardFactory::Create("wood");
 
-	card.good = GoodType::metal;
-	card.numberOfActions = 2;
+	card->good = GoodType::metal;
+    card->numberOfActions = 2;
 	Action action1;
 	Action action2;
 	action1.amount = 2;
@@ -70,8 +70,8 @@ void Testers::PlayerTest()
 	action2.amount = 3;
 	action2.type = ActionType::recruit;
 
-	card.actions[0] = action1;
-	card.actions[1] = action2;
+    card->actions[0] = action1;
+    card->actions[1] = action2;
 
 	//playerOne.readCard(card);	
 }
@@ -189,15 +189,15 @@ void Testers::StatsTest()
 		}
 		else if (i == 4 && currentPoints == 0)
 		{
-			Deck::Card card;
+			Card* card = CardFactory::Create("wood");
 			Action act;
 			act.type = ActionType::null;
 			act.amount = 0;
-			card.actions[0] = act;
-			card.numberOfActions = 1;
-			card.good = GoodType::gem;
+			card->actions[0] = act;
+			card->numberOfActions = 1;
+			card->good = GoodType::gem;
 			
-			playerOne->readCard(&card);
+			playerOne->readCard(card);
 			subject->UpdatePlayerGoods(playerOne->GetGoods());
 		}
 	}
@@ -307,8 +307,6 @@ void Testers::StrategyTest()
         {
             currentPlayer++;
         }
-
-
     }
 }
 std::vector<Player*> Testers::getPlayerList()
@@ -326,4 +324,44 @@ void Testers::SingletonMapTest()
 
     std::cout << "\n\npointer of first map instance: " << map1 <<"\n";
     std::cout << "pointer of second map instance: " << map2 << "\n";
+}
+
+void Testers::FactoryTest()
+{
+    while (true) {
+
+        int cardSelection;
+        std::cout << "Select one the the following card type: \n\n" <<
+            "[0] Wood \n" <<
+            "[1] Stone\n" <<
+            "[2] Food \n" <<
+            "[3] Gem \n"
+            "[4] Metal\n" <<
+            "[5] Wild \n";
+
+        std::cin >> cardSelection;
+
+        Card *card;
+        switch (cardSelection) {
+        case 0: card = CardFactory::Create("wood"); break;
+        case 1: card = CardFactory::Create("stone"); break;
+        case 2: card = CardFactory::Create("food"); break;
+        case 3: card = CardFactory::Create("gem"); break;
+        case 4: card = CardFactory::Create("metal"); break;
+        case 5: card = CardFactory::Create("wild"); break;
+        default: card = CardFactory::Create("wood"); break;
+        }
+
+        card->draw();
+
+        std::cout << "Good Type:  " << Good::GoodToString(card->good);
+        std::cout << "\n# of action for this type of card:  " << card->numberOfActions;
+        std::cout << "\nthis card has an 'AND' (0 = false, 1 = true):  " << card->isAnd;
+        for (int i = 0; i < card->numberOfActions; i++) {
+            std::cout << "\n\n#" << i << " action for this type of card:  " << Action::typeToString(card->actions[i].type);
+            std::cout << "\n#" << i << " number of moves for this action:  " << card->actions[i].amount;
+        }
+        std::cout << "\n\n";
+        system("pause");
+    }
 }

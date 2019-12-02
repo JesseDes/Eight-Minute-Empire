@@ -27,7 +27,7 @@ public:
 	~Player();
 	void createCoinPurse(int numberOfPlayers);			//Gives players the number of coins based on the number of players
     void chooseCard(Hand *gameHand);                    //player chooses a card from the deck
-	void readCard(Deck::Card *gameCard);			//Player reads a card and selects an action to do based on the card
+	void readCard(Card *gameCard);			//Player reads a card and selects an action to do based on the card
 	void doAction(Action action); //performs action: add/remove army, add city, travel by land/water an amount of times as specified by the action.amount attribute
 	bool payCoin(int cost);		//The player coinpurse is reduced by cost amount
 	int getPlayerAge();			// returns the age of the player

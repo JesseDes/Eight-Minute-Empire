@@ -10,6 +10,7 @@
 #include <random>
 
 
+
 Deck::Deck()
 {	
 	GenerateCards();
@@ -30,7 +31,7 @@ Deck::~Deck()
 	drawCount = NULL;
 }
 
-Deck::Card* Deck::Draw()
+Card* Deck::Draw()
 {
 	if (*drawCount < NUMBER_OF_CARDS)
 	{
@@ -51,31 +52,19 @@ void Deck::GenerateCards()
 {
 	for (int i = 0; i < NUMBER_OF_CARDS; i++)
 	{
-		Card *card = new Card();		
-		//random good seleced and added to card
-		card->good = (GoodType)(rand() % 5);
-		//random actions selected and added for i times for the first action and 1 time for the 2nd action
-		Action action1;
-		action1.type = (ActionType) (rand() % 5);
-		action1.amount = i % 3;
-		card->actions[0] = action1;
-		Action action2;
-		action2.amount = 1;
-		card->numberOfActions = 1;
-		if (rand() % 2 == 1)
-			card->isAnd = false;
-		
+        int RandIndex = rand() % 4;
+        Card *card;
+        switch (RandIndex) {
+            case 0: card = CardFactory::Create("wood"); break;
+            case 1: card = CardFactory::Create("stone"); break;
+            case 2: card = CardFactory::Create("food"); break;
+            case 3: card = CardFactory::Create("gem"); break;
+            case 4: card = CardFactory::Create("metal"); break;
+            case 5: card = CardFactory::Create("wild"); break;
+            default: card = CardFactory::Create("wood"); break;
+        }
 
-		if (true)
-		{
-			action2.type = (ActionType)(rand() % 5);
-			card->numberOfActions = 2;
-		}
-		else
-			action2.type = ActionType::null;
-
-			
-		card->actions[1] = action2;
+        card->draw();
 		cards[i] = card;
 	}
 }
