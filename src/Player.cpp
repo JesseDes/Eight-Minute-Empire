@@ -56,7 +56,7 @@ void Player::chooseCard(Hand *gameHand) {
     behavior->chooseCard(this, gameHand);
 }
 
-void Player::readCard(Deck::Card *gameCard)
+void Player::readCard(Card *gameCard)
 {
 
 	(*playerHand)++;
