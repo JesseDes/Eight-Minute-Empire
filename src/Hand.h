@@ -19,6 +19,6 @@ public:
 	static const int SIZE_OF_HAND = 5;			//All numberes are 0 based 
 
 private:
-	std::vector<Card*> cardList;
+	std::vector<Card*> _cardList;
 };
 

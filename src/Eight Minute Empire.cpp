@@ -11,6 +11,7 @@
 
 int main()
 {
+	
 	srand(time(NULL));
 	
 	GameLoop gameCycle;
@@ -30,7 +31,7 @@ int main()
 	}
 	gameCycle.GameStart();
 
-	while (gameCycle.isRunning())
+	while (gameCycle.IsRunning())
 		gameCycle.GameRun();
 
 	gameCycle.GameEnd();

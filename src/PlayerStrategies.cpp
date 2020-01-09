@@ -7,32 +7,32 @@
 
 //HUMAN
 
-std::string Human::printStrategyType() {
+std::string Human::PrintStrategyType() {
     return "Human";
 }
-void Human::placeBid(Player* player)
+void Human::PlaceBid(Player* player)
 {
-    (*player).getBidder()->PlaceBid();
+    (*player).GetBidder()->PlaceBid();
 }
 
-int Human::getBid(Player* player) {
-    return (*player).getBidder()->GetCurrentBid();
+int Human::GetBid(Player* player) {
+    return (*player).GetBidder()->GetCurrentBid();
 }
 
-void Human::chooseCard(Player* player,Hand * gameHand)
+void Human::ChooseCard(Player* player,Hand * gameHand)
 {
     int chosenCard;
     do
     {
-        chosenCard = Utils::validInputRange(0, gameHand->SIZE_OF_HAND,  "Invalid Selection Please choose a card from the list above");
+        chosenCard = Utils::ValidInputRange(0, gameHand->SIZE_OF_HAND,  "Invalid Selection Please choose a card from the list above");
 
-    } while (!(player)->payCoin(gameHand->GetCardCost(chosenCard)));
+    } while (!(player)->PayCoin(gameHand->GetCardCost(chosenCard)));
 
     //reads card and performs action
-    (player)->readCard(gameHand->Exchange(chosenCard));
+    (player)->ReadCard(gameHand->Exchange(chosenCard));
 }
 
-void Human::readCard(Player * player, Card * gameCard)
+void Human::ReadCard(Player * player, Card * gameCard)
 {
 
     //prompts to select an action from the list
@@ -51,12 +51,12 @@ void Human::readCard(Player * player, Card * gameCard)
         }
         std::cout << "\n[1] Do nothing \n";
 
-        selection = Utils::validInputRange(0, 1,  "Invalid selection, please choose a value between 0 and 1");
+        selection = Utils::ValidInputRange(0, 1,  "Invalid selection, please choose a value between 0 and 1");
 
         if (selection == 0)
         {
             for (int i = 0; i < gameCard->numberOfActions; i++)
-                (*player).doAction(gameCard->actions[i]);
+                (*player).DoAction(gameCard->actions[i]);
         }
     }
     else
@@ -78,15 +78,15 @@ void Human::readCard(Player * player, Card * gameCard)
         for (std::vector<Action>::iterator it = optionList.begin(); it != optionList.end(); it++)
             std::cout << "[" << selection++ << "]" << Action::typeToString(it->type) << " " << it->amount << " times \n";
 
-        selection = Utils::validInputRange(0, optionList.size() - 1,  "Invalid selection, please choose a value between 0 and " + optionList.size());
+        selection = Utils::ValidInputRange(0, optionList.size() - 1,  "Invalid selection, please choose a value between 0 and " + optionList.size());
 
-        (*player).doAction(optionList.at(selection));
+        (*player).DoAction(optionList.at(selection));
     }
 }
 
-void Human::moveOverLand(Player * player)
+void Human::MoveOverLand(Player * player)
 {
-    int numberOfCountries = EmpireMap::instance()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->GetCountries();
     Country* country;
     int army;
 
@@ -95,21 +95,21 @@ void Human::moveOverLand(Player * player)
     std::cout << "\nYour countries & troop info: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        army = country->getArmy(player);
+        army = country->GetArmy(player);
         if (army > 0) {
             std::cout << "You have " << army << " troops in country " << "[#" << j << "]\n";
         }
     }
     do {
         std::cout << "\n Select a country to move a troop from: ";
-        selectionFrom = Utils::validInputRange(0, numberOfCountries - 1, "please select a valid country");
+        selectionFrom = Utils::ValidInputRange(0, numberOfCountries - 1, "please select a valid country");
 
-        if (EmpireMap::instance()->country(selectionFrom)->getArmy(player) == 0)
+        if (EmpireMap::instance()->country(selectionFrom)->GetArmy(player) == 0)
             std::cout << "\nYou don't have any troops there, choose another country: ";
-    } while (EmpireMap::instance()->country(selectionFrom)->getArmy(player) == 0);
+    } while (EmpireMap::instance()->country(selectionFrom)->GetArmy(player) == 0);
 
 
-    std::vector<int> adjacent = EmpireMap::instance()->getAdjacentByLand(selectionFrom);
+    std::vector<int> adjacent = EmpireMap::instance()->GetAdjacentByLand(selectionFrom);
 
     std::cout << "These are the adjacent countries (by land only): " << std::endl;
     for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it) {
@@ -118,30 +118,30 @@ void Human::moveOverLand(Player * player)
 
     do {
         std::cout << "\nSelect country to move a troop to: ";
-        selectionTo = Utils::validInputRange(0,adjacent.size(),"You cannot travel there from the selected country, choose an adjacent country.");
+        selectionTo = Utils::ValidInputRange(0,adjacent.size(),"You cannot travel there from the selected country, choose an adjacent country.");
         if (std::find(adjacent.begin(), adjacent.end(), selectionTo) == adjacent.end())
             std::cout << "\nYou cannot travel there from the selected country, choose an adjacent country: ";
     } while (std::find(adjacent.begin(), adjacent.end(), selectionTo) == adjacent.end());
 
-    EmpireMap::instance()->country(selectionTo)->addArmy(player);
-    EmpireMap::instance()->country(selectionFrom)->removeArmy(player);
+    EmpireMap::instance()->country(selectionTo)->AddArmy(player);
+    EmpireMap::instance()->country(selectionFrom)->RemoveArmy(player);
 
     std::cout << "\nThis is you updated country & troop info:\n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        army = country->getArmy(player);
+        army = country->GetArmy(player);
         std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
     }
     std::cout << std::endl;
 
     //UPDATE OWNER
-    EmpireMap::instance()->country(selectionTo)->updateOwner();
-    EmpireMap::instance()->country(selectionFrom)->updateOwner();
+    EmpireMap::instance()->country(selectionTo)->UpdateOwner();
+    EmpireMap::instance()->country(selectionFrom)->UpdateOwner();
 }
 
-void Human::moveOverSea(Player * player)
+void Human::MoveOverSea(Player * player)
 {
-    int numberOfCountries = EmpireMap::instance()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->GetCountries();
     Country* country;
     int army;
     int selectionFrom;
@@ -149,20 +149,20 @@ void Human::moveOverSea(Player * player)
     std::cout << "\nYour countries & troop info: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        army = country->getArmy(player);
+        army = country->GetArmy(player);
         if (army > 0) {
             std::cout << "You have " << army << " troops in country " << "[#" << j << "]\n";
         }
     }
     do {
         std::cout << "\nSelect a country to move a troop from: ";
-        selectionFrom = Utils::validInputRange(0, numberOfCountries - 1 ,"Please select a valid country");
+        selectionFrom = Utils::ValidInputRange(0, numberOfCountries - 1 ,"Please select a valid country");
 
-        if (EmpireMap::instance()->country(selectionFrom)->getArmy(player) == 0)
+        if (EmpireMap::instance()->country(selectionFrom)->GetArmy(player) == 0)
             std::cout << "\nYou don't have any troops there, choose another country: ";
-    } while (EmpireMap::instance()->country(selectionFrom)->getArmy(player) == 0);
+    } while (EmpireMap::instance()->country(selectionFrom)->GetArmy(player) == 0);
 
-    std::vector<int> adjacent = EmpireMap::instance()->getAdjacentByLandAndWater(selectionFrom);
+    std::vector<int> adjacent = EmpireMap::instance()->GetAdjacentByLandAndWater(selectionFrom);
 
     std::cout << "These are the adjacent countries(by land and water): " << std::endl;
     for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it) {
@@ -170,50 +170,50 @@ void Human::moveOverSea(Player * player)
     };
     do {
         std::cout << "\nSelect country to move a troop to: ";
-        selectionTo = Utils::validInputRange(0,adjacent.size(),"You cannot travel there from the selected country, choose an adjacent country");
+        selectionTo = Utils::ValidInputRange(0,adjacent.size(),"You cannot travel there from the selected country, choose an adjacent country");
         if (std::find(adjacent.begin(), adjacent.end(), selectionTo) == adjacent.end())
             std::cout << "\nYou cannot travel there from the selected country, choose an adjacent country: ";
     } while (std::find(adjacent.begin(), adjacent.end(), selectionTo) == adjacent.end());
 
-    EmpireMap::instance()->country(selectionTo)->addArmy(player);
-    EmpireMap::instance()->country(selectionFrom)->removeArmy(player);
+    EmpireMap::instance()->country(selectionTo)->AddArmy(player);
+    EmpireMap::instance()->country(selectionFrom)->RemoveArmy(player);
 
     std::cout << "\nThis is you updated country & troop info:\n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        army = country->getArmy(player);
+        army = country->GetArmy(player);
         std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
     }
     std::cout << std::endl;
 
     //UPDATE OWNER
-    EmpireMap::instance()->country(selectionTo)->updateOwner();
-    EmpireMap::instance()->country(selectionFrom)->updateOwner();
+    EmpireMap::instance()->country(selectionTo)->UpdateOwner();
+    EmpireMap::instance()->country(selectionFrom)->UpdateOwner();
 }
 
-void Human::buildCities(Player * player, int* cityPieces)
+void Human::BuildCities(Player * player, int* cityPieces)
 {
-    int numberOfCountries = EmpireMap::instance()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->GetCountries();
     Country* country;
     int selection;
     std::cout << "\nThese are the countries you have troops or cities in: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getTotalUnits(player) > 0) {
-            std::cout << "Country [" << j << "] - you have " << country->getArmy(player) << " troops, and " << country->getCities(player) << " cities \n";
+        if (country->GetTotalUnits(player) > 0) {
+            std::cout << "Country [" << j << "] - you have " << country->GetArmy(player) << " troops, and " << country->GetCities(player) << " cities \n";
         }
     }
     do {
         std::cout << "\nSelect a country to build a city in: ";
-        selection = Utils::validInputRange(0, numberOfCountries - 1 , "Please Select a valid Country");
+        selection = Utils::ValidInputRange(0, numberOfCountries - 1 , "Please Select a valid Country");
 
-        if (EmpireMap::instance()->country(selection)->getTotalUnits(player) == 0)
+        if (EmpireMap::instance()->country(selection)->GetTotalUnits(player) == 0)
             std::cout << "\nYou need at least 1 unit to build here, choose another country: ";
-    } while (EmpireMap::instance()->country(selection)->getTotalUnits(player) == 0);
+    } while (EmpireMap::instance()->country(selection)->GetTotalUnits(player) == 0);
 
     if (cityPieces > 0)
     {
-        EmpireMap::instance()->country(selection)->addCity(player);
+        EmpireMap::instance()->country(selection)->AddCity(player);
         (*cityPieces)--;
     }
     else
@@ -222,42 +222,42 @@ void Human::buildCities(Player * player, int* cityPieces)
     std::cout << "\nUpdated cities & troops info: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getTotalUnits(player) > 0) {
-            std::cout << "Country [" << j << "] - you have " << country->getArmy(player) << " troops, and " << country->getCities(player) << " cities \n";
+        if (country->GetTotalUnits(player) > 0) {
+            std::cout << "Country [" << j << "] - you have " << country->GetArmy(player) << " troops, and " << country->GetCities(player) << " cities \n";
         }
     }
     std::cout << std::endl;
 
     //UPDATE OWNER
-    EmpireMap::instance()->country(selection)->updateOwner();
+    EmpireMap::instance()->country(selection)->UpdateOwner();
 }
 
-void Human::placeNewArmies(Player * player, int* armyPieces)
+void Human::PlaceNewArmies(Player * player, int* armyPieces)
 {
-    int numberOfCountries = EmpireMap::instance()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->GetCountries();
     Country* country;
     int selection;
     std::cout << "\nThese are the countries you can place troops (cities and starting region): \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getCities(player) > 0 || j == EmpireMap::instance()->getStartingCountry()->getCountryName()) {
-            std::cout << "Country [" << j << "] - you have " << country->getArmy(player) << " troops, and " << country->getCities(player) << " cities\n";
+        if (country->GetCities(player) > 0 || j == EmpireMap::instance()->GetStartingCountry()->GetCountryName()) {
+            std::cout << "Country [" << j << "] - you have " << country->GetArmy(player) << " troops, and " << country->GetCities(player) << " cities\n";
         }
     }
-    std::cout << "Country [" << EmpireMap::instance()->getStartingCountry()->getCountryName() << "] - is the starting region ";
+    std::cout << "Country [" << EmpireMap::instance()->GetStartingCountry()->GetCountryName() << "] - is the starting region ";
 
     do {
         std::cout << "\nSelect a country to place a troop in: ";
-		selection = Utils::validInputRange(0,numberOfCountries - 1 , "Please choose a valid country to place your troops");
+		selection = Utils::ValidInputRange(0,numberOfCountries - 1 , "Please choose a valid country to place your troops");
 
-        if (EmpireMap::instance()->country(selection)->getCities(player) == 0 && selection != EmpireMap::instance()->getStartingCountry()->getCountryName())
+        if (EmpireMap::instance()->country(selection)->GetCities(player) == 0 && selection != EmpireMap::instance()->GetStartingCountry()->GetCountryName())
             std::cout << "\nYou can only place a troop at the starting region or countries that you have cities in, choose again: ";
 
-    } while (EmpireMap::instance()->country(selection)->getCities(player) == 0 && selection != EmpireMap::instance()->getStartingCountry()->getCountryName());
+    } while (EmpireMap::instance()->country(selection)->GetCities(player) == 0 && selection != EmpireMap::instance()->GetStartingCountry()->GetCountryName());
 
     if (armyPieces > 0)
     {
-        EmpireMap::instance()->country(selection)->addArmy(player);
+        EmpireMap::instance()->country(selection)->AddArmy(player);
         (*armyPieces)--;
     }
     else
@@ -266,102 +266,102 @@ void Human::placeNewArmies(Player * player, int* armyPieces)
     std::cout << "\nYour updated troops: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getCities(player) > 0 || j == EmpireMap::instance()->getStartingCountry()->getCountryName()) {
-            std::cout << "Country [" << j << "] - you have " << country->getArmy(player) << " troops, and " << country->getCities(player) << " cities\n";
+        if (country->GetCities(player) > 0 || j == EmpireMap::instance()->GetStartingCountry()->GetCountryName()) {
+            std::cout << "Country [" << j << "] - you have " << country->GetArmy(player) << " troops, and " << country->GetCities(player) << " cities\n";
         }
     }
     std::cout << std::endl;
 
     //UPDATE OWNER
-    EmpireMap::instance()->country(selection)->updateOwner();
+    EmpireMap::instance()->country(selection)->UpdateOwner();
 }
 
-void Human::destroyArmy(Player * player)
+void Human::DestroyArmy(Player * player)
 {
-    int numberOfCountries = EmpireMap::instance()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->GetCountries();
     Country* country;
     int playerSelection;
     int countrySelection;
-    std::vector<Player*> playerList = GameLoop::getPlayerList(); // TODO: in GameLoop we have to replace with this -> GameLoop::getPlayerList();
+    std::vector<Player*> playerList = GameLoop::GetPlayerList(); // TODO: in GameLoop we have to replace with this -> GameLoop::getPlayerList();
 
     std::cout << "\nPlayers List: \n\n";
 
     for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
     {
         int index = std::distance(playerList.begin(), it);
-        std::cout << "[" << index << "]: " << (*it)->getPlayerName() << std::endl;
+        std::cout << "[" << index << "]: " << (*it)->GetPlayerName() << std::endl;
     }
 
     std::cout << "\nWhich player would you like to target?: ";
-    playerSelection = Utils::validInputRange(0, playerList.size() - 1 ,"Please select a valid player option to target");
+    playerSelection = Utils::ValidInputRange(0, playerList.size() - 1 ,"Please select a valid player option to target");
     std::cout << "\nList of countries that target player has troops in: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getArmy(playerList[playerSelection]) > 0) {
-            std::cout << "Country [" << j << "] - This player has " << country->getArmy(playerList[playerSelection]) << " troops\n";
+        if (country->GetArmy(playerList[playerSelection]) > 0) {
+            std::cout << "Country [" << j << "] - This player has " << country->GetArmy(playerList[playerSelection]) << " troops\n";
         }
     }
 
     std::cout << "\nWhich country would you like to target?: ";
 
 	do {
-		countrySelection = Utils::validInputRange(0, numberOfCountries - 1,"Please select a valid country to target");
-		if ( EmpireMap::instance()->country(countrySelection)->getArmy(playerList[playerSelection]) == 0)
+		countrySelection = Utils::ValidInputRange(0, numberOfCountries - 1,"Please select a valid country to target");
+		if ( EmpireMap::instance()->country(countrySelection)->GetArmy(playerList[playerSelection]) == 0)
 			std::cout << "\n Target doesn't have any troops there, choose another country: ";
-	} while (EmpireMap::instance()->country(countrySelection)->getArmy(playerList[playerSelection]) == 0 );
+	} while (EmpireMap::instance()->country(countrySelection)->GetArmy(playerList[playerSelection]) == 0 );
 
-    EmpireMap::instance()->country(countrySelection)->removeArmy(playerList[playerSelection]);
+    EmpireMap::instance()->country(countrySelection)->RemoveArmy(playerList[playerSelection]);
 
 
     std::cout << "\n\nUpdated troops of target player: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getArmy(playerList[playerSelection]) > 0) {
-            std::cout << "Country [" << j << "] - This player has " << country->getArmy(playerList[playerSelection]) << " troops\n\n";
+        if (country->GetArmy(playerList[playerSelection]) > 0) {
+            std::cout << "Country [" << j << "] - This player has " << country->GetArmy(playerList[playerSelection]) << " troops\n\n";
         }
     }
     std::cout << std::endl;
 
     //UPDATE OWNER
-    EmpireMap::instance()->country(countrySelection)->updateOwner();
+    EmpireMap::instance()->country(countrySelection)->UpdateOwner();
 }
 
-void Human::placeShadowArmy(Player* shadowPlayer)
+void Human::PlaceShadowArmy(Player* shadowPlayer)
 {
-	int numberOfCountries = EmpireMap::instance()->getCountries();
+	int numberOfCountries = EmpireMap::instance()->GetCountries();
 	Country* country;
 	for (int j = 0; j < numberOfCountries; j++)
 	{
 		country = EmpireMap::instance()->country(j);
-		std::cout << "Country [" << j << "] Shadow Player has " << country->getArmy(shadowPlayer) << " troops \n";
+		std::cout << "Country [" << j << "] Shadow Player has " << country->GetArmy(shadowPlayer) << " troops \n";
 
 	}
 
 	int selection;
-	selection = Utils::validInputRange(0, numberOfCountries - 1, "please choose a value between 0 and " + (numberOfCountries - 1));
+	selection = Utils::ValidInputRange(0, numberOfCountries - 1, "please choose a value between 0 and " + (numberOfCountries - 1));
 
-	EmpireMap::instance()->country(selection)->addArmy(shadowPlayer);
+	EmpireMap::instance()->country(selection)->AddArmy(shadowPlayer);
 }
 
 
 
 //GREEDY COMPUTER (focused on building cities and destroying opponents)
 
-std::string GreedyComputer::printStrategyType() {
+std::string GreedyComputer::PrintStrategyType() {
     return "GreedyComputer";
 }
 
-void GreedyComputer::placeBid(Player* player)
+void GreedyComputer::PlaceBid(Player* player)
 {
-    bid = new int(0);
-    std::cout << player->getPlayerName() <<" bids " << *bid <<" coins\n\n";
+    _bid = new int(0);
+    std::cout << player->GetPlayerName() <<" bids " << *_bid <<" coins\n\n";
 }
 
-int GreedyComputer::getBid(Player* player) {
-    return *bid;
+int GreedyComputer::GetBid(Player* player) {
+    return *_bid;
 }
 
-void GreedyComputer::chooseCard(Player* player, Hand * gameHand)
+void GreedyComputer::ChooseCard(Player* player, Hand * gameHand)
 {
     /* Implementing the following check:
         1) bot will look for a card that has either "build city" or "kill enemy" returning the least expensive card
@@ -385,21 +385,21 @@ void GreedyComputer::chooseCard(Player* player, Hand * gameHand)
         }
     }
      
-    if (!(player)->payCoin(gameHand->GetCardCost(chosenCard))) {
+    if (!(player)->PayCoin(gameHand->GetCardCost(chosenCard))) {
         chosenCard = 0;
     }
 
     //reads card and performs action
-    (player)->readCard(gameHand->Exchange(chosenCard));
+    (player)->ReadCard(gameHand->Exchange(chosenCard));
 }
 
-void GreedyComputer::readCard(Player * player, Card * gameCard)
+void GreedyComputer::ReadCard(Player * player, Card * gameCard)
 {
     int selection = 0;
 
     if (gameCard->isAnd)
     {
-        std::cout <<(*player).getPlayerName()<< " chose: ";
+        std::cout <<(*player).GetPlayerName()<< " chose: ";
         for (int i = 0; i < gameCard->numberOfActions; i++)
         {
             std::cout << Action::typeToString(gameCard->actions[i].type) << " " << gameCard->actions[i].amount << " times";
@@ -409,7 +409,7 @@ void GreedyComputer::readCard(Player * player, Card * gameCard)
         }
 
         for (int i = 0; i < gameCard->numberOfActions; i++)
-            (*player).doAction(gameCard->actions[i]);
+            (*player).DoAction(gameCard->actions[i]);
         
         return;
     }
@@ -424,36 +424,36 @@ void GreedyComputer::readCard(Player * player, Card * gameCard)
                 selection = i;
         }
 
-        std::cout << (*player).getPlayerName() << " chose: ";
+        std::cout << (*player).GetPlayerName() << " chose: ";
         std::cout << Action::typeToString(gameCard->actions[selection].type) << " " << gameCard->actions[selection].amount << " times \n";
 
-        (*player).doAction(gameCard->actions[selection]);
+        (*player).DoAction(gameCard->actions[selection]);
     }
 }
 
-void GreedyComputer::moveOverLand(Player * player)
+void GreedyComputer::MoveOverLand(Player * player)
 {
     // Currently, bot will never opt to move over land
 }
 
-void GreedyComputer::moveOverSea(Player * player)
+void GreedyComputer::MoveOverSea(Player * player)
 {
     // Currently, bot will never opt to move over land
 }
 
-void GreedyComputer::buildCities(Player * player, int* cityPieces)
+void GreedyComputer::BuildCities(Player * player, int* cityPieces)
 {
     //Bot's behavior will be add a city on a land it has an army on
 
-    int numberOfCountries = EmpireMap::instance()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->GetCountries();
     Country* country;
     int selection = -1;
 
     std::cout << "\nThese are the countries you have troops or cities in: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getTotalUnits(player) > 0) {
-            std::cout << "Country [" << j << "] - you have " << country->getArmy(player) << " troops, and " << country->getCities(player) << " cities \n";
+        if (country->GetTotalUnits(player) > 0) {
+            std::cout << "Country [" << j << "] - you have " << country->GetArmy(player) << " troops, and " << country->GetCities(player) << " cities \n";
             selection = j; 
         }
     }
@@ -464,7 +464,7 @@ void GreedyComputer::buildCities(Player * player, int* cityPieces)
 
     if (cityPieces > 0)
     {
-        EmpireMap::instance()->country(selection)->addCity(player);
+        EmpireMap::instance()->country(selection)->AddCity(player);
         (*cityPieces)--;
     }
     else
@@ -473,37 +473,37 @@ void GreedyComputer::buildCities(Player * player, int* cityPieces)
     std::cout << "\nUpdated cities & troops info: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getTotalUnits(player) > 0) {
-            std::cout << "Country [" << j << "] - you have " << country->getArmy(player) << " troops, and " << country->getCities(player) << " cities \n";
+        if (country->GetTotalUnits(player) > 0) {
+            std::cout << "Country [" << j << "] - you have " << country->GetArmy(player) << " troops, and " << country->GetCities(player) << " cities \n";
         }
     }
     std::cout << std::endl;
 
     //UPDATE OWNER
-    EmpireMap::instance()->country(selection)->updateOwner();
+    EmpireMap::instance()->country(selection)->UpdateOwner();
 }
 
-void GreedyComputer::placeNewArmies(Player * player, int* armyPieces)
+void GreedyComputer::PlaceNewArmies(Player * player, int* armyPieces)
 {
     //currently, bot will never opt to place new armies
 }
 
-void GreedyComputer::destroyArmy(Player * player)
+void GreedyComputer::DestroyArmy(Player * player)
 {
-    int numberOfCountries = EmpireMap::instance()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->GetCountries();
     Country* country;
     int playerSelection;
     int countrySelection = -1;
 
-    std::vector<Player*> playerList = GameLoop::getPlayerList(); // TODO: in GameLoop we have to replace with this -> GameLoop::getPlayerList();
+    std::vector<Player*> playerList = GameLoop::GetPlayerList(); // TODO: in GameLoop we have to replace with this -> GameLoop::getPlayerList();
 
     std::cout << "\nPlayers List: \n\n";
 
     for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
     {
         int index = std::distance(playerList.begin(), it);
-        std::cout << "[" << index << "]: " << (*it)->getPlayerName() << std::endl;
-        if ((*it)->getPlayerName() != player->getPlayerName()) {
+        std::cout << "[" << index << "]: " << (*it)->GetPlayerName() << std::endl;
+        if ((*it)->GetPlayerName() != player->GetPlayerName()) {
             playerSelection = index;
         }
     }
@@ -518,8 +518,8 @@ void GreedyComputer::destroyArmy(Player * player)
     std::cout << "\nList of countries that target player has troops in: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getArmy(playerList[playerSelection]) > 0) {
-            std::cout << "Country [" << j << "] - This player has " << country->getArmy(playerList[playerSelection]) << " troops\n";
+        if (country->GetArmy(playerList[playerSelection]) > 0) {
+            std::cout << "Country [" << j << "] - This player has " << country->GetArmy(playerList[playerSelection]) << " troops\n";
             countrySelection = j;
         }
     }
@@ -529,46 +529,46 @@ void GreedyComputer::destroyArmy(Player * player)
 
     std::cout << "\nPlayer decided to kill on country [" << countrySelection << "]\n\n";
 
-    EmpireMap::instance()->country(countrySelection)->removeArmy(playerList[playerSelection]);
+    EmpireMap::instance()->country(countrySelection)->RemoveArmy(playerList[playerSelection]);
 
     std::cout << "\n\nUpdated troops of target player: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getArmy(playerList[playerSelection]) > 0) {
-            std::cout << "Country [" << j << "] - This player has " << country->getArmy(playerList[playerSelection]) << " troops\n\n";
+        if (country->GetArmy(playerList[playerSelection]) > 0) {
+            std::cout << "Country [" << j << "] - This player has " << country->GetArmy(playerList[playerSelection]) << " troops\n\n";
         }
     }
     std::cout << std::endl;
 
     //UPDATE OWNER
-    EmpireMap::instance()->country(countrySelection)->updateOwner();
+    EmpireMap::instance()->country(countrySelection)->UpdateOwner();
 }
 
-void GreedyComputer::placeShadowArmy(Player *shadowPlayer)
+void GreedyComputer::PlaceShadowArmy(Player *shadowPlayer)
 {
-	int countrySelection = rand() % (EmpireMap::instance()->getCountries() - 1);
+	int countrySelection = rand() % (EmpireMap::instance()->GetCountries() - 1);
 	Utils::View("Placing army at country" + std::to_string(countrySelection) );
-	EmpireMap::instance()->country(countrySelection)->addArmy(shadowPlayer);
+	EmpireMap::instance()->country(countrySelection)->AddArmy(shadowPlayer);
 
 }
 
 //MODERATE COMPUTER (focused conquering land)
 
-std::string ModerateComputer::printStrategyType() {
+std::string ModerateComputer::PrintStrategyType() {
     return "ModerateComputer";
 }
 
-void ModerateComputer::placeBid(Player* player)
+void ModerateComputer::PlaceBid(Player* player)
 {
-    bid = new int(1);
-    std::cout << player->getPlayerName() << " bids " << *bid << " coins\n\n";
+    _bid = new int(1);
+    std::cout << player->GetPlayerName() << " bids " << *_bid << " coins\n\n";
 }
 
-int ModerateComputer::getBid(Player* player) {
-    return *bid;
+int ModerateComputer::GetBid(Player* player) {
+    return *_bid;
 }
 
-void ModerateComputer::chooseCard(Player* player, Hand * gameHand)
+void ModerateComputer::ChooseCard(Player* player, Hand * gameHand)
 {
     /* Implementing the following check:
         1) bot will look for a card that has either "move by land" or "move by sea" returning the least expensive card
@@ -598,21 +598,21 @@ void ModerateComputer::chooseCard(Player* player, Hand * gameHand)
         }
     }
 
-    if (!(player)->payCoin(gameHand->GetCardCost(chosenCard))) {
+    if (!(player)->PayCoin(gameHand->GetCardCost(chosenCard))) {
         chosenCard = 0;
     }
 
     //reads card and performs action
-    (player)->readCard(gameHand->Exchange(chosenCard));
+    (player)->ReadCard(gameHand->Exchange(chosenCard));
 }
 
-void ModerateComputer::readCard(Player * player, Card * gameCard)
+void ModerateComputer::ReadCard(Player * player, Card * gameCard)
 {
     int selection = 0;
 
     if (gameCard->isAnd)
     {
-        std::cout << (*player).getPlayerName() << " chose: ";
+        std::cout << (*player).GetPlayerName() << " chose: ";
         for (int i = 0; i < gameCard->numberOfActions; i++)
         {
             std::cout << Action::typeToString(gameCard->actions[i].type) << " " << gameCard->actions[i].amount << " times";
@@ -622,7 +622,7 @@ void ModerateComputer::readCard(Player * player, Card * gameCard)
         }
 
         for (int i = 0; i < gameCard->numberOfActions; i++)
-            (*player).doAction(gameCard->actions[i]);
+            (*player).DoAction(gameCard->actions[i]);
 
         return;
     }
@@ -637,16 +637,16 @@ void ModerateComputer::readCard(Player * player, Card * gameCard)
                 selection = i;
         }
 
-        std::cout << (*player).getPlayerName() << " chose: ";
+        std::cout << (*player).GetPlayerName() << " chose: ";
         std::cout << Action::typeToString(gameCard->actions[selection].type) << " " << gameCard->actions[selection].amount << " times \n";
 
-        (*player).doAction(gameCard->actions[selection]);
+        (*player).DoAction(gameCard->actions[selection]);
     }
 }
 
-void ModerateComputer::moveOverLand(Player * player)
+void ModerateComputer::MoveOverLand(Player * player)
 {
-    int numberOfCountries = EmpireMap::instance()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->GetCountries();
     Country* country;
     int army;
 
@@ -656,7 +656,7 @@ void ModerateComputer::moveOverLand(Player * player)
     std::cout << "\nYour countries & troop info: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        army = country->getArmy(player);
+        army = country->GetArmy(player);
         if (army > 0) {
             std::cout << "You have " << army << " troops in country " << "[#" << j << "]\n";
             selectionFrom = j; 
@@ -667,7 +667,7 @@ void ModerateComputer::moveOverLand(Player * player)
 
     std::cout << "\nPlayer is moving from: [" << selectionFrom << "]\n\n";
 
-    std::vector<int> adjacent = EmpireMap::instance()->getAdjacentByLand(selectionFrom);
+    std::vector<int> adjacent = EmpireMap::instance()->GetAdjacentByLand(selectionFrom);
 
     std::cout << "These are the adjacent countries (by land only): " << std::endl;
     for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it) {
@@ -677,25 +677,25 @@ void ModerateComputer::moveOverLand(Player * player)
 
     std::cout << "\nPlayer moved to: [" << selectionFrom << "]\n\n";
 
-    EmpireMap::instance()->country(selectionTo)->addArmy(player);
-    EmpireMap::instance()->country(selectionFrom)->removeArmy(player);
+    EmpireMap::instance()->country(selectionTo)->AddArmy(player);
+    EmpireMap::instance()->country(selectionFrom)->RemoveArmy(player);
 
     std::cout << "\nThis is your updated country & troop info:\n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        army = country->getArmy(player);
+        army = country->GetArmy(player);
         std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
     }
     std::cout << std::endl;
 
     //UPDATE OWNER
-    EmpireMap::instance()->country(selectionTo)->updateOwner();
-    EmpireMap::instance()->country(selectionFrom)->updateOwner();
+    EmpireMap::instance()->country(selectionTo)->UpdateOwner();
+    EmpireMap::instance()->country(selectionFrom)->UpdateOwner();
 }
 
-void ModerateComputer::moveOverSea(Player * player)
+void ModerateComputer::MoveOverSea(Player * player)
 {
-    int numberOfCountries = EmpireMap::instance()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->GetCountries();
     Country* country;
     int army;
 
@@ -705,7 +705,7 @@ void ModerateComputer::moveOverSea(Player * player)
     std::cout << "\nYour countries & troop info: \n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        army = country->getArmy(player);
+        army = country->GetArmy(player);
         if (army > 0) {
             std::cout << "You have " << army << " troops in country " << "[#" << j << "]\n";
             selectionFrom = j;
@@ -718,7 +718,7 @@ void ModerateComputer::moveOverSea(Player * player)
 
     std::cout << "\nPlayer is moving from: [" << selectionFrom << "]\n\n";
 
-    std::vector<int> adjacent = EmpireMap::instance()->getAdjacentByLandAndWater(selectionFrom);
+    std::vector<int> adjacent = EmpireMap::instance()->GetAdjacentByLandAndWater(selectionFrom);
 
     std::cout << "These are the adjacent countries (by land and water): " << std::endl;
     for (std::vector<int>::iterator it = adjacent.begin(); it != adjacent.end(); ++it) {
@@ -728,41 +728,41 @@ void ModerateComputer::moveOverSea(Player * player)
 
     std::cout << "\nPlayer moved to: [" << selectionFrom << "]\n\n";
 
-    EmpireMap::instance()->country(selectionTo)->addArmy(player);
-    EmpireMap::instance()->country(selectionFrom)->removeArmy(player);
+    EmpireMap::instance()->country(selectionTo)->AddArmy(player);
+    EmpireMap::instance()->country(selectionFrom)->RemoveArmy(player);
 
     std::cout << "\nThis is your updated country & troop info:\n\n";
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        army = country->getArmy(player);
+        army = country->GetArmy(player);
         std::cout << "You have " << army << " troops in country" << "[#" << j << "]\n";
     }
     std::cout << std::endl;
 
     //UPDATE OWNER
-    EmpireMap::instance()->country(selectionTo)->updateOwner();
-    EmpireMap::instance()->country(selectionFrom)->updateOwner();
+    EmpireMap::instance()->country(selectionTo)->UpdateOwner();
+    EmpireMap::instance()->country(selectionFrom)->UpdateOwner();
 }
 
-void ModerateComputer::buildCities(Player * player, int* cityPieces)
+void ModerateComputer::BuildCities(Player * player, int* cityPieces)
 {
     // Currently, bot will never opt to move over land
 }
 
-void ModerateComputer::placeNewArmies(Player * player, int* armyPieces)
+void ModerateComputer::PlaceNewArmies(Player * player, int* armyPieces)
 {
     // Currently, bot will never opt to move over land
 }
 
-void ModerateComputer::destroyArmy(Player * player)
+void ModerateComputer::DestroyArmy(Player * player)
 {
     // Currently, bot will never opt to move over land
 }
 
-void ModerateComputer::placeShadowArmy(Player *shadowPlayer)
+void ModerateComputer::PlaceShadowArmy(Player *shadowPlayer)
 {
-	int countrySelection = rand() % (EmpireMap::instance()->getCountries() - 1);
+	int countrySelection = rand() % (EmpireMap::instance()->GetCountries() - 1);
 	Utils::View("Placing army at country" + std::to_string(countrySelection));
-	EmpireMap::instance()->country(countrySelection)->addArmy(shadowPlayer);
+	EmpireMap::instance()->country(countrySelection)->AddArmy(shadowPlayer);
 
 }

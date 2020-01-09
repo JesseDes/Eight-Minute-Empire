@@ -20,7 +20,7 @@ public:
 
 	const int* MAX_PLAYERS = new int(5);
 	const int* MIN_PLAYERS = new int(2);
-	const int* TWO_PLAYER_END_GAME_CARD_COUNT = new int(2);  // 13
+	const int* TWO_PLAYER_END_GAME_CARD_COUNT = new int(13);  // 13
 	const int* THREE_PLAYER_END_GAME_CARD_COUNT = new int(10); // 10
 	const int* FOUR_PLAYER_END_GAME_CARD_COUNT = new int(8); // 8
 	const int* FIVE_PLAYER_END_GAME_CARD_COUNT = new int(7); // 7
@@ -32,26 +32,28 @@ public:
 	void GameStart();		// Getting player info, serving players their coins and determining starting player
 	void GameRun();			//Players draw cards and choose their actions
 	void GameEnd();			// Tally points of each player and determines a winner
-	bool isRunning() { return *_isRunning; } //returns true if the game is currently being played (This means the setup is finished)
-    static std::vector<Player*> getPlayerList(); //returns a vector of every player in the current game
+	bool IsRunning() { return *_isRunning; } //returns true if the game is currently being played (This means the setup is finished)
+    static std::vector<Player*> GetPlayerList(); //returns a vector of every player in the current game
 
 private:
-	static std::vector<Player*> playerList;
-	Hand *gameHand;
-	Deck *gameDeck;
-	std::vector<Player*>::iterator currentPlayer;
+	void SetTurnCount(int playerCount); //sets the maximum number of turns based on the number of players
+	void GetGameTypeStrategies(Player *player);
+
+	static std::vector<Player*> _playerList;
+
+	std::vector<Player*>::iterator _currentPlayer;
+	Hand *_gameHand;
+	Deck *_gameDeck;
 	bool *_isRunning = new bool(false);
-	int *turnCount = new int(0);
-	int *maxTurnCount;
-	void setTurnCount(int playerCount); //sets the maximum number of turns based on the number of players
 	bool *_isShadowPhase = new bool(false);
-	int *shadowArmyCount = new int(10);
-	Player *shadowPlayer;
+	int *_turnCount = new int(0);
+	int *_maxTurnCount;
+	int *_shadowArmyCount = new int(10);
+	Player *_shadowPlayer;
 	GameType _gameType;
-	void getGameTypeStrategies(Player *player);
-	PhaseObservable *phaseSubject;
-	PhaseObserver *phaseObserver;
-	StatsObservable *statsSubject;
-	StatsObserver *statsObserver;
+	PhaseObservable *_phaseSubject;
+	PhaseObserver *_phaseObserver;
+	StatsObservable *_statsSubject;
+	StatsObserver *_statsObserver;
 	
 };

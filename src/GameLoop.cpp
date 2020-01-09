@@ -4,34 +4,34 @@
 #include "Utils.h"
 #include <iterator>
 
-std::vector<Player*> GameLoop::playerList;
+std::vector<Player*> GameLoop::_playerList;
 
 GameLoop::GameLoop()
 {
-	phaseSubject = new PhaseObservable();
-	phaseObserver = new PhaseObserver(phaseSubject);
+	_phaseSubject = new PhaseObservable();
+	_phaseObserver = new PhaseObserver(_phaseSubject);
 
-	statsSubject = new StatsObservable();
-	statsObserver = new StatsObserver(statsSubject);
+	_statsSubject = new StatsObservable();
+	_statsObserver = new StatsObserver(_statsSubject);
 
 }
 
 GameLoop::~GameLoop()
 {
-	delete phaseObserver;
-	delete phaseSubject;
+	delete _phaseObserver;
+	delete _phaseSubject;
 
-	phaseSubject = NULL;
-	phaseObserver = NULL;
+	_phaseSubject = NULL;
+	_phaseObserver = NULL;
 	
-	delete statsObserver;
-	delete statsSubject;
+	delete _statsObserver;
+	delete _statsSubject;
 
-	statsSubject = NULL;
-	statsObserver = NULL;
+	_statsSubject = NULL;
+	_statsObserver = NULL;
 
-	delete turnCount;
-	turnCount = NULL;
+	delete _turnCount;
+	_turnCount = NULL;
 
 	delete _isRunning;
 	_isRunning = NULL;
@@ -39,33 +39,33 @@ GameLoop::~GameLoop()
 	delete _isShadowPhase;
 	_isShadowPhase = NULL;
 
-	delete shadowArmyCount;
-	shadowArmyCount = NULL;
+	delete _shadowArmyCount;
+	_shadowArmyCount = NULL;
 	
 
-	for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
+	for (std::vector<Player*>::iterator it = _playerList.begin(); it != _playerList.end(); it++)
 	{
 		delete (*it);
 		(*it) = NULL;
 	}
 
-	delete gameDeck;
-	gameDeck = NULL;
+	delete _gameDeck;
+	_gameDeck = NULL;
 
-	delete gameHand;
-	gameHand = NULL;
+	delete _gameHand;
+	_gameHand = NULL;
 
-	delete *currentPlayer;
-	*currentPlayer = NULL;
+	delete *_currentPlayer;
+	*_currentPlayer = NULL;
 	
-	delete shadowPlayer;
-	shadowPlayer = NULL;
+	delete _shadowPlayer;
+	_shadowPlayer = NULL;
 
-	delete turnCount;
-	turnCount = NULL;
+	delete _turnCount;
+	_turnCount = NULL;
 
-	delete maxTurnCount;
-	maxTurnCount = NULL;
+	delete _maxTurnCount;
+	_maxTurnCount = NULL;
 }
 
 void GameLoop::GameInit()
@@ -76,7 +76,7 @@ void GameLoop::GameInit()
 
 	int gameMode;
 
-	gameMode = Utils::validInputRange(0, 1,  "Please select a valid game mode");
+	gameMode = Utils::ValidInputRange(0, 1,  "Please select a valid game mode");
 	
 	_gameType = (GameType)gameMode;
 
@@ -86,11 +86,11 @@ void GameLoop::GameInit()
 	
 	int playerCount;
 	if(gameMode == GameType::TOURNAMENT)
-		playerCount = Utils::validInputRange(*MIN_PLAYERS, 4,  "Value must be between" + std::to_string(*MIN_PLAYERS) + " and 4");
+		playerCount = Utils::ValidInputRange(*MIN_PLAYERS, 4,  "Value must be between" + std::to_string(*MIN_PLAYERS) + " and 4");
 	else 
-		playerCount = Utils::validInputRange(*MIN_PLAYERS, *MAX_PLAYERS, "Value must be between" + std::to_string(*MIN_PLAYERS) + " and " + std::to_string(*MAX_PLAYERS));
+		playerCount = Utils::ValidInputRange(*MIN_PLAYERS, *MAX_PLAYERS, "Value must be between" + std::to_string(*MIN_PLAYERS) + " and " + std::to_string(*MAX_PLAYERS));
 
-	setTurnCount(playerCount);
+	SetTurnCount(playerCount);
 	
 
 	//create players
@@ -101,10 +101,10 @@ void GameLoop::GameInit()
 		std::cout << "Player " << (i + 1) << " What is your name? \n";
 		std::cin >> name;
 		std::cout << "How old are you? \n";
-		age = Utils::validInputMin(0,"Please enter a valid age");
+		age = Utils::ValidInputMin(0,"Please enter a valid age");
         Player* player = new Player(age, name);
-        getGameTypeStrategies(player); 
-		playerList.push_back(player);
+        GetGameTypeStrategies(player); 
+		_playerList.push_back(player);
 
 	}
 }
@@ -112,125 +112,125 @@ void GameLoop::GameInit()
 void GameLoop::GameStart()
 {
 	//create deck , shuffle, and add cards to hand
-	gameDeck = new Deck();
-	gameDeck->Shuffle();
+	_gameDeck = new Deck();
+	_gameDeck->Shuffle();
 
-	gameHand = new Hand();
+	_gameHand = new Hand();
 
-	for (int i = 0; i <= gameHand->SIZE_OF_HAND; i++)
-		gameHand->AddCard(gameDeck->Draw());
+	for (int i = 0; i <= _gameHand->SIZE_OF_HAND; i++)
+		_gameHand->AddCard(_gameDeck->Draw());
 	
 	//determine first player
-	currentPlayer = playerList.begin();
-	for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
+	_currentPlayer = _playerList.begin();
+	for (std::vector<Player*>::iterator it = _playerList.begin(); it != _playerList.end(); it++)
 	{
-		(*it)->createCoinPurse(playerList.size());
-		(*it)->placeBid();
+		(*it)->CreateCoinPurse(_playerList.size());
+		(*it)->PlaceBid();
 		(*it)->GivePieces(*ARMY_PIECES_PER_PLAYER, *CITY_PIECES_PER_PLAYER);
 
 		// adding 3 troops to the starting country
 		for (int j = 0; j < 3; j++)
-			EmpireMap::instance()->getStartingCountry()->addArmy((*it));
+			EmpireMap::instance()->GetStartingCountry()->AddArmy((*it));
 
 		//currentPlayer is set to the player with the highest Bid and the youngest age (if matching bids) 
-		if (it != playerList.begin() && ((*currentPlayer)->getBid() < (*it)->getBid() || ((*currentPlayer)->getBid() == (*it)->getBid() && (*currentPlayer)->getPlayerAge() > (*it)->getPlayerAge())))
-			currentPlayer = it;
+		if (it != _playerList.begin() && ((*_currentPlayer)->GetBid() < (*it)->GetBid() || ((*_currentPlayer)->GetBid() == (*it)->GetBid() && (*_currentPlayer)->GetPlayerAge() > (*it)->GetPlayerAge())))
+			_currentPlayer = it;
 	}
 
 
-	(*currentPlayer)->payCoin((*currentPlayer)->getBid());
-	std::cout << "HIGHEST BIDDER WAS :"<< (*currentPlayer)->getPlayerName() << "\n";
+	(*_currentPlayer)->PayCoin((*_currentPlayer)->GetBid());
+	std::cout << "HIGHEST BIDDER WAS :"<< (*_currentPlayer)->GetPlayerName() << "\n";
 
 	//game has now begun
 	 *_isRunning = true;
-	 if (playerList.size() == 2)
+	 if (_playerList.size() == 2)
 	 {
 		 *_isShadowPhase = true;
-		 shadowPlayer = new Player(0, "Shadow Player");
+		 _shadowPlayer = new Player(0, "Shadow Player");
 	 }
 	 
 }
 
 void GameLoop::GameRun()
 {
-	std::cout << "It is " << (*currentPlayer)->getPlayerName() << "'s turn \n";
+	std::cout << "It is " << (*_currentPlayer)->GetPlayerName() << "'s turn \n";
 
 	if (*_isShadowPhase)
 	{
 		std::cout << "Place shadow player army in a country \n";
 		
-		(*currentPlayer)->PlaceShadowPlayer(shadowPlayer);
+		(*_currentPlayer)->PlaceShadowPlayer(_shadowPlayer);
 
-		(*shadowArmyCount)--;
+		(*_shadowArmyCount)--;
 
-		if (*shadowArmyCount == 0)
+		if (*_shadowArmyCount == 0)
 			*_isShadowPhase = false;
 	}
 	else
 	{
-		phaseSubject->StartTurn((*currentPlayer)->getPlayerName());
-		statsSubject->SetPlayer(*currentPlayer);
-		statsSubject->UpdateCountries((*currentPlayer)->GetCountries());
-		statsSubject->UpdatePlayerGoods((*currentPlayer)->GetGoods());
+		_phaseSubject->StartTurn((*_currentPlayer)->GetPlayerName());
+		_statsSubject->SetPlayer(*_currentPlayer);
+		_statsSubject->UpdateCountries((*_currentPlayer)->GetCountries());
+		_statsSubject->UpdatePlayerGoods((*_currentPlayer)->GetGoods());
 		
-		*turnCount += 1;
-		gameHand->ShowHand();
+		*_turnCount += 1;
+		_gameHand->ShowHand();
 
-		std::cout << (*currentPlayer)->getPlayerName() << ", which card would you like? \n";
+		std::cout << (*_currentPlayer)->GetPlayerName() << ", which card would you like? \n";
 		
-		(*currentPlayer)->chooseCard(gameHand);
-		gameHand->AddCard(gameDeck->Draw());
+		(*_currentPlayer)->ChooseCard(_gameHand);
+		_gameHand->AddCard(_gameDeck->Draw());
 	}
 
-	if (*turnCount >= *maxTurnCount)
+	if (*_turnCount >= *_maxTurnCount)
 	{
 		*_isRunning = false;
 		return;
 	}
 
 	//if player is last in the vector, go back to beginning else, increment iterator
-	if (std::distance(currentPlayer, playerList.end()) == 1)
+	if (std::distance(_currentPlayer, _playerList.end()) == 1)
 	{
-		currentPlayer = playerList.begin();
+		_currentPlayer = _playerList.begin();
 	}
 	else
 	{
-		currentPlayer++;
+		_currentPlayer++;
 	}
 }
 
 void GameLoop::GameEnd()
 {
 	Utils::View("\n\n ***********************FINAL RESULTS****************** \n\n");
-	for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
+	for (std::vector<Player*>::iterator it = _playerList.begin(); it != _playerList.end(); it++)
 	{
-		statsSubject->SetPlayer(*it);
-		statsSubject->UpdateCountries((*it)->GetCountries());
-		statsSubject->UpdatePlayerGoods((*it)->GetGoods());
+		_statsSubject->SetPlayer(*it);
+		_statsSubject->UpdateCountries((*it)->GetCountries());
+		_statsSubject->UpdatePlayerGoods((*it)->GetGoods());
 	}
 
 
 	int highScore = 0;
-	currentPlayer = playerList.begin();
+	_currentPlayer = _playerList.begin();
 	std::string SPACE_BETWEEN_COLUMNS = "        ";
 	Utils::View("Player Name" + SPACE_BETWEEN_COLUMNS + "Cards" + SPACE_BETWEEN_COLUMNS + "Points" + SPACE_BETWEEN_COLUMNS + "Coins");
 	SPACE_BETWEEN_COLUMNS = "           ";	//Enlarge the space since to try and keep things well placed
-	for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
+	for (std::vector<Player*>::iterator it = _playerList.begin(); it != _playerList.end(); it++)
 	{
-		int currentScore = (*it)->getScore();
+		int currentScore = (*it)->GetScore();
 
-		Utils::View((*it)->getPlayerName() + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->getActionCount()) + SPACE_BETWEEN_COLUMNS + std::to_string(currentScore) + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->getCoins()));
+		Utils::View((*it)->GetPlayerName() + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->GetActionCount()) + SPACE_BETWEEN_COLUMNS + std::to_string(currentScore) + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->GetCoins()));
 		if (currentScore > highScore)
 		{
 			highScore = currentScore;
-			currentPlayer = it;
+			_currentPlayer = it;
 		}
 	}
 
-	std::cout << (*currentPlayer)->getPlayerName() << " Wins!!!!!!!!! \n";
+	std::cout << (*_currentPlayer)->GetPlayerName() << " Wins!!!!!!!!! \n";
 }
 
-void GameLoop::setTurnCount(int playerCount)
+void GameLoop::SetTurnCount(int playerCount)
 {
 	//turns is equal to specific amount * number of players
 
@@ -238,22 +238,22 @@ void GameLoop::setTurnCount(int playerCount)
 	{
 		switch (playerCount)
 		{
-		case 2: maxTurnCount = new int(*TWO_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
-		case 3: maxTurnCount = new int(*THREE_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
-		case 4: maxTurnCount = new int(*FOUR_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
-		case 5: maxTurnCount = new int(*FIVE_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
+		case 2: _maxTurnCount = new int(*TWO_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
+		case 3: _maxTurnCount = new int(*THREE_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
+		case 4: _maxTurnCount = new int(*FOUR_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
+		case 5: _maxTurnCount = new int(*FIVE_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
 
-		default: maxTurnCount = new int(*TWO_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
+		default: _maxTurnCount = new int(*TWO_PLAYER_END_GAME_CARD_COUNT * playerCount); break;
 		}
 	}
 	else if (_gameType == GameType::TOURNAMENT)
-		maxTurnCount = new int((30 / playerCount) * playerCount);	//it may seem redundant but the first divison is a floor to nearest int then we do it per player ex: 30/4 = 7 * 4 =28
+		_maxTurnCount = new int((30 / playerCount) * playerCount);	//it may seem redundant but the first divison is a floor to nearest int then we do it per player ex: 30/4 = 7 * 4 =28
 	
 
 }
 
 
-void GameLoop::getGameTypeStrategies(Player *player)
+void GameLoop::GetGameTypeStrategies(Player *player)
 {
 	Utils::View("What kind of Strategy would you like to use?");
 	int selection;
@@ -264,13 +264,13 @@ void GameLoop::getGameTypeStrategies(Player *player)
 		Utils::View("[1] Greedy Computer");
 		Utils::View("[2] Human");
 
-		selection = Utils::validInputRange(0, 2,  "Please select a valid strategy");
+		selection = Utils::ValidInputRange(0, 2,  "Please select a valid strategy");
 
 		switch (selection)
 		{
-			case 0: player->setPlayerStrategy(new ModerateComputer()); break;
-			case 1:  player->setPlayerStrategy(new GreedyComputer()); break;
-			case 2:  player->setPlayerStrategy(new Human()); break;
+			case 0: player->SetPlayerStrategy(new ModerateComputer()); break;
+			case 1:  player->SetPlayerStrategy(new GreedyComputer()); break;
+			case 2:  player->SetPlayerStrategy(new Human()); break;
 		}
 	}
 	else if (_gameType == GameType::TOURNAMENT)
@@ -278,18 +278,18 @@ void GameLoop::getGameTypeStrategies(Player *player)
 		Utils::View("[0] Moderate Computer");
 		Utils::View("[1] Greedy Computer");
 
-		selection = Utils::validInputRange(0, 1,  "Please select a valid strategy");
+		selection = Utils::ValidInputRange(0, 1,  "Please select a valid strategy");
 
 		switch (selection)
 		{
-			case 0: player->setPlayerStrategy(new ModerateComputer()); break;
-			case 1:  player->setPlayerStrategy(new GreedyComputer()); break;
+			case 0: player->SetPlayerStrategy(new ModerateComputer()); break;
+			case 1:  player->SetPlayerStrategy(new GreedyComputer()); break;
 		}
 	}
 }
 
 
-std::vector<Player*> GameLoop::getPlayerList()
+std::vector<Player*> GameLoop::GetPlayerList()
 {
-    return playerList;
+    return _playerList;
 }

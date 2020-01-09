@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Utils.h"
 
-int Utils::validInputRange(int min, int max, std::string msg)
+int Utils::ValidInputRange(int min, int max, std::string msg)
 {
 	int selection;
 	try
@@ -16,14 +16,14 @@ int Utils::validInputRange(int min, int max, std::string msg)
 		std::cin.clear();
 		std::cin.ignore(256, '\n');
 
-		selection = validInputRange(min, max, error);
+		selection = ValidInputRange(min, max, error);
 	}
 
 	return selection;
 
 }
 
-int Utils::validInputMin(int min, std::string msg)
+int Utils::ValidInputMin(int min, std::string msg)
 {
 	int selection;
 	try
@@ -38,13 +38,13 @@ int Utils::validInputMin(int min, std::string msg)
 		std::cin.clear();
 		std::cin.ignore(256, '\n');
 
-		selection = validInputMin(min, error);
+		selection = ValidInputMin(min, error);
 	}
 
 	return selection;
 }
 
-int Utils::validInputMax( int max, std::string msg)
+int Utils::ValidInputMax( int max, std::string msg)
 {
 	int selection;
 	try
@@ -59,7 +59,7 @@ int Utils::validInputMax( int max, std::string msg)
 		std::cin.clear();
 		std::cin.ignore(256, '\n');
 
-		selection = validInputMax( max, error);
+		selection = ValidInputMax( max, error);
 	}
 
 	return selection;

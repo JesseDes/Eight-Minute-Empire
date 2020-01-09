@@ -9,6 +9,6 @@ class MapLoader
 {
 public:
 	static void FindMap();	//prompts user to select a map file in the Assets folder
-	static void readMapData(std::string file); //reads a map file and returns a map object
+	static void ReadMapData(std::string file); //reads a map file and returns a map object
 
 };

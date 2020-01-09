@@ -25,19 +25,19 @@ void StatsObserver::DisplayCountriesChart()
 {
 	if (_subject->GetCountryList()->size() == 0)
 	{
-		std::cout << _subject->GetPlayer()->getPlayerName() << " has No countries\n";
+		std::cout << _subject->GetPlayer()->GetPlayerName() << " has No countries\n";
 		return;
 	}
 
 	
-	std::string output = _subject->GetPlayer()->getPlayerName() + "'s owned Countries are currently:\n";
+	std::string output = _subject->GetPlayer()->GetPlayerName() + "'s owned Countries are currently:\n";
 	for (int i = 0; i < _subject->GetCountryList()->size(); i++)
 	{
 		int country = _subject->GetCountryList()->at(i);
 		output += "Country " + std::to_string(country) + " |";
-		for (int j = 0; j < EmpireMap::instance()->country(country)->getArmy(_subject->GetPlayer()); j++)
+		for (int j = 0; j < EmpireMap::instance()->country(country)->GetArmy(_subject->GetPlayer()); j++)
 			output += "*";
-		for (int j = 0; j < EmpireMap::instance()->country(country)->getCities(_subject->GetPlayer()); j++)
+		for (int j = 0; j < EmpireMap::instance()->country(country)->GetCities(_subject->GetPlayer()); j++)
 			output += "[]";
 		output += "\n";
 	}
@@ -47,7 +47,7 @@ void StatsObserver::DisplayCountriesChart()
 
 void StatsObserver::DisplayGoodsChart()
 {
-	std::string output = _subject->GetPlayer()->getPlayerName() + "'s Goods are currently:\n"; ;
+	std::string output = _subject->GetPlayer()->GetPlayerName() + "'s Goods are currently:\n"; ;
 	for (std::map<GoodType, int*>::iterator it = _subject->GetGoodsMap()->begin(); it != _subject->GetGoodsMap()->end(); it++)
 	{
 		output += Good::GoodToString(it->first);

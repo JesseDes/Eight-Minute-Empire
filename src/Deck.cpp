@@ -20,22 +20,22 @@ Deck::Deck()
 Deck::~Deck()
 {
 	//deletes each card pointer and sets the pointer null. All cards MUST be deleted here and here alone
-	for (auto& i : cards)
+	for (auto& i : _cards)
 	{
 		delete i;
 		i = NULL;
 	}
 
-	delete drawCount;
+	delete _drawCount;
 	
-	drawCount = NULL;
+	_drawCount = NULL;
 }
 
 Card* Deck::Draw()
 {
-	if (*drawCount < NUMBER_OF_CARDS)
+	if (*_drawCount < NUMBER_OF_CARDS)
 	{
-		return cards[(*drawCount)++];
+		return _cards[(*_drawCount)++];
 	}
 
 }
@@ -44,7 +44,7 @@ void Deck::Shuffle()
 {
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 
-	std::shuffle(cards.begin(), cards.end() , std::default_random_engine(seed));
+	std::shuffle(_cards.begin(), _cards.end() , std::default_random_engine(seed));
 }
 
 
@@ -64,7 +64,7 @@ void Deck::GenerateCards()
             default: card = CardFactory::Create("wood"); break;
         }
 
-        card->draw();
-		cards[i] = card;
+        card->Draw();
+		_cards[i] = card;
 	}
 }

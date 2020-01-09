@@ -24,6 +24,6 @@ public:
 
 private :
 	void GenerateCards(); //creates random cards to fill the deck
-	std::array<Card*, NUMBER_OF_CARDS> cards;
-	int *drawCount = new int(0);
+	std::array<Card*, NUMBER_OF_CARDS> _cards;
+	int *_drawCount = new int(0);
 };

@@ -30,17 +30,17 @@ void Testers::BiddingTest()
 	Player playerOne(5, "Player one");
 	Player playerTwo(5, "player Two");
 
-	playerOne.createCoinPurse(2);
-	playerTwo.createCoinPurse(2);
+	playerOne.CreateCoinPurse(2);
+	playerTwo.CreateCoinPurse(2);
 
-	playerOne.placeBid();
-	playerTwo.placeBid();
+	playerOne.PlaceBid();
+	playerTwo.PlaceBid();
 	
-	if (playerTwo.getBid() > playerOne.getBid())
+	if (playerTwo.GetBid() > playerOne.GetBid())
 		std::cout << "Player Two wins";
-	else if (playerTwo.getBid() == playerOne.getBid())
+	else if (playerTwo.GetBid() == playerOne.GetBid())
 	{
-		if(playerTwo.getPlayerAge() < playerOne.getPlayerAge())
+		if(playerTwo.GetPlayerAge() < playerOne.GetPlayerAge())
 			std::cout << "Player Two wins";
 		else
 			std::cout << "Player One wins";
@@ -53,11 +53,11 @@ void Testers::PlayerTest()
 {
 	Player playerOne(5, "player One");
 
-	playerOne.createCoinPurse(2);
-	std::cout << "Starting coin amount: " <<  playerOne.getCoins() << "\n";
-	playerOne.placeBid();
-	playerOne.payCoin(playerOne.getBid());
-	std::cout << "Post bid coin amount: " << playerOne.getCoins() << "\n";
+	playerOne.CreateCoinPurse(2);
+	std::cout << "Starting coin amount: " <<  playerOne.GetCoins() << "\n";
+	playerOne.PlaceBid();
+	playerOne.PayCoin(playerOne.GetBid());
+	std::cout << "Post bid coin amount: " << playerOne.GetCoins() << "\n";
 
     Card* card = CardFactory::Create("wood");
 
@@ -84,10 +84,10 @@ void Testers::PhaseTest()
 	Player playerTwo(5, "PlayerToo");
 	playerOne.GivePieces(10, 10);
 	playerTwo.GivePieces(10, 10);
-	playerOne.createCoinPurse(2);
-	playerTwo.createCoinPurse(2);
-	playerOne.setPlayerStrategy(&human);
-	playerTwo.setPlayerStrategy(&human);
+	playerOne.CreateCoinPurse(2);
+	playerTwo.CreateCoinPurse(2);
+	playerOne.SetPlayerStrategy(&human);
+	playerTwo.SetPlayerStrategy(&human);
 
 	PhaseObservable *subject = new PhaseObservable();
 	PhaseObserver *watcher = new PhaseObserver(subject);
@@ -95,18 +95,18 @@ void Testers::PhaseTest()
 	Action act;
 	act.type = ActionType::build;
 	act.amount = 2;
-	subject->StartTurn(playerOne.getPlayerName());
-	playerOne.placeBid();
-	subject->Bid(playerOne.getBid(), playerOne.getPlayerName());
-	subject->PayPrice(5, 0 , playerOne.getPlayerName());
-	subject->SetAction(&act , playerOne.getPlayerName());
+	subject->StartTurn(playerOne.GetPlayerName());
+	playerOne.PlaceBid();
+	subject->Bid(playerOne.GetBid(), playerOne.GetPlayerName());
+	subject->PayPrice(5, 0 , playerOne.GetPlayerName());
+	subject->SetAction(&act , playerOne.GetPlayerName());
 
 	act.type = ActionType::kill;
-	subject->StartTurn(playerTwo.getPlayerName());
-	playerTwo.placeBid();
-	subject->Bid(playerTwo.getBid(), playerTwo.getPlayerName());
-	subject->PayPrice(15,2 , playerTwo.getPlayerName());
-	subject->SetAction(&act, playerTwo.getPlayerName());
+	subject->StartTurn(playerTwo.GetPlayerName());
+	playerTwo.PlaceBid();
+	subject->Bid(playerTwo.GetBid(), playerTwo.GetPlayerName());
+	subject->PayPrice(15,2 , playerTwo.GetPlayerName());
+	subject->SetAction(&act, playerTwo.GetPlayerName());
 	
 
 }
@@ -116,7 +116,7 @@ void Testers::StatsTest()
 	Human human;
 
 	Player *playerOne = new Player(5, "PlayerOne");
-	playerOne->setPlayerStrategy(&human);
+	playerOne->SetPlayerStrategy(&human);
 	StatsObservable *subject = new StatsObservable();
 	StatsObserver *watcher = new StatsObserver(subject);
 
@@ -128,33 +128,33 @@ void Testers::StatsTest()
 
 	subject->SetPlayer(playerOne);					//Player acquiring a bunch of territores
 
-	(*gameBoard).country(0)->addArmy(playerOne);
-    (*gameBoard).country(0)->updateOwner();
-    (*gameBoard).country(1)->addArmy(playerOne);
-    (*gameBoard).country(1)->addArmy(playerOne);
-    (*gameBoard).country(1)->addCity(playerOne);
-    (*gameBoard).country(1)->updateOwner();
-    (*gameBoard).country(2)->addArmy(playerOne);
-    (*gameBoard).country(2)->addArmy(playerOne);
-    (*gameBoard).country(2)->addArmy(playerOne);
-    (*gameBoard).country(2)->addArmy(playerOne);
-    (*gameBoard).country(2)->updateOwner();
+	(*gameBoard).country(0)->AddArmy(playerOne);
+    (*gameBoard).country(0)->UpdateOwner();
+    (*gameBoard).country(1)->AddArmy(playerOne);
+    (*gameBoard).country(1)->AddArmy(playerOne);
+    (*gameBoard).country(1)->AddCity(playerOne);
+    (*gameBoard).country(1)->UpdateOwner();
+    (*gameBoard).country(2)->AddArmy(playerOne);
+    (*gameBoard).country(2)->AddArmy(playerOne);
+    (*gameBoard).country(2)->AddArmy(playerOne);
+    (*gameBoard).country(2)->AddArmy(playerOne);
+    (*gameBoard).country(2)->UpdateOwner();
 	subject->UpdateCountries(playerOne->GetCountries());
 	
-    (*gameBoard).country(0)->removeArmy(playerOne); // Player losing some territories
+    (*gameBoard).country(0)->RemoveArmy(playerOne); // Player losing some territories
 	
-    (*gameBoard).country(0)->updateOwner();
-    (*gameBoard).country(1)->removeArmy(playerOne);
-    (*gameBoard).country(2)->removeArmy(playerOne);
-    (*gameBoard).country(1)->updateOwner();
-    (*gameBoard).country(2)->updateOwner();
+    (*gameBoard).country(0)->UpdateOwner();
+    (*gameBoard).country(1)->RemoveArmy(playerOne);
+    (*gameBoard).country(2)->RemoveArmy(playerOne);
+    (*gameBoard).country(1)->UpdateOwner();
+    (*gameBoard).country(2)->UpdateOwner();
 
 	subject->UpdateCountries(playerOne->GetCountries());
 	
 	int currentPoints = 0;
 	for (int i = 0; i < 5; i++)
 	{
-		playerOne->readCard(gameDeck.Draw());
+		playerOne->ReadCard(gameDeck.Draw());
 		if (currentPoints < playerOne->GetGoodPoints())
 		{
 			currentPoints = playerOne->GetGoodPoints();
@@ -170,7 +170,7 @@ void Testers::StatsTest()
 			card->numberOfActions = 1;
 			card->good = GoodType::gem;
 			
-			playerOne->readCard(card);
+			playerOne->ReadCard(card);
 			subject->UpdatePlayerGoods(playerOne->GetGoods());
 		}
 	}
@@ -192,15 +192,15 @@ void Testers::StrategyTest()
     ModerateComputer mBot;
 
     Player* playerHuman = new Player(9, "Human");
-    playerHuman->setPlayerStrategy(&human);
+    playerHuman->SetPlayerStrategy(&human);
     playerHuman->GivePieces(10,10); 
 
     Player* playerBotGreed = new Player(8, "Greed");
-    playerBotGreed->setPlayerStrategy(&gBot);
+    playerBotGreed->SetPlayerStrategy(&gBot);
     playerBotGreed->GivePieces(10, 10);
 
     Player* playerBotModerate = new Player(7, "Moderate");
-    playerBotModerate->setPlayerStrategy(&mBot);
+    playerBotModerate->SetPlayerStrategy(&mBot);
     playerBotModerate->GivePieces(10, 10);
 
     playerList.push_back(playerHuman);
@@ -210,9 +210,9 @@ void Testers::StrategyTest()
     // adding 3 troops to the starting country
     for (int j = 0; j < 3; j++)
     {
-        gameBoard->getStartingCountry()->addArmy(playerHuman);
-        gameBoard->getStartingCountry()->addArmy(playerBotGreed);
-        gameBoard->getStartingCountry()->addArmy(playerBotModerate);
+        gameBoard->GetStartingCountry()->AddArmy(playerHuman);
+        gameBoard->GetStartingCountry()->AddArmy(playerBotGreed);
+        gameBoard->GetStartingCountry()->AddArmy(playerBotModerate);
     }
 
     //create deck , shuffle, and add cards to hand
@@ -228,23 +228,23 @@ void Testers::StrategyTest()
     std::vector<Player*>::iterator currentPlayer = playerList.begin();
     for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
     {
-        (*it)->createCoinPurse(playerList.size());
-        (*it)->placeBid();
+        (*it)->CreateCoinPurse(playerList.size());
+        (*it)->PlaceBid();
 
         //currentPlayer is set to the player with the highest Bid and the youngest age (if matching bids) 
-        if (it != playerList.begin() && ((*currentPlayer)->getBid() < (*it)->getBid() || ((*currentPlayer)->getBid() == (*it)->getBid() && (*currentPlayer)->getPlayerAge() > (*it)->getPlayerAge())))
+        if (it != playerList.begin() && ((*currentPlayer)->GetBid() < (*it)->GetBid() || ((*currentPlayer)->GetBid() == (*it)->GetBid() && (*currentPlayer)->GetPlayerAge() > (*it)->GetPlayerAge())))
             currentPlayer = it;
     }
-    (*currentPlayer)->payCoin((*currentPlayer)->getBid());
-    std::cout << "HIGHEST BIDDER WAS :" << (*currentPlayer)->getPlayerName() << "\n";
+    (*currentPlayer)->PayCoin((*currentPlayer)->GetBid());
+    std::cout << "HIGHEST BIDDER WAS :" << (*currentPlayer)->GetPlayerName() << "\n";
 
     //Looping gameplay
     while (true)
     {
-        std::cout << "It is " << (*currentPlayer)->getPlayerName() << "'s turn \n";
+        std::cout << "It is " << (*currentPlayer)->GetPlayerName() << "'s turn \n";
 
         int strategySelection;
-        std::cout << "Current player's strategy type is :" << (*currentPlayer)->getPlayerStrategy()->printStrategyType() << "\n\n" <<
+        std::cout << "Current player's strategy type is :" << (*currentPlayer)->GetPlayerStrategy()->PrintStrategyType() << "\n\n" <<
             "Would you like to set a new player strategy?\n\n" <<
             "[0] No\n" <<
             "[1] Human\n" <<
@@ -256,18 +256,18 @@ void Testers::StrategyTest()
         switch (strategySelection) 
         {
             case 0: break;// do nothing
-            case 1: (*currentPlayer)->setPlayerStrategy(&human); break;
-            case 2: (*currentPlayer)->setPlayerStrategy(&gBot); break;
-            case 3: (*currentPlayer)->setPlayerStrategy(&mBot); break;
+            case 1: (*currentPlayer)->SetPlayerStrategy(&human); break;
+            case 2: (*currentPlayer)->SetPlayerStrategy(&gBot); break;
+            case 3: (*currentPlayer)->SetPlayerStrategy(&mBot); break;
         }
 
         //DISPLAY CARDS
         gameHand->ShowHand();
 
-        std::cout << (*currentPlayer)->getPlayerName() << ", which card would you like? \n";
+        std::cout << (*currentPlayer)->GetPlayerName() << ", which card would you like? \n";
 
         //CHOOSE CARD
-        (*currentPlayer)->chooseCard(gameHand);
+        (*currentPlayer)->ChooseCard(gameHand);
 
         //ADD CARD
         gameHand->AddCard(gameDeck->Draw());
@@ -313,7 +313,7 @@ void Testers::FactoryTest()
             "[3] Gem \n"
             "[4] Metal\n" <<
             "[5] Wild \n";
-		int cardSelection = Utils::validInputRange(0,5 ,"Please select valid card type");
+		int cardSelection = Utils::ValidInputRange(0,5 ,"Please select valid card type");
 
         Card *card;
         switch (cardSelection) {
@@ -326,7 +326,7 @@ void Testers::FactoryTest()
         default: card = CardFactory::Create("wood"); break;
         }
 
-        card->draw();
+        card->Draw();
 
         std::cout << "Good Type:  " << Good::GoodToString(card->good);
         std::cout << "\n# of action for this type of card:  " << card->numberOfActions;

@@ -13,13 +13,13 @@ class Continent
 public:
 
     Continent(int countryName, std::vector<int*> countries);
-    int getContinentName();
-    void updateOwner(); //checks every country owner and updates continent owner with the user with the highest #countries
-    Player* getOwner(); // returns current owner of Continent
-    int getTotalCountries(Player * player); // returns current owner of Continent
+    int GetContinentName();
+    void UpdateOwner(); //checks every country owner and updates continent owner with the user with the highest #countries
+    Player* GetOwner(); // returns current owner of Continent
+    int GetTotalCountries(Player * player); // returns current owner of Continent
 
 private:
-    Player* owner;
-    int* continentName;
-    std::vector<int*> countries;
+    Player* _owner;
+    int* _continentName;
+    std::vector<int*> _countries;
 };

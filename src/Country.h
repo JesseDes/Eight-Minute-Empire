@@ -13,20 +13,20 @@ class Country
 public:
 
     Country(int countryName);
-    int getCountryName();
-    void updateOwner(); //checks every player and updates owner with the user with the highest # of units
-    Player* getOwner(); // returns current owner of country
-    void addArmy(Player* player); 
-    void removeArmy(Player* player);
-    int getArmy(Player* player);
-    void addCity(Player* player);
-    void removeCity(Player* player);
-    int getCities(Player* player);
-    int getTotalUnits(Player* player); //the sum of all army and cities
+    int GetCountryName();
+    void UpdateOwner(); //checks every player and updates owner with the user with the highest # of units
+    Player* GetOwner(); // returns current owner of country
+    void AddArmy(Player* player); 
+    void RemoveArmy(Player* player);
+    int GetArmy(Player* player);
+    void AddCity(Player* player);
+    void RemoveCity(Player* player);
+    int GetCities(Player* player);
+    int GetTotalUnits(Player* player); //the sum of all army and cities
 
 private:
-    Player* owner;
-    std::map<Player*,int*> armies; //maps each player with their corresponding number of armies 
-    std::map<Player*, int*> cities;//maps each player with their corresponding number of cities 
-    int* countryName;   
+    Player* _owner;
+    std::map<Player*,int*> _armies; //maps each player with their corresponding number of armies 
+    std::map<Player*, int*> _cities;//maps each player with their corresponding number of cities 
+    int* _countryName;   
 };

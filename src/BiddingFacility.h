@@ -21,7 +21,7 @@ public:
 	int GetCoinPurse(); //retunrs coinCount
 
 private:
-	int *coinCount;
-	int *currentBid;
+	int *_coinCount;
+	int *_currentBid;
 };
 
