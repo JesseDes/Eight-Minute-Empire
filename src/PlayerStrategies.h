@@ -8,71 +8,71 @@ class Hand; //forward declaration
 class IPlayerStrategy {
 
 public:
-    virtual std::string printStrategyType() = 0;
-    virtual void placeBid(Player* player) = 0;
-    virtual int getBid(Player* player) = 0;
-    virtual void chooseCard(Player* player, Hand *gameHand) = 0;
-    virtual void readCard(Player* player, Card *gameCard) = 0;
+    virtual std::string PrintStrategyType() = 0;
+    virtual void PlaceBid(Player* player) = 0;
+    virtual int GetBid(Player* player) = 0;
+    virtual void ChooseCard(Player* player, Hand *gameHand) = 0;
+    virtual void ReadCard(Player* player, Card *gameCard) = 0;
 
-    virtual void moveOverLand(Player* player) = 0;
-    virtual void moveOverSea(Player* player) = 0;
-    virtual void buildCities(Player* player, int* cityPieces) = 0;
-    virtual void placeNewArmies(Player* player, int* armyPieces) = 0;
-    virtual void destroyArmy(Player* player) = 0;
-	virtual void placeShadowArmy(Player* player) = 0;
+    virtual void MoveOverLand(Player* player) = 0;
+    virtual void MoveOverSea(Player* player) = 0;
+    virtual void BuildCities(Player* player, int* cityPieces) = 0;
+    virtual void PlaceNewArmies(Player* player, int* armyPieces) = 0;
+    virtual void DestroyArmy(Player* player) = 0;
+	virtual void PlaceShadowArmy(Player* player) = 0;
 };
 
 // human strategy forced user input for every decision
 class Human : public IPlayerStrategy {
 public:
-    virtual std::string printStrategyType();
-    virtual void placeBid(Player* player);
-    virtual int getBid(Player* player);
-    virtual void chooseCard(Player* player, Hand *gameHand);
-    virtual void readCard(Player* player,Card *gameCard);
+    virtual std::string PrintStrategyType();
+    virtual void PlaceBid(Player* player);
+    virtual int GetBid(Player* player);
+    virtual void ChooseCard(Player* player, Hand *gameHand);
+    virtual void ReadCard(Player* player,Card *gameCard);
 
-    virtual void moveOverLand(Player* player);
-    virtual void moveOverSea(Player* player);
-    virtual void buildCities(Player* player, int* cityPieces);
-    virtual void placeNewArmies(Player* player, int* armyPieces);
-    virtual void destroyArmy(Player* player);
-	virtual void placeShadowArmy(Player* player);
+    virtual void MoveOverLand(Player* player);
+    virtual void MoveOverSea(Player* player);
+    virtual void BuildCities(Player* player, int* cityPieces);
+    virtual void PlaceNewArmies(Player* player, int* armyPieces);
+    virtual void DestroyArmy(Player* player);
+	virtual void PlaceShadowArmy(Player* player);
 };
 
 //GreedyComputer strategy focuses on building cities and killing other players 
 class GreedyComputer : public IPlayerStrategy {
 public:
-    virtual std::string printStrategyType();
-    virtual void placeBid(Player* player);
-    virtual int getBid(Player* player);
-    virtual void chooseCard(Player* player, Hand *gameHand);
-    virtual void readCard(Player* player,Card *gameCard);
+    virtual std::string PrintStrategyType();
+    virtual void PlaceBid(Player* player);
+    virtual int GetBid(Player* player);
+    virtual void ChooseCard(Player* player, Hand *gameHand);
+    virtual void ReadCard(Player* player,Card *gameCard);
 
-    virtual void moveOverLand(Player* player);
-    virtual void moveOverSea(Player* player);
-    virtual void buildCities(Player* player, int* cityPieces);
-    virtual void placeNewArmies(Player* player, int* armyPieces);
-    virtual void destroyArmy(Player* player);
-	virtual void placeShadowArmy(Player* player);
+    virtual void MoveOverLand(Player* player);
+    virtual void MoveOverSea(Player* player);
+    virtual void BuildCities(Player* player, int* cityPieces);
+    virtual void PlaceNewArmies(Player* player, int* armyPieces);
+    virtual void DestroyArmy(Player* player);
+	virtual void PlaceShadowArmy(Player* player);
 private:
-    int* bid;
+    int* _bid;
 };
 
 //ModerateComputer strategy focuses on conquering land 
 class ModerateComputer : public IPlayerStrategy {
 public:
-    virtual std::string printStrategyType();
-    virtual void placeBid(Player* player);
-    virtual int getBid(Player* player);
-    virtual void chooseCard(Player* player, Hand *gameHand);
-    virtual void readCard(Player* player,Card *gameCard);
+    virtual std::string PrintStrategyType();
+    virtual void PlaceBid(Player* player);
+    virtual int GetBid(Player* player);
+    virtual void ChooseCard(Player* player, Hand *gameHand);
+    virtual void ReadCard(Player* player,Card *gameCard);
 
-    virtual void moveOverLand(Player* player);
-    virtual void moveOverSea(Player* player);
-    virtual void buildCities(Player* player,int* cityPieces);
-    virtual void placeNewArmies(Player* player, int* armyPieces);
-    virtual void destroyArmy(Player* player);
-	virtual void placeShadowArmy(Player* player);
+    virtual void MoveOverLand(Player* player);
+    virtual void MoveOverSea(Player* player);
+    virtual void BuildCities(Player* player,int* cityPieces);
+    virtual void PlaceNewArmies(Player* player, int* armyPieces);
+    virtual void DestroyArmy(Player* player);
+	virtual void PlaceShadowArmy(Player* player);
 private:
-    int* bid;
+    int* _bid;
 };

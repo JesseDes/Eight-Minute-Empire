@@ -15,7 +15,7 @@ EmpireMap* EmpireMap::instance(list<int> mapData, int start) {
 		try
 		{
 			mapInstance = new EmpireMap(mapData, start);
-			mapInstance->isValid();
+			mapInstance->IsValid();
 		}
 		catch (CurruptedMapException e)
 		{
@@ -42,23 +42,23 @@ EmpireMap::EmpireMap(list<int> mapData, int start)
 	try
 	{
 		//creating weighted adjacency matrix
-		createAdjacencyMatrix(mapData);
+		CreateAdjacencyMatrix(mapData);
 
 		//Initialising starting country
-		startingCountry = new int(start);
+		_startingCountry = new int(start);
 
 		//initializing continents to 0
-		continents = new int(0);
+		_continents = new int(0);
 
 		//creating continents
-		findContinentCountries(0);
-		createContinents();
+		FindContinentCountries(0);
+		CreateContinents();
 
 		//creating continent adjacency matrix
-		createContinentAdjacencyMatrix();
+		CreateContinentAdjacencyMatrix();
 
 		//creating country objects
-		createCountries();
+		CreateCountries();
 	}
 	catch (CurruptedMapException e)
 	{
@@ -68,26 +68,26 @@ EmpireMap::EmpireMap(list<int> mapData, int start)
 
 EmpireMap::~EmpireMap()
 {
-	for (int i = 0; i < *countries; i++)
+	for (int i = 0; i < *_countries; i++)
 	{
-		delete[] map[i];
+		delete[] _map[i];
 	}
-	delete[] map;
+	delete[] _map;
 
-	for (auto i : countryContents)
+	for (auto i : _countryContents)
 	{
 		delete i;
 	}
-	countryContents.clear();
+	_countryContents.clear();
 	
-	delete countries;
-	countries = NULL;
+	delete _countries;
+	_countries = NULL;
 
-	delete continents;
-	continents = NULL;
+	delete _continents;
+	_continents = NULL;
 }
 
-void EmpireMap::createAdjacencyMatrix(std::list<int> mapData)
+void EmpireMap::CreateAdjacencyMatrix(std::list<int> mapData)
 {
 	// Setting size equal to the number of nodes (countries)
 	//int nodes = sqrt(mapData.size());
@@ -97,12 +97,12 @@ void EmpireMap::createAdjacencyMatrix(std::list<int> mapData)
 		throw(e);		
 	}
 
-	countries = new int(sqrt(mapData.size()));
+	_countries = new int(sqrt(mapData.size()));
 
 	// Creating our dynamic 2d array
-	map = new int* [*countries];
-	for (int i = 0; i < *countries; ++i)
-		map[i] = new int[*countries];
+	_map = new int* [*_countries];
+	for (int i = 0; i < *_countries; ++i)
+		_map[i] = new int[*_countries];
 
 	// adding the list items into the 2d array
 	list<int>::iterator it = mapData.begin();
@@ -110,27 +110,27 @@ void EmpireMap::createAdjacencyMatrix(std::list<int> mapData)
 
 	//creates the 2d matrix from the list data
 	int i, j;
-	for (i = 0; i < *countries; i++) {
-		for (j = 0; j < *countries; j++) {
-			map[i][j] = *it;
+	for (i = 0; i < *_countries; i++) {
+		for (j = 0; j < *_countries; j++) {
+			_map[i][j] = *it;
 			advance(it, 1);
 		}
 	}
 }
 
-void EmpireMap::createContinentAdjacencyMatrix()
+void EmpireMap::CreateContinentAdjacencyMatrix()
 {
 	// Creating our dynamic 2d array
-	continentMap = new int* [*continents];
-	for (int i = 0; i <= *continents; ++i)
-		continentMap[i] = new int[*continents];
+	_continentMap = new int* [*_continents];
+	for (int i = 0; i <= *_continents; ++i)
+		_continentMap[i] = new int[*_continents];
 
 
 	//initialising all elements of array to 0
 	int i, j;
-	for (i = 0; i <= *continents; i++) {
-		for (j = 0; j <= *continents; j++) {
-			continentMap[i][j] = 0;
+	for (i = 0; i <= *_continents; i++) {
+		for (j = 0; j <= *_continents; j++) {
+			_continentMap[i][j] = 0;
 		}
 	}
 
@@ -138,12 +138,12 @@ void EmpireMap::createContinentAdjacencyMatrix()
 
 	int continent1;
 	int continent2;
-	for (int i = 0; i < *countries; i++) {
-		for (int j = 0; j < *countries; j++) {
-			if (isWater(i, j)) {
+	for (int i = 0; i < *_countries; i++) {
+		for (int j = 0; j < *_countries; j++) {
+			if (IsWater(i, j)) {
 
-				for (auto k = 0; k <= *continents; k++) {
-					for (auto v : continentCountries[k]) {
+				for (auto k = 0; k <= *_continents; k++) {
+					for (auto v : _continentCountries[k]) {
 						if (*v == i)
 							continent1 = k;
 						if (*v == j)
@@ -151,105 +151,105 @@ void EmpireMap::createContinentAdjacencyMatrix()
 					}
 				}
 
-				continentMap[continent1][continent2] = 1;
+				_continentMap[continent1][continent2] = 1;
 			}
 		}
 	}
 }
 
-void EmpireMap::createCountries()
+void EmpireMap::CreateCountries()
 {
-	for (int i = 0; i <= *countries; i++)
+	for (int i = 0; i <= *_countries; i++)
 	{
-		countryContents.push_back(new Country(i));
+		_countryContents.push_back(new Country(i));
 	}
 }
 
 Country* EmpireMap::country(int country)
 {
-	return countryContents[country];
+	return _countryContents[country];
 }
 
 Continent* EmpireMap::continent(int continent)
 {
-    return continentContents[continent];
+    return _continentContents[continent];
 }
 
-void EmpireMap::findContinentCountries(int start) {
+void EmpireMap::FindContinentCountries(int start) {
 
-	for (int j = 0; j < *countries; j++) {
-		if (map[start][j] == 1) {
-            if (std::find_if(visited.begin(), visited.end(), [j](int* e) {return *e == j;}) == visited.end())
+	for (int j = 0; j < *_countries; j++) {
+		if (_map[start][j] == 1) {
+            if (std::find_if(_visited.begin(), _visited.end(), [j](int* e) {return *e == j;}) == _visited.end())
 			{
-                continentCountries.resize((*continents) + 1);
-				visited.push_back(new int(j));
-				continentCountries[*continents].push_back(new int(j));
-				findContinentCountries(j);
+                _continentCountries.resize((*_continents) + 1);
+				_visited.push_back(new int(j));
+				_continentCountries[*_continents].push_back(new int(j));
+				FindContinentCountries(j);
 			}
 		}
 	}
     
-    visited.push_back(new int(start));
+    _visited.push_back(new int(start));
 
     // If this statements is true the we have just discovered a new continent
-	if (visited.size() < *countries)
+	if (_visited.size() < *_countries)
 	{
-		++(*continents);
-		for (int j = 0; j < *countries; j++) {
-            if (std::find_if(visited.begin(), visited.end(), [j](int* e) {return *e==j; }) == visited.end())
+		++(*_continents);
+		for (int j = 0; j < *_countries; j++) {
+            if (std::find_if(_visited.begin(), _visited.end(), [j](int* e) {return *e==j; }) == _visited.end())
 			{
-				findContinentCountries(j);
+				FindContinentCountries(j);
 			}
 		}
 	}
 }
 
-int EmpireMap::getCountries()
+int EmpireMap::GetCountries()
 {
-	return *countries;
+	return *_countries;
 }
 
 int EmpireMap::getContinents()
 {
-	return (*continents)+1; //because we start at 0
+	return (*_continents)+1; //because we start at 0
 }
 
-bool EmpireMap::isLand(int a, int b)
+bool EmpireMap::IsLand(int a, int b)
 {
-	if (map[a][b] == 1)
+	if (_map[a][b] == 1)
 		return true;
 	
 	return false;
 }
 
-bool EmpireMap::isWater(int a, int b)
+bool EmpireMap::IsWater(int a, int b)
 {
-	if (map[a][b] == 2)
+	if (_map[a][b] == 2)
 		return true;
 
 	return false;
 }
 
-void EmpireMap::displayMatrix() {
+void EmpireMap::DisplayMatrix() {
 
 	cout << "The Matrix";
 	cout << endl;
-	for (int i = 0; i < *countries; i++) {
-		for (int j = 0; j < *countries; j++) {
-			cout << map[i][j] << " ";
+	for (int i = 0; i < *_countries; i++) {
+		for (int j = 0; j < *_countries; j++) {
+			cout << _map[i][j] << " ";
 		}
 		cout << endl;
 	}
 }
 
-void EmpireMap::displayAdjecent() {
+void EmpireMap::DisplayAdjecent() {
 
 	cout << "all adjancent (including by water)";
 	cout << endl;
-	for (int i = 0; i < *countries; i++) {
+	for (int i = 0; i < *_countries; i++) {
 		cout << i << " --> ";
-		for (int j = 0; j < *countries; j++) {
-			if (map[i][j] != 0) {
+		for (int j = 0; j < *_countries; j++) {
+			if (_map[i][j] != 0) {
 				cout << j << " ";
 			}
 		}
@@ -257,14 +257,14 @@ void EmpireMap::displayAdjecent() {
 	}
 }
 
-void EmpireMap::displayAdjecentContinents()
+void EmpireMap::DisplayAdjecentContinents()
 {
 	cout << "all adjancent continents";
 	cout << endl;
-	for (int i = 0; i <= *continents; i++) {
+	for (int i = 0; i <= *_continents; i++) {
 		cout << i << " --> ";
-		for (int j = 0; j <= *continents; j++) {
-			if (continentMap[i][j] != 0) {
+		for (int j = 0; j <= *_continents; j++) {
+			if (_continentMap[i][j] != 0) {
 				cout << j << " ";
 			}
 		}
@@ -272,36 +272,36 @@ void EmpireMap::displayAdjecentContinents()
 	}
 }
 
-void EmpireMap::displayContinents() {
+void EmpireMap::DisplayContinents() {
 
-	for (auto i = 0; i <= *continents; i++)
+	for (auto i = 0; i <= *_continents; i++)
 	{
 		// print current vertex number
 		cout << "continent " << i << " --> countries: ";
 
-		for (auto v : continentCountries[i])
+		for (auto v : _continentCountries[i])
 			cout << *v << " ";
 		cout << endl;
 	}
 }
 
 
-void EmpireMap::createContinents() {
+void EmpireMap::CreateContinents() {
 
-    for (auto i = 0; i <= *continents; i++)
+    for (auto i = 0; i <= *_continents; i++)
     {
-        continentContents.push_back(new Continent(i, continentCountries[i]));
+        _continentContents.push_back(new Continent(i, _continentCountries[i]));
     }
 }
 
 
-void EmpireMap::displayIsWater() {
+void EmpireMap::DisplayIsWater() {
 
 	cout << "adjacent by water";
 	cout << endl;
-	for (int i = 0; i < *countries; i++) {
-		for (int j = 0; j < *countries; j++) {
-			if (map[i][j] == 2) {
+	for (int i = 0; i < *_countries; i++) {
+		for (int j = 0; j < *_countries; j++) {
+			if (_map[i][j] == 2) {
 				cout << i << " --> " << j;
 				cout << endl;
 			}
@@ -309,13 +309,13 @@ void EmpireMap::displayIsWater() {
 	}
 }
 
-void EmpireMap::displayIsLand() {
+void EmpireMap::DisplayIsLand() {
 
 	cout << "adjacent by land";
 	cout << endl;
-	for (int i = 0; i < *countries; i++) {
-		for (int j = 0; j < *countries; j++) {
-			if (map[i][j] == 1) {
+	for (int i = 0; i < *_countries; i++) {
+		for (int j = 0; j < *_countries; j++) {
+			if (_map[i][j] == 1) {
 				cout << i << " --> " << j;
 				cout << endl;
 			}
@@ -328,11 +328,11 @@ bool EmpireMap::IsCountriesConnected() {
 	//  checking if the map is a connected graph:
 	//	If every number is connected to at least one other land by land or sea, it's a connected graph
 
-	vector<vector<int>> adjacency(*countries);
+	vector<vector<int>> adjacency(*_countries);
 	
-	for (int i = 0; i < *countries; i++) {
-		for (int j = 0; j < *countries; j++) {
-			if (map[i][j] != 0) {
+	for (int i = 0; i < *_countries; i++) {
+		for (int j = 0; j < *_countries; j++) {
+			if (_map[i][j] != 0) {
 				adjacency[i].push_back(j);
 			}
 		}
@@ -352,31 +352,31 @@ bool EmpireMap::IsContinentsConnected() {
 bool EmpireMap::ContinentDFS(int start) {
 
 
-	for (int j = 0; j <= *continents; j++) {
-		if (continentMap[start][j] == 1) {
-            if (std::find_if(visitedContinents.begin(), visitedContinents.end(), [j](int* e) {return *e == j; }) == visitedContinents.end())
+	for (int j = 0; j <= *_continents; j++) {
+		if (_continentMap[start][j] == 1) {
+            if (std::find_if(_visitedContinents.begin(), _visitedContinents.end(), [j](int* e) {return *e == j; }) == _visitedContinents.end())
             {
-                visitedContinents.push_back(new int(j));
+                _visitedContinents.push_back(new int(j));
                 ContinentDFS(j);
             }
 		}
 	}
 
 	// if the size of visited continents is less than the number of continents, it's not connected
-	if (visitedContinents.size() < *continents)
+	if (_visitedContinents.size() < *_continents)
 		return false;
 
 	return true;
 }
 
-bool EmpireMap::isNotDuplicated() {
+bool EmpireMap::IsNotDuplicated() {
 
 	// checking that there are no duplicate countries
 	int visit;
-	for (int i = 0; i < *countries; i++) {
+	for (int i = 0; i < *_countries; i++) {
 		visit = 0;
-		for (int j = 0; j <= *continents; j++) {
-			for (auto v : continentCountries[j]) {
+		for (int j = 0; j <= *_continents; j++) {
+			for (auto v : _continentCountries[j]) {
 				if (*v == i)
 					visit++;
 			}
@@ -387,9 +387,9 @@ bool EmpireMap::isNotDuplicated() {
 	return true;
 }
 
-void EmpireMap::isValid() {
+void EmpireMap::IsValid() {
 
-	if (!(isNotDuplicated() && IsCountriesConnected() && IsContinentsConnected()))
+	if (!(IsNotDuplicated() && IsCountriesConnected() && IsContinentsConnected()))
 	{
 		InvalidMapException e;
 		throw(e);
@@ -397,29 +397,29 @@ void EmpireMap::isValid() {
 
 }
 
-Country* EmpireMap::getStartingCountry()
+Country* EmpireMap::GetStartingCountry()
 {
-    return countryContents[*startingCountry];
+    return _countryContents[*_startingCountry];
 }
 
-vector<int> EmpireMap::getAdjacentByLand(int country)
+vector<int> EmpireMap::GetAdjacentByLand(int country)
 {
     vector<int> adjacentCountries;
     cout << endl;
-        for (int j = 0; j < *countries; j++) {
-            if (map[country][j] == 1) {
+        for (int j = 0; j < *_countries; j++) {
+            if (_map[country][j] == 1) {
                 adjacentCountries.push_back(j);
             }
     }
     return adjacentCountries;
 }
 
-vector<int> EmpireMap::getAdjacentByLandAndWater(int country)
+vector<int> EmpireMap::GetAdjacentByLandAndWater(int country)
 {
     vector<int> adjacentCountries;
     cout << endl;
-    for (int j = 0; j < *countries; j++) {
-        if (map[country][j] > 0 ) {
+    for (int j = 0; j < *_countries; j++) {
+        if (_map[country][j] > 0 ) {
             adjacentCountries.push_back(j);
         }
     }

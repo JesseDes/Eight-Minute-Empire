@@ -4,53 +4,53 @@
 
 Continent::Continent(int contName, std::vector<int*> countries)
 {
-    owner = nullptr;
-    continentName = new int(contName);
-    this->countries = countries;
+    _owner = nullptr;
+    _continentName = new int(contName);
+    this->_countries = countries;
 }
 
-int Continent::getContinentName()
+int Continent::GetContinentName()
 {
-    return *continentName;
+    return *_continentName;
 }
 
-Player * Continent::getOwner()
+Player * Continent::GetOwner()
 {
-    return owner;
+    return _owner;
 }
 
-int Continent::getTotalCountries(Player * player)
+int Continent::GetTotalCountries(Player * player)
 {
     int totalCountries = 0;
-    for (auto v : countries) {
-        if (EmpireMap::instance()->country(*v)->getOwner() == player) {
+    for (auto v : _countries) {
+        if (EmpireMap::instance()->country(*v)->GetOwner() == player) {
             totalCountries++;
         }
     }
     return totalCountries;
 }
 
-void Continent::updateOwner()
+void Continent::UpdateOwner()
 {
-    std::vector<Player*> playerList = GameLoop::getPlayerList();
+    std::vector<Player*> playerList = GameLoop::GetPlayerList();
 
     for (std::vector<Player*>::iterator it = playerList.begin(); it != playerList.end(); it++)
     {
-        if (*it != owner) {
+        if (*it != _owner) {
             // if no owner is assigned, assign player
-            if (owner == nullptr)
-                owner = *it;
+            if (_owner == nullptr)
+                _owner = *it;
             // Replace owner with the player with most countries
-            else if (getTotalCountries(*it) > getTotalCountries(owner))
-                owner = *it;
+            else if (GetTotalCountries(*it) > GetTotalCountries(_owner))
+                _owner = *it;
             // Replace owner null if there is more than 1  player with equal number of countries
-            else if (getTotalCountries(*it) == getTotalCountries(owner)) {
-                owner = nullptr;
+            else if (GetTotalCountries(*it) == GetTotalCountries(_owner)) {
+                _owner = nullptr;
             }
         }
         //if nobody has any countries in the continent, owner is null
-        else if (getTotalCountries(*it) == 0) {
-            owner = nullptr;
+        else if (GetTotalCountries(*it) == 0) {
+            _owner = nullptr;
         }
     }
 }

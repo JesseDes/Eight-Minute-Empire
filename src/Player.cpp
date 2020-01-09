@@ -6,36 +6,36 @@
 
 Player::Player(int age , std::string name)
 {
-	playerAge = new int(age);
-	playerName = new std::string(name);
-	playerHand = new int(0);
-	playerActions = new int(0);
-    behavior = 0;
+	_playerAge = new int(age);
+	_playerName = new std::string(name);
+	_playerHand = new int(0);
+	_playerActions = new int(0);
+    _behavior = 0;
 }
 
-void Player::createCoinPurse(int numberofPlayers)
+void Player::CreateCoinPurse(int numberofPlayers)
 {
-	bidder = new BiddingFacility(numberofPlayers);
-	std::cout << bidder->GetCoinPurse() << " coins start \n";
+	_bidder = new BiddingFacility(numberofPlayers);
+	std::cout << _bidder->GetCoinPurse() << " coins start \n";
 }
 
-BiddingFacility* Player::getBidder() {
-    return bidder;
+BiddingFacility* Player::GetBidder() {
+    return _bidder;
 }
 
 Player::~Player()
 {
-	delete playerAge;
-	playerAge = NULL;
+	delete _playerAge;
+	_playerAge = NULL;
 
-	delete playerName;
-	playerName = NULL;
+	delete _playerName;
+	_playerName = NULL;
 
-	delete bidder;
-	bidder = NULL;
+	delete _bidder;
+	_bidder = NULL;
 
-	delete countryList;
-	countryList = NULL;
+	delete _countryList;
+	_countryList = NULL;
 
 	for (std::map<GoodType, int*>::iterator it = _goodMap.begin(); it != _goodMap.end(); it++)
 	{
@@ -43,27 +43,27 @@ Player::~Player()
 		it->second = NULL;
 	}
 
-	delete armyPieces;
-	armyPieces = NULL;
+	delete _armyPieces;
+	_armyPieces = NULL;
 
-	delete cityPieces;
-	cityPieces = NULL;
+	delete _cityPieces;
+	_cityPieces = NULL;
 
-	delete playerHand;
-	playerHand = NULL;
+	delete _playerHand;
+	_playerHand = NULL;
 
-	delete playerActions;
-	playerActions = NULL;
+	delete _playerActions;
+	_playerActions = NULL;
 }
 
-void Player::chooseCard(Hand *gameHand) {
-    behavior->chooseCard(this, gameHand);
+void Player::ChooseCard(Hand *gameHand) {
+    _behavior->ChooseCard(this, gameHand);
 }
 
-void Player::readCard(Card *gameCard)
+void Player::ReadCard(Card *gameCard)
 {
 
-	(*playerHand)++;
+	(*_playerHand)++;
 	//incremets the good count in the map of goods
 	if (_goodMap.find(gameCard->good) != _goodMap.end())
 		(*_goodMap[gameCard->good])++;
@@ -72,25 +72,25 @@ void Player::readCard(Card *gameCard)
 	
 
 	//prompts to select an action from the list
-	std::cout << "which action would you like to perform " << *playerName << "? \n";
+	std::cout << "which action would you like to perform " << *_playerName << "? \n";
 
-    behavior->readCard(this, gameCard);
+    _behavior->ReadCard(this, gameCard);
 }
 
-void Player::doAction(Action action)
+void Player::DoAction(Action action)
 {
 	if(action.type != ActionType::null)
-		(*playerActions)++;
+		(*_playerActions)++;
 
 	for (int i = 0; i < action.amount; i++)
 	{
 		switch (action.type)
 		{
-			case ActionType::moveGround: Player::moveOverLand(); break;
-			case ActionType::moveSea: Player::moveOverSea(); break;
-			case ActionType::build: Player::buildCities(); break;
-			case ActionType::recruit: Player::placeNewArmies(); break;
-			case ActionType::kill: Player::destroyArmy(); break;
+			case ActionType::moveGround: Player::MoveOverLand(); break;
+			case ActionType::moveSea: Player::MoveOverSea(); break;
+			case ActionType::build: Player::BuildCities(); break;
+			case ActionType::recruit: Player::PlaceNewArmies(); break;
+			case ActionType::kill: Player::DestroyArmy(); break;
 			case ActionType::null: break;
 
 			default: std::cout << "invalid action"; break;
@@ -98,66 +98,66 @@ void Player::doAction(Action action)
 	}
 }
 
-void Player::moveOverLand()
+void Player::MoveOverLand()
 {
-    behavior->moveOverLand(this);
+    _behavior->MoveOverLand(this);
 }
 
-void Player::moveOverSea()
+void Player::MoveOverSea()
 {
-    behavior->moveOverSea(this);
+    _behavior->MoveOverSea(this);
 }
 
-void Player::buildCities()
+void Player::BuildCities()
 {
-    behavior->buildCities(this, cityPieces);
+    _behavior->BuildCities(this, _cityPieces);
 }
 
-void Player::placeNewArmies()
+void Player::PlaceNewArmies()
 {
-    behavior->placeNewArmies(this, armyPieces);
+    _behavior->PlaceNewArmies(this, _armyPieces);
 }
 
-void Player::destroyArmy()
+void Player::DestroyArmy()
 {
-    behavior->destroyArmy(this);
+    _behavior->DestroyArmy(this);
 }
 
-void Player::placeBid()
+void Player::PlaceBid()
 {
-    behavior->placeBid(this);
+    _behavior->PlaceBid(this);
 }
 
-bool Player::payCoin(int cost)
+bool Player::PayCoin(int cost)
 {
-	if (cost <= bidder->GetCoinPurse())
+	if (cost <= _bidder->GetCoinPurse())
 	{
-		bidder->Pay(cost);
+		_bidder->Pay(cost);
 		return true;
 	}
 	else
 	{
-		std::cout << "You can't afford it, you only have " << bidder->GetCoinPurse() << " coins left \n";
+		std::cout << "You can't afford it, you only have " << _bidder->GetCoinPurse() << " coins left \n";
 		return false;
 	}
 }
 
-int Player::getBid()
+int Player::GetBid()
 {
-    return behavior->getBid(this);
+    return _behavior->GetBid(this);
 }
 
-int Player::getPlayerAge()
+int Player::GetPlayerAge()
 {
-	return *playerAge;
+	return *_playerAge;
 }
 
-int Player::getCoins()
+int Player::GetCoins()
 {
-	return bidder->GetCoinPurse();
+	return _bidder->GetCoinPurse();
 }
 
-int Player::getScore()
+int Player::GetScore()
 {
 	int score = 0;
 	
@@ -165,12 +165,12 @@ int Player::getScore()
 
 
     // adding a point to total score for every country this player is an owner of
-    int numberOfCountries = EmpireMap::instance()->getCountries();
+    int numberOfCountries = EmpireMap::instance()->GetCountries();
     Country* country;
     int pointsFromCountries=0;
     for (int j = 0; j < numberOfCountries; j++) {
         country = EmpireMap::instance()->country(j);
-        if (country->getOwner() == this)
+        if (country->GetOwner() == this)
             pointsFromCountries++;
     }
 
@@ -180,8 +180,8 @@ int Player::getScore()
     int pointsFromContinents = 0;
     for (int j = 0; j < numberOfContinents; j++) {
         continent = EmpireMap::instance()->continent(j);
-        continent->updateOwner();
-        if (continent->getOwner() == this)
+        continent->UpdateOwner();
+        if (continent->GetOwner() == this)
             pointsFromContinents++;
     }
 
@@ -206,28 +206,28 @@ int Player::GetGoodPoints()
 
 void Player::GivePieces(int armies, int cities)
 {
-	armyPieces = new int(armies);
-	cityPieces = new int(cities);
+	_armyPieces = new int(armies);
+	_cityPieces = new int(cities);
 }
 
 void Player::DrawArmyPiece()
 {
-	(*armyPieces)++;
+	(*_armyPieces)++;
 }
 
 std::vector<int>* Player::GetCountries()
 {
-	delete countryList;
-	countryList = new std::vector<int>();
+	delete _countryList;
+	_countryList = new std::vector<int>();
 
-	int numberOfCountries = EmpireMap::instance()->getCountries();
+	int numberOfCountries = EmpireMap::instance()->GetCountries();
 
 	for (int i = 0; i < numberOfCountries; i++)
 	{
-		if (EmpireMap::instance()->country(i)->getOwner() == this)
-			countryList->push_back(i);
+		if (EmpireMap::instance()->country(i)->GetOwner() == this)
+			_countryList->push_back(i);
 	}
-	return countryList;
+	return _countryList;
 }
 
 std::map<GoodType, int*>* Player::GetGoods()
@@ -235,15 +235,15 @@ std::map<GoodType, int*>* Player::GetGoods()
 	return &_goodMap;
 }
 
-void Player::setPlayerStrategy(IPlayerStrategy* behavior) {
-    this->behavior = behavior;
+void Player::SetPlayerStrategy(IPlayerStrategy* behavior) {
+    this->_behavior = behavior;
 }
 
-IPlayerStrategy* Player::getPlayerStrategy() {
-    return behavior;
+IPlayerStrategy* Player::GetPlayerStrategy() {
+    return _behavior;
 }
 
 void Player::PlaceShadowPlayer(Player *shadowPlayer)
 {
-	behavior->placeShadowArmy(shadowPlayer);
+	_behavior->PlaceShadowArmy(shadowPlayer);
 }

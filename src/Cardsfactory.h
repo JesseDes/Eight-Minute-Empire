@@ -7,7 +7,7 @@
 
 class Card {
 public:
-    virtual void draw() = 0;
+    virtual void Draw() = 0;
     Action actions[2];
     GoodType good;
     int numberOfActions;
@@ -16,32 +16,32 @@ public:
 
 class Wood : public Card {
 public:
-    virtual void draw();
+    virtual void Draw();
 };
 
 class Stone : public Card {
 public:
-    virtual void draw();
+    virtual void Draw();
 };
 
 class Food : public Card {
 public:
-    virtual void draw();
+    virtual void Draw();
 };
 
 class Gem : public Card {
 public:
-    virtual void draw();
+    virtual void Draw();
 };
 
 class Metal : public Card {
 public:
-    virtual void draw();
+    virtual void Draw();
 };
 
 class Wild : public Card {
 public:
-    virtual void draw();
+    virtual void Draw();
 };
 
 

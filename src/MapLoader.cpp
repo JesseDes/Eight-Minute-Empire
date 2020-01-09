@@ -32,15 +32,15 @@ void MapLoader::FindMap()
 	int selection;
 	std::cout << "Which map would you like to use? \n";
 
-	selection = Utils::validInputRange(0, (fileCount - 1),  "You must choose a value between 0 and " + std::to_string((fileCount - 1)));
+	selection = Utils::ValidInputRange(0, (fileCount - 1),  "You must choose a value between 0 and " + std::to_string((fileCount - 1)));
 
 	std::cout << fileList[selection].cFileName << " Selected \n";
 	
-	readMapData(fileList[selection].cFileName);
+	ReadMapData(fileList[selection].cFileName);
 
 }
 
-void MapLoader::readMapData(std::string file)
+void MapLoader::ReadMapData(std::string file)
 {
 	ifstream File;
 
