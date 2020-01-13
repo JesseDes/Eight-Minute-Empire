@@ -35,11 +35,11 @@ void PhaseObserver::DisplayTurn()
 	int half_minus_name_length = HEADER_SIZE / 2 - _subject->GetName()->length();
 
 	output += "||";
-	for (i = 0; i < half_minus_name_length; i++)
+	for (i = 0; i < half_minus_name_length ; i++)
 		output += " ";
 	output += *_subject->GetName();
 
-	for (; i < HEADER_SIZE - _subject->GetName()->length(); i++)
+	for (; i < HEADER_SIZE - _subject->GetName()->length() - 4; i++)
 		output += " ";
 	
 	output += "||\n";

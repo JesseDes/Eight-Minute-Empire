@@ -20,7 +20,7 @@ public:
 
 	const int* MAX_PLAYERS = new int(5);
 	const int* MIN_PLAYERS = new int(2);
-	const int* TWO_PLAYER_END_GAME_CARD_COUNT = new int(13);  // 13
+	const int* TWO_PLAYER_END_GAME_CARD_COUNT = new int(3);  // 13
 	const int* THREE_PLAYER_END_GAME_CARD_COUNT = new int(10); // 10
 	const int* FOUR_PLAYER_END_GAME_CARD_COUNT = new int(8); // 8
 	const int* FIVE_PLAYER_END_GAME_CARD_COUNT = new int(7); // 7
@@ -36,6 +36,10 @@ public:
     static std::vector<Player*> GetPlayerList(); //returns a vector of every player in the current game
 
 private:
+	const int* SPACE_BETWEEN_HEADER = new int(10);		//These are lengths used to format end game message, if you update the text the values must be changed
+	const int* SPACE_BETWEEN_SCORE_LINE = new int (6);
+	const int* SCORE_LINE_FIRST_SPACE_LENGTH = new int(21);
+
 	void SetTurnCount(int playerCount); //sets the maximum number of turns based on the number of players
 	void GetGameTypeStrategies(Player *player);
 
