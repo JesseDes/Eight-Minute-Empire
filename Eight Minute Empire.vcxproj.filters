@@ -1,57 +1,182 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\BiddingFacility.cpp" />
-    <ClCompile Include="src\Continent.cpp" />
-    <ClCompile Include="src\Country.cpp" />
-    <ClCompile Include="src\Deck.cpp" />
-    <ClCompile Include="src\Eight Minute Empire.cpp" />
-    <ClCompile Include="src\GameLoop.cpp" />
-    <ClCompile Include="src\Good .cpp" />
-    <ClCompile Include="src\Hand.cpp" />
-    <ClCompile Include="src\map.cpp" />
-    <ClCompile Include="src\MapLoader.cpp" />
-    <ClCompile Include="src\Observer.cpp" />
-    <ClCompile Include="src\pch.cpp" />
-    <ClCompile Include="src\PhaseObservable.cpp" />
-    <ClCompile Include="src\PhaseObserver.cpp" />
-    <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\StatsObservable.cpp" />
-    <ClCompile Include="src\StatsObserver.cpp" />
-    <ClCompile Include="src\Subject.cpp" />
-    <ClCompile Include="src\PlayerStrategies.cpp" />
-    <ClCompile Include="src\Testers.cpp" />
-    <ClCompile Include="src\Utils.cpp" />
-    <ClCompile Include="src\Gamecard.cpp" />
+    <ClCompile Include="src\utils\Utils.cpp">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cards\Deck.cpp">
+      <Filter>src\cards</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cards\Gamecard.cpp">
+      <Filter>src\cards</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cards\Good .cpp">
+      <Filter>src\cards</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cards\Hand.cpp">
+      <Filter>src\cards</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GameLoop.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\Continent.cpp">
+      <Filter>src\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\Country.cpp">
+      <Filter>src\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\map.cpp">
+      <Filter>src\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\MapLoader.cpp">
+      <Filter>src\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\observers\Observer.cpp">
+      <Filter>src\observers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\observers\PhaseObservable.cpp">
+      <Filter>src\observers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\observers\PhaseObserver.cpp">
+      <Filter>src\observers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\observers\StatsObservable.cpp">
+      <Filter>src\observers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\observers\StatsObserver.cpp">
+      <Filter>src\observers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\observers\Subject.cpp">
+      <Filter>src\observers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\strategies\PlayerStrategies.cpp">
+      <Filter>src\strategies</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\BiddingFacility.cpp">
+      <Filter>src\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\Player.cpp">
+      <Filter>src\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Eight Minute Empire.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Testers.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Action.h" />
-    <ClInclude Include="src\BiddingFacility.h" />
-    <ClInclude Include="src\Continent.h" />
-    <ClInclude Include="src\Country.h" />
-    <ClInclude Include="src\Deck.h" />
-    <ClInclude Include="src\GameLoop.h" />
-    <ClInclude Include="src\Good.h" />
-    <ClInclude Include="src\Hand.h" />
-    <ClInclude Include="src\map.h" />
-    <ClInclude Include="src\MapLoader.h" />
-    <ClInclude Include="src\Observer.h" />
-    <ClInclude Include="src\pch.h" />
-    <ClInclude Include="src\PhaseObservable.h" />
-    <ClInclude Include="src\PhaseObserver.h" />
-    <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\StatsObservable.h" />
-    <ClInclude Include="src\StatsObserver.h" />
-    <ClInclude Include="src\Subject.h" />
-    <ClInclude Include="src\PlayerStrategies.h" />
-    <ClInclude Include="src\Testers.h" />
-    <ClInclude Include="src\Utils.h" />
-    <ClInclude Include="src\Cardsfactory.h" />
+    <ClInclude Include="src\utils\Utils.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cards\Action.h">
+      <Filter>src\cards</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cards\Cardsfactory.h">
+      <Filter>src\cards</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cards\Deck.h">
+      <Filter>src\cards</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cards\Good.h">
+      <Filter>src\cards</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cards\Hand.h">
+      <Filter>src\cards</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\GameLoop.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\map\Continent.h">
+      <Filter>src\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\map\Country.h">
+      <Filter>src\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\map\map.h">
+      <Filter>src\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\map\MapLoader.h">
+      <Filter>src\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\observers\Observer.h">
+      <Filter>src\observers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\observers\PhaseObservable.h">
+      <Filter>src\observers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\observers\PhaseObserver.h">
+      <Filter>src\observers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\observers\StatsObservable.h">
+      <Filter>src\observers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\observers\StatsObserver.h">
+      <Filter>src\observers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\observers\Subject.h">
+      <Filter>src\observers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\strategies\PlayerStrategies.h">
+      <Filter>src\strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\BiddingFacility.h">
+      <Filter>src\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Player.h">
+      <Filter>src\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Testers.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pch.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\badmap.EMEMAP" />
-    <None Include="Assets\Deck.json" />
-    <None Include="Assets\EmpireData.EMEMAP" />
-    <None Include="Assets\EmpireData2.EMEMAP" />
+    <None Include="Assets\EmpireData2.EMEMAP">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\EmpireData.EMEMAP">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\Deck.json">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\badmap.EMEMAP">
+      <Filter>Assets</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{e7a2532f-071e-4ea4-ba8b-83f358027bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{2db489e6-3141-45c2-92fc-d59165eb9f5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\map">
+      <UniqueIdentifier>{c466c2b9-3125-4515-90d5-4baee26894b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\observers">
+      <UniqueIdentifier>{64df7bd7-c321-4c00-9b2c-138c1c3b8626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{6751313d-895c-4bc2-945f-01f22cba861f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\cards">
+      <UniqueIdentifier>{53e2b23d-deca-4130-877b-5fbb529ce6b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\entities">
+      <UniqueIdentifier>{a1e4635b-60f7-4947-90b1-71f719119ff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\strategies">
+      <UniqueIdentifier>{346954d1-38e0-48f0-a1f9-bc387663e95f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{b356d8e4-1c6e-4039-900c-0fa7d43b0889}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

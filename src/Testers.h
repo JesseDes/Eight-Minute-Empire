@@ -1,7 +1,18 @@
 #pragma once
 #include <vector>
-#include "Player.h"
-
+#include <iostream>
+#include "cards/Deck.h"
+#include "cards/Hand.h"
+#include "entities/BiddingFacility.h"
+#include "entities/Player.h"
+#include <list>
+#include "map/map.h"
+#include "map/MapLoader.h"
+#include "observers/PhaseObservable.h"
+#include "observers/PhaseObserver.h"
+#include "observers/StatsObservable.h"
+#include "observers/StatsObserver.h"
+#include "core/GameLoop.h"
 /*
 A utility class with all tests available to run
 */

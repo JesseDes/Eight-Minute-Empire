@@ -4,8 +4,7 @@
 #include "pch.h"
 #include <iostream>
 #include "Testers.h"
-#include "Utils.h"
-#include "GameLoop.h"
+#include "core/GameLoop.h"
 #include <time.h>
 #include <stdlib.h>
 

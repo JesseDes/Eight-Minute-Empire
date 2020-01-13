@@ -1,18 +1,6 @@
 #include "pch.h"
 #include "Testers.h"
-#include <iostream>
-#include "Deck.h"
-#include "Hand.h"
-#include "BiddingFacility.h"
-#include "Player.h"
-#include <list>
-#include "map.h"
-#include "MapLoader.h"
-#include "PhaseObservable.h"
-#include "PhaseObserver.h"
-#include "StatsObservable.h"
-#include "StatsObserver.h"
-#include "GameLoop.h"
+
 
 void Testers::DeckTest()
 {
