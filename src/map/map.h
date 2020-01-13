@@ -1,6 +1,4 @@
-/*
-Written by: Siamak Samie
-*/
+
 #pragma once
 #include <list>
 #include <vector>

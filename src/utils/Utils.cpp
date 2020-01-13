@@ -65,7 +65,10 @@ int Utils::ValidInputMax( int max, std::string msg)
 	return selection;
 }
 
-void Utils::View(std::string output)
+void Utils::View(std::string output , bool isNewLine)
 {
-	std::cout << output << std::endl;
+	std::cout << output;
+	
+	if (isNewLine)
+		std::cout << std::endl;
 }

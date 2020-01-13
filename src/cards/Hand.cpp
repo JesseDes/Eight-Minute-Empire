@@ -1,6 +1,5 @@
 #include "../pch.h"
 #include "Hand.h"
-
 Hand::Hand()
 {
 }
@@ -53,23 +52,25 @@ int Hand::GetCardCost(int index)
 
 void Hand::ShowHand()
 {
+	std::ostringstream output;
 	for (std::vector<Card*>::iterator it = _cardList.begin(); it != _cardList.end(); it++)
 	{
 		int index = std::distance(_cardList.begin(), it);
-		std::cout << "Card #" << index << " Cost : "<< GetCardCost(index) << " Good: " << Good::GoodToString((*it)->good) << " ";
-
+		output << "Card #" << index << " Cost : "<< GetCardCost(index) << " Good: " << Good::GoodToString((*it)->good) << " ";
 		for (int i = 0; i < (*it)->numberOfActions; i++)
 		{
-			std::cout << "Action " << Action::typeToString((*it)->actions[i].type) << " " << (*it)->actions[i].amount << " times ";
+			output << "Action " << Action::typeToString((*it)->actions[i].type) << " " << (*it)->actions[i].amount << " times ";
 			
 			if (i != (*it)->numberOfActions - 1)
 			{
 				if ((*it)->isAnd)
-					std::cout << " AND ";
+					output << " AND ";
 				else
-					std::cout << " OR ";
+					output << " OR ";
 			}
 		}
-		std::cout << "\n";
+		output << "\n";
 	}
+
+	Utils::View(output.str(),false);
 }

@@ -82,7 +82,7 @@ void GameLoop::GameInit()
 
 	MapLoader::FindMap();
 
-	std::cout << "How many Players will be playing?\n";
+	Utils::View("How many Players will be playing?");
 	
 	int playerCount;
 	if(gameMode == GameType::TOURNAMENT)
@@ -98,9 +98,9 @@ void GameLoop::GameInit()
 	{
 		std::string name;
 		int age;
-		std::cout << "Player " << (i + 1) << " What is your name? \n";
+		Utils::View("Player " + std::to_string(i + 1) + " What is your name?");
 		std::cin >> name;
-		std::cout << "How old are you? \n";
+		Utils::View("How old are you?");
 		age = Utils::ValidInputMin(0,"Please enter a valid age");
         Player* player = new Player(age, name);
         GetGameTypeStrategies(player); 
@@ -125,7 +125,7 @@ void GameLoop::GameStart()
 	for (std::vector<Player*>::iterator it = _playerList.begin(); it != _playerList.end(); it++)
 	{
 		(*it)->CreateCoinPurse(_playerList.size());
-		std::cout << (*it)->GetPlayerName() + " ";
+		Utils::View((*it)->GetPlayerName() + " ",false);
 		(*it)->PlaceBid();
 		(*it)->GivePieces(*ARMY_PIECES_PER_PLAYER, *CITY_PIECES_PER_PLAYER);
 
@@ -140,7 +140,7 @@ void GameLoop::GameStart()
 
 
 	(*_currentPlayer)->PayCoin((*_currentPlayer)->GetBid());
-	std::cout << "HIGHEST BIDDER WAS :"<< (*_currentPlayer)->GetPlayerName() << "\n";
+	Utils::View("HIGHEST BIDDER WAS :" + (*_currentPlayer)->GetPlayerName());
 
 	//game has now begun
 	 *_isRunning = true;
@@ -154,11 +154,11 @@ void GameLoop::GameStart()
 
 void GameLoop::GameRun()
 {
-	std::cout << "It is " << (*_currentPlayer)->GetPlayerName() << "'s turn \n";
+	Utils::View("It is " + (*_currentPlayer)->GetPlayerName() + "'s turn ");
 
 	if (*_isShadowPhase)
 	{
-		std::cout << "Place shadow player army in a country \n";
+		Utils::View("Place shadow player army in a country");
 		
 		(*_currentPlayer)->PlaceShadowPlayer(_shadowPlayer);
 
@@ -177,7 +177,7 @@ void GameLoop::GameRun()
 		*_turnCount += 1;
 		_gameHand->ShowHand();
 
-		std::cout << (*_currentPlayer)->GetPlayerName() << ", which card would you like? \n";
+		Utils::View((*_currentPlayer)->GetPlayerName() + ", which card would you like?");
 		
 		(*_currentPlayer)->ChooseCard(_gameHand);
 		_gameHand->AddCard(_gameDeck->Draw());
@@ -241,7 +241,7 @@ void GameLoop::GameEnd()
 		}
 	}
 
-	std::cout << (*_currentPlayer)->GetPlayerName() << " Wins!!!!!!!!! \n";
+	Utils::View((*_currentPlayer)->GetPlayerName() + " Wins!!!!!!!!!");
 }
 
 void GameLoop::SetTurnCount(int playerCount)

@@ -2,6 +2,8 @@
 #include "Deck.h"
 #include <vector>
 #include <iostream>
+#include <sstream>
+#include "../utils/Utils.h"
 /*
 Hand is a collection on 5 cards that players can exchange coins to recieve
 */

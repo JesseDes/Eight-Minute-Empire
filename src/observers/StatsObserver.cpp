@@ -25,7 +25,7 @@ void StatsObserver::DisplayCountriesChart()
 {
 	if (_subject->GetCountryList()->size() == 0)
 	{
-		std::cout << _subject->GetPlayer()->GetPlayerName() << " has No countries\n";
+		Utils::View(_subject->GetPlayer()->GetPlayerName() + " has No countries");
 		return;
 	}
 

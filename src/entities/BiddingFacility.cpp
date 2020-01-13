@@ -38,7 +38,7 @@ BiddingFacility::~BiddingFacility()
 void BiddingFacility::PlaceBid()
 {
 	int bidAmount = -1;
-	std::cout << "How much would you like to bid? \n";
+	Utils::View("How much would you like to bid?");
 
 	bidAmount = Utils::ValidInputRange(0, (int)*_coinCount, "please enter a bid between 0 and " + std::to_string((int)*_coinCount));
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "../cards/Deck.h"
 #include "../entities/Player.h"
+#include <sstream>
 
 class Player; //forward declaration 
 class Hand; //forward declaration 

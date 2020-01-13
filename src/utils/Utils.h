@@ -14,6 +14,6 @@ public:
 	static int ValidInputRange(int min, int max, std::string msg); //value must be between min and max
 	static int ValidInputMin(int min, std::string msg);	//value must be greater than or equal min
 	static int ValidInputMax(int max, std::string msg); // value must be less than or equal to max
-	static void View(std::string output);
+	static void View(std::string output, bool addNewLine = true);
 };
 

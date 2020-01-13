@@ -31,7 +31,7 @@ EmpireMap* EmpireMap::instance(list<int> mapData, int start) {
 		}
     }
     else 
-        std::cout << "map instance was already created, returning  existing instance";
+        Utils::View("map instance was already created, returning  existing instance",false);
     
     return mapInstance;
 }

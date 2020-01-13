@@ -24,13 +24,13 @@ void MapLoader::FindMap()
 	
 	do
 	{
-		std::cout << "[" << fileCount++ << "] : " << fileData.cFileName << "\n";
+		Utils::View("[" + std::to_string(fileCount++) + "] : " + fileData.cFileName);
 		fileList.push_back(fileData);
 
 	} while (FindNextFileA(fileHandle, &fileData));
 	
 	int selection;
-	std::cout << "Which map would you like to use? \n";
+	Utils::View("Which map would you like to use?");
 
 	selection = Utils::ValidInputRange(0, (fileCount - 1),  "You must choose a value between 0 and " + std::to_string((fileCount - 1)));
 
@@ -66,7 +66,7 @@ void MapLoader::ReadMapData(std::string file)
 	}
 	catch (InvalidMapException e)
 	{
-		std::cout << "\n map is invalid\n\n";
+		Utils::View("\n map is invalid\n");
 		throw(e);
 	}
 		

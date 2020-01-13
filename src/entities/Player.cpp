@@ -16,7 +16,7 @@ Player::Player(int age , std::string name)
 void Player::CreateCoinPurse(int numberofPlayers)
 {
 	_bidder = new BiddingFacility(numberofPlayers);
-	std::cout << _bidder->GetCoinPurse() << " coins start \n";
+	Utils::View(_bidder->GetCoinPurse() + " coins start");
 }
 
 BiddingFacility* Player::GetBidder() {
@@ -72,7 +72,7 @@ void Player::ReadCard(Card *gameCard)
 	
 
 	//prompts to select an action from the list
-	std::cout << "which action would you like to perform " << *_playerName << "? \n";
+	Utils::View("which action would you like to perform " + *_playerName + "?");
 
     _behavior->ReadCard(this, gameCard);
 }
@@ -93,7 +93,7 @@ void Player::DoAction(Action action)
 			case ActionType::kill: Player::DestroyArmy(); break;
 			case ActionType::null: break;
 
-			default: std::cout << "invalid action"; break;
+			default: Utils::View("invalid action",false); break;
 		}
 	}
 }
@@ -137,7 +137,7 @@ bool Player::PayCoin(int cost)
 	}
 	else
 	{
-		std::cout << "You can't afford it, you only have " << _bidder->GetCoinPurse() << " coins left \n";
+		Utils::View("You can't afford it, you only have " + std::to_string(_bidder->GetCoinPurse()) + " coins left");
 		return false;
 	}
 }
@@ -185,12 +185,6 @@ int Player::GetScore()
             pointsFromContinents++;
     }
 
-/*
-    std::cout << "\n\nStats for player: " << this->getPlayerName() << std::endl
-        << "Points from goods: " << pointsFromGoods << std::endl
-        << "Points from countries: " << pointsFromCountries << std::endl
-        << "Points from continents: " << pointsFromContinents << std::endl;
-		*/
 	return (pointsFromGoods + pointsFromCountries);
 }
 

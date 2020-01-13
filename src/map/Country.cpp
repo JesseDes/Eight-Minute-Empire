@@ -84,7 +84,6 @@ int Country::GetTotalUnits(Player * player)
 
 void Country::UpdateOwner()
 {
-    //std::vector<Player*> playerList = GameLoop::getPlayerList(); BAD
 	std::vector<Player*> playerList;
 
 	for (std::map<Player*, int*>::iterator it = _armies.begin(); it != _armies.end(); it++)
@@ -116,9 +115,9 @@ void Country::UpdateOwner()
     }
 
 	if (_owner != nullptr)
-		std::cout << "OWNER OF " << *_countryName << " IS " << _owner->GetPlayerName() << " \n";
+		Utils::View("OWNER OF " + std::to_string(*_countryName) + " IS " + _owner->GetPlayerName());
 	else
-		std::cout << "OWNER OF " << *_countryName << " IS NOBODY \n";
+		Utils::View("OWNER OF " + std::to_string(*_countryName) + " IS NOBODY");
 
 }
 
