@@ -23,12 +23,12 @@ struct Action {
 	{
 		switch (type)
 		{
-			case ActionType::build: return "build";
-			case ActionType::moveGround: return "move over Ground";
-			case ActionType::moveSea: return "move over Sea";
-			case ActionType::kill: return " Kill an army";
-			case ActionType::recruit: return " recruit an army";
-			default: return "Do Nothing";
+			case ActionType::build: return "Build";
+			case ActionType::moveGround: return "Move over ground";
+			case ActionType::moveSea: return "Move over sea";
+			case ActionType::kill: return "Kill an army";
+			case ActionType::recruit: return "Recruit an army";
+			default: return "Do nothing";
 		}
 	}
 };

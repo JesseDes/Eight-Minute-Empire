@@ -86,7 +86,7 @@ void GameLoop::GameInit()
 	
 	int playerCount;
 	if(gameMode == GameType::TOURNAMENT)
-		playerCount = Utils::ValidInputRange(*MIN_PLAYERS, 4,  "Value must be between" + std::to_string(*MIN_PLAYERS) + " and 4");
+		playerCount = Utils::ValidInputRange(*MIN_PLAYERS, 4,  "Value must be between " + std::to_string(*MIN_PLAYERS) + " and 4");
 	else 
 		playerCount = Utils::ValidInputRange(*MIN_PLAYERS, *MAX_PLAYERS, "Value must be between" + std::to_string(*MIN_PLAYERS) + " and " + std::to_string(*MAX_PLAYERS));
 
@@ -125,6 +125,7 @@ void GameLoop::GameStart()
 	for (std::vector<Player*>::iterator it = _playerList.begin(); it != _playerList.end(); it++)
 	{
 		(*it)->CreateCoinPurse(_playerList.size());
+		std::cout << (*it)->GetPlayerName() + " ";
 		(*it)->PlaceBid();
 		(*it)->GivePieces(*ARMY_PIECES_PER_PLAYER, *CITY_PIECES_PER_PLAYER);
 
@@ -211,15 +212,28 @@ void GameLoop::GameEnd()
 
 
 	int highScore = 0;
+	int playerNameLength;
 	_currentPlayer = _playerList.begin();
-	std::string SPACE_BETWEEN_COLUMNS = "        ";
+	std::string SPACE_BETWEEN_COLUMNS;
+
+	for (int i = 0; i < *SPACE_BETWEEN_HEADER; i++)
+		SPACE_BETWEEN_COLUMNS += " ";
+
 	Utils::View("Player Name" + SPACE_BETWEEN_COLUMNS + "Cards" + SPACE_BETWEEN_COLUMNS + "Points" + SPACE_BETWEEN_COLUMNS + "Coins");
-	SPACE_BETWEEN_COLUMNS = "           ";	//Enlarge the space since to try and keep things well placed
+	
+	for (int i = 0; i < *SPACE_BETWEEN_SCORE_LINE; i++)
+		SPACE_BETWEEN_COLUMNS += " ";
+	
 	for (std::vector<Player*>::iterator it = _playerList.begin(); it != _playerList.end(); it++)
 	{
+		std::string spaceBetweenName;
 		int currentScore = (*it)->GetScore();
+		playerNameLength = (*it)->GetPlayerName().length();
+		
+		for (int i = 0; i < *SCORE_LINE_FIRST_SPACE_LENGTH - playerNameLength; i++)
+			spaceBetweenName += " ";
 
-		Utils::View((*it)->GetPlayerName() + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->GetActionCount()) + SPACE_BETWEEN_COLUMNS + std::to_string(currentScore) + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->GetCoins()));
+		Utils::View((*it)->GetPlayerName() + spaceBetweenName + std::to_string((*it)->GetActionCount()) + SPACE_BETWEEN_COLUMNS + std::to_string(currentScore) + SPACE_BETWEEN_COLUMNS + std::to_string((*it)->GetCoins()));
 		if (currentScore > highScore)
 		{
 			highScore = currentScore;

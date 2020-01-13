@@ -354,7 +354,7 @@ std::string GreedyComputer::PrintStrategyType() {
 void GreedyComputer::PlaceBid(Player* player)
 {
     _bid = new int(0);
-    std::cout << player->GetPlayerName() <<" bids " << *_bid <<" coins\n\n";
+    std::cout <<" bids " << *_bid <<" coins\n\n";
 }
 
 int GreedyComputer::GetBid(Player* player) {
@@ -561,7 +561,7 @@ std::string ModerateComputer::PrintStrategyType() {
 void ModerateComputer::PlaceBid(Player* player)
 {
     _bid = new int(1);
-    std::cout << player->GetPlayerName() << " bids " << *_bid << " coins\n\n";
+    std::cout  << " bids " << *_bid << " coins\n\n";
 }
 
 int ModerateComputer::GetBid(Player* player) {
@@ -762,7 +762,7 @@ void ModerateComputer::DestroyArmy(Player * player)
 void ModerateComputer::PlaceShadowArmy(Player *shadowPlayer)
 {
 	int countrySelection = rand() % (EmpireMap::instance()->GetCountries() - 1);
-	Utils::View("Placing army at country" + std::to_string(countrySelection));
+	Utils::View("Placing army at country " + std::to_string(countrySelection));
 	EmpireMap::instance()->country(countrySelection)->AddArmy(shadowPlayer);
 
 }
